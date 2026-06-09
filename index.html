@@ -121,7 +121,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
   <div class="links">
     <a class="navlink active" href="index.html">📊 Dashboard</a>
     <a class="navlink" href="Isabella_County_Methods_Supplement.html">📋 Methods</a>
-    <a class="navlink" href="Isabella_County_AI_Solutions.html">🤖 AI Solutions</a>
+    <a class="navlink" href="Isabella_County_AI_Solutions.html">🤖 AI Solutions</a><a class="navlink" href="roi.html">💰 ROI</a>
   </div>
 </nav>
 
@@ -410,12 +410,12 @@ function toggleCond(k) {
 // ═══════════════════════════════════════════
 const ccContainer = document.getElementById('cond-checks');
 Object.entries(CONDITIONS).forEach(([k,d])=>{
-  const el = document.createElement('label');
+  const el = document.createElement('div');
   el.className='cond-check on'; el.id='cc-'+k;
   el.style.setProperty('--accent', d.color);
   el.style.setProperty('--accent-rgb', hexToRgb(d.color));
-  el.innerHTML=`<input type="checkbox" checked> <span style="color:${d.color}">●</span> ${d.short}`;
-  el.onclick=()=>toggleCond(k);
+  el.innerHTML=`<span style="color:${d.color}">●</span> ${d.short}`;
+  el.addEventListener('click', (e)=>{ e.stopPropagation(); toggleCond(k); });
   ccContainer.appendChild(el);
 });
 function hexToRgb(hex) {
