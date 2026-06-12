@@ -4,195 +4,685 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Michigan Rural Health Burden Analysis | Lakes Linked Care</title>
-<meta name="description" content="County-level DALY disease burden analysis for rural Michigan — translating CDC and IHME data into actionable health priorities. Dr. Sergey Soshnikov, MD PhD · Central Michigan University.">
+<meta name="description" content="Educational disease burden analysis for rural Michigan counties — identifying top health conditions, quantifying economic impact, and supporting grant applications and health planning. Dr. Sergey Soshnikov, MD PhD · Central Michigan University.">
 <meta property="og:title" content="Michigan Rural Health Burden Analysis | Lakes Linked Care">
 <meta property="og:description" content="3 counties complete · ~37,960 DALYs/yr · 3 in pipeline. Planning-grade burden analysis for county health departments, grant applications, and rural health policy.">
 <meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/index.html">
 <meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* ── DESIGN TOKENS ── */
 :root {
   --navy:#0f1f3d; --blue:#1a56db; --teal:#0d9488; --red:#dc2626;
   --amber:#d97706; --purple:#7c3aed; --green:#059669; --slate:#64748b;
   --bg:#f8fafc; --surface:#fff; --border:#e2e8f0; --muted:#94a3b8;
-  --radius:14px; --shadow:0 2px 8px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --text:#0f172a; --text-secondary:#334155;
+  --radius:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.07);
+  --shadow-card:0 1px 3px rgba(0,0,0,.05),0 8px 24px rgba(0,0,0,.08);
+  --font-serif:'Source Serif 4',Georgia,serif;
+  --font-sans:'Inter',system-ui,-apple-system,sans-serif;
 }
+
+/* ── RESET ── */
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#0f172a;min-height:100vh;display:flex;flex-direction:column;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-sans);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  font-size:15px;
+  line-height:1.6;
+}
 
 /* ── HEADER ── */
-header{background:var(--navy);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between;}
-.brand{display:flex;align-items:center;gap:12px;}
-.brand-logo{width:32px;height:32px;background:linear-gradient(135deg,var(--teal),var(--blue));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
-.brand-name{color:#fff;font-size:15px;font-weight:700;letter-spacing:-.01em;}
-.brand-sub{color:rgba(255,255,255,.5);font-size:11.5px;font-weight:400;margin-top:1px;}
-.gh-link{color:rgba(255,255,255,.55);font-size:11.5px;text-decoration:none;border:1px solid rgba(255,255,255,.2);padding:5px 12px;border-radius:6px;transition:all .15s;}
-.gh-link:hover{background:rgba(255,255,255,.1);color:#fff;}
+header{
+  background:var(--navy);
+  padding:0 32px;
+  height:52px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.brand{display:flex;align-items:center;gap:14px;}
+.brand-mark{
+  width:34px;height:34px;
+  background:linear-gradient(135deg,var(--teal),var(--blue));
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.brand-mark svg{display:block;}
+.brand-text .brand-name{
+  color:#fff;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:-.01em;
+}
+.brand-text .brand-sub{
+  color:rgba(255,255,255,.42);
+  font-size:10.5px;
+  font-weight:400;
+  margin-top:1px;
+}
+.header-right{display:flex;align-items:center;gap:12px;}
+.gh-link{
+  color:rgba(255,255,255,.5);
+  font-size:11.5px;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.18);
+  padding:5px 12px;
+  border-radius:6px;
+  display:inline-flex;align-items:center;gap:5px;
+  transition:all .15s;
+  font-weight:500;
+}
+.gh-link:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.9);}
+
+/* ── NAV STRIP ── */
+.nav-strip{background:var(--navy);border-bottom:1px solid rgba(255,255,255,.09);}
+.nav-strip-inner{
+  max-width:1080px;margin:0 auto;padding:0 32px;
+  display:flex;align-items:center;gap:8px;height:38px;
+  flex-wrap:nowrap;overflow-x:auto;
+}
+.nav-strip-inner::-webkit-scrollbar{display:none;}
+.nav-label{
+  font-size:9.5px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;color:rgba(255,255,255,.3);margin-right:2px;
+  white-space:nowrap;
+}
+.nav-group{
+  display:flex;gap:1px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:7px;padding:2px;
+}
+.nav-group a{
+  color:rgba(255,255,255,.7);font-size:11.5px;font-weight:500;
+  padding:3px 10px;border-radius:5px;text-decoration:none;
+  display:flex;align-items:center;gap:5px;
+  transition:all .15s;white-space:nowrap;
+}
+.nav-group a:hover,.nav-group a.active{background:rgba(255,255,255,.12);color:#fff;}
+.nav-dot{
+  width:6px;height:6px;border-radius:50%;flex-shrink:0;
+}
+.nav-divider{width:1px;height:16px;background:rgba(255,255,255,.12);margin:0 4px;}
+.nav-pipeline{
+  font-size:10.5px;color:rgba(255,255,255,.28);
+  font-style:italic;white-space:nowrap;
+}
 
 /* ── HERO ── */
-.hero{background:linear-gradient(135deg,var(--navy) 0%,#1a3260 45%,#0e4a6e 100%);padding:64px 32px 56px;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(13,148,136,.18) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(26,86,219,.15) 0%,transparent 50%);pointer-events:none;}
-.hero-inner{max-width:760px;margin:auto;position:relative;}
-.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 14px;font-size:11.5px;color:rgba(255,255,255,.8);font-weight:600;letter-spacing:.03em;margin-bottom:22px;}
-.badge span{font-size:14px;}
-.hero h1{font-size:38px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.15;margin-bottom:14px;}
-.hero h1 em{font-style:normal;background:linear-gradient(90deg,#34d399,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.hero p{color:rgba(255,255,255,.65);font-size:15px;line-height:1.65;max-width:580px;margin:0 auto 32px;}
-.hero-stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;}
-.hs{text-align:center;max-width:160px;}
-.hs .n{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.02em;}
-.hs .l{font-size:10.5px;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-top:2px;}
-.hs-sub{font-size:11px;color:rgba(255,255,255,.38);margin-top:4px;line-height:1.4;font-style:italic;}
+.hero{
+  background:var(--navy);
+  padding:48px 32px 52px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 80% 40%,rgba(13,148,136,.12) 0%,transparent 55%),
+             radial-gradient(ellipse at 10% 80%,rgba(26,86,219,.1) 0%,transparent 50%);
+  pointer-events:none;
+}
+.hero-inner{
+  max-width:860px;margin:0 auto;position:relative;z-index:1;
+}
+.hero-content{}
+.project-kicker{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;color:rgba(255,255,255,.4);
+  margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.project-kicker::after{
+  content:'';flex:1;height:1px;background:rgba(255,255,255,.1);max-width:80px;
+}
+.hero h1{
+  font-family:var(--font-serif);
+  font-size:34px;font-weight:700;
+  color:#fff;
+  letter-spacing:-.02em;line-height:1.2;
+  margin-bottom:20px;
+}
+.hero h1 em{
+  font-style:italic;
+  color:rgba(255,255,255,.75);
+}
+.byline-block{
+  border-left:2px solid rgba(255,255,255,.15);
+  padding-left:16px;
+  margin-bottom:22px;
+}
+.byline-block .author{
+  font-size:14px;font-weight:600;color:rgba(255,255,255,.85);
+  margin-bottom:4px;
+}
+.byline-block .affil{
+  font-size:12px;color:rgba(255,255,255,.42);line-height:1.6;
+}
+.hero-abstract{
+  color:rgba(255,255,255,.55);
+  font-size:13.5px;
+  line-height:1.7;
+  max-width:560px;
+  margin-bottom:28px;
+  font-family:var(--font-sans);
+}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
+.hs{
+  padding:14px 18px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:10px;
+  min-width:120px;
+}
+.hs .n{
+  font-size:24px;font-weight:700;color:#fff;
+  letter-spacing:-.03em;line-height:1;margin-bottom:4px;
+}
+.hs .l{
+  font-size:10px;color:rgba(255,255,255,.45);
+  font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+}
+.hs-sub{
+  font-size:10px;color:rgba(255,255,255,.3);
+  margin-top:4px;line-height:1.4;font-style:italic;
+}
 
-/* ── SECTION ── */
-.section{max-width:1140px;margin:0 auto;padding:56px 24px 24px;flex:1;}
-.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:20px;}
+
+/* ── ABOUT SECTION ── */
+.about-strip{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+}
+.about-strip-inner{
+  max-width:1080px;margin:0 auto;padding:24px 32px;
+  display:flex;align-items:flex-start;gap:20px;
+}
+.about-icon{
+  width:36px;height:36px;border-radius:8px;
+  background:#eff6ff;border:1px solid #bfdbfe;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:2px;
+}
+.about-text{
+  flex:1;
+}
+.about-text strong{
+  font-size:12px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--blue);display:block;margin-bottom:6px;
+}
+.about-text p{
+  font-size:13px;color:var(--text-secondary);line-height:1.7;
+  font-family:var(--font-serif);
+}
+
+/* ── MAIN CONTENT ── */
+.main{max-width:1160px;margin:0 auto;padding:48px 40px;flex:1;}
+
+/* ── SECTION HEADER ── */
+.section-head{
+  display:flex;align-items:baseline;gap:16px;
+  margin-bottom:24px;
+}
+.section-head h2{
+  font-family:var(--font-serif);
+  font-size:20px;font-weight:600;
+  color:var(--text);letter-spacing:-.01em;
+}
+.section-head .sh-line{
+  flex:1;height:1px;background:var(--border);
+}
+.section-meta{
+  font-size:11px;color:var(--muted);font-weight:500;
+  letter-spacing:.02em;white-space:nowrap;
+}
 
 /* ── COUNTY GRID ── */
-.county-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:40px;}
-@media(max-width:1100px){.county-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:700px){.county-grid{grid-template-columns:1fr;}}
+.county-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  margin-bottom:52px;
+}
 
-/* ── COUNTY CARD (completed) ── */
-.county-card{background:var(--surface);border:1.5px solid var(--border);border-radius:18px;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:all .2s;position:relative;box-shadow:var(--shadow);}
-.county-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--accent);border-radius:18px 18px 0 0;}
-.county-card:hover{border-color:var(--accent);box-shadow:0 12px 40px rgba(0,0,0,.13);transform:translateY(-3px);}
+/* ── COUNTY CARD ── */
+.county-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+  transition:box-shadow .2s,transform .2s,border-color .2s;
+  position:relative;
+  box-shadow:var(--shadow-card);
+}
+.county-card-top{
+  height:4px;background:var(--accent);
+}
+.county-card:hover{
+  box-shadow:0 4px 20px rgba(0,0,0,.12),0 12px 40px rgba(0,0,0,.1);
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb,var(--accent) 40%,var(--border));
+}
 
-.cc-header{padding:24px 24px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
-.cc-icon-wrap{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;background:color-mix(in srgb,var(--accent) 10%,transparent);}
-.cc-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);padding:3px 9px;border-radius:10px;white-space:nowrap;}
+.cc-head{
+  padding:20px 22px 14px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+}
+.cc-status-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;
+  padding:3px 9px;border-radius:20px;white-space:nowrap;
+  flex-shrink:0;
+}
+.status-complete{
+  background:color-mix(in srgb,var(--green) 12%,transparent);
+  color:var(--green);
+  border:1px solid color-mix(in srgb,var(--green) 25%,transparent);
+}
+.status-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+.version-tag{
+  font-size:9.5px;color:var(--muted);margin-top:3px;text-align:right;
+}
 
-.cc-body{padding:0 24px 16px;}
-.cc-title{font-size:18px;font-weight:800;color:#0f172a;letter-spacing:-.02em;line-height:1.2;margin-bottom:8px;}
-.cc-desc{font-size:12.5px;color:var(--slate);line-height:1.6;margin-bottom:14px;}
+.cc-body{padding:0 22px 14px;}
+.cc-title{
+  font-family:var(--font-serif);
+  font-size:18px;font-weight:600;
+  color:var(--text);
+  letter-spacing:-.01em;line-height:1.2;
+  margin-bottom:8px;
+}
+.cc-desc{
+  font-size:12.5px;color:var(--slate);line-height:1.65;
+  margin-bottom:14px;
+}
 
-/* mini stat row inside county card */
-.cc-stats{display:flex;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;}
-.cc-stat{flex:1;padding:10px 12px;border-right:1px solid var(--border);text-align:center;}
+/* mini stat row */
+.cc-stats{
+  display:flex;gap:0;
+  border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;
+  margin-bottom:12px;
+}
+.cc-stat{
+  flex:1;padding:9px 10px;
+  border-right:1px solid var(--border);
+  text-align:center;
+}
 .cc-stat:last-child{border-right:none;}
-.cc-stat .sv{font-size:15px;font-weight:800;color:#0f172a;letter-spacing:-.01em;}
-.cc-stat .sl{font-size:9.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:2px;line-height:1.3;}
+.cc-stat .sv{
+  font-size:14px;font-weight:700;color:var(--text);
+  letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums;
+}
+.cc-stat .sl{
+  font-size:9px;color:var(--muted);font-weight:600;
+  text-transform:uppercase;letter-spacing:.04em;margin-top:2px;
+}
 
 /* chip row */
-.cc-chips{display:flex;gap:5px;flex-wrap:wrap;padding:0 24px 14px;}
-.chip{font-size:10px;font-weight:600;color:var(--slate);background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:2px 7px;}
+.cc-chips{
+  display:flex;gap:4px;flex-wrap:wrap;
+  padding:0 22px 12px;
+}
+.chip{
+  font-size:9.5px;font-weight:600;color:var(--slate);
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:4px;padding:2px 7px;
+}
+.chip-fips{font-family:'Courier New',monospace;}
 
-/* links row */
-.cc-links{padding:16px 24px 20px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:10px;}
-.cc-links a.primary{display:block;text-align:center;background:var(--accent);color:#fff;font-size:13px;font-weight:700;padding:10px 16px;border-radius:8px;text-decoration:none;transition:all .15s;letter-spacing:-.01em;}
-.cc-links a.primary:hover{filter:brightness(1.1);transform:translateY(-1px);}
-.cc-secondary-links{display:flex;gap:4px;flex-wrap:wrap;align-items:center;}
-.cc-secondary-links a{font-size:11.5px;font-weight:500;color:var(--slate);text-decoration:none;padding:4px 8px;border-radius:5px;transition:color .15s;}
-.cc-secondary-links a::after{content:' ↗';font-size:9px;opacity:.6;}
-.cc-secondary-links a:hover{color:var(--accent);}
-.cc-secondary-links .sep{color:var(--border);font-size:12px;user-select:none;}
+/* card links */
+.cc-links{
+  padding:14px 22px 18px;
+  border-top:1px solid var(--border);
+  display:flex;flex-direction:column;gap:9px;
+  margin-top:auto;
+}
+.cc-links a.primary{
+  display:block;text-align:center;
+  background:var(--accent);color:#fff;
+  font-size:12.5px;font-weight:600;
+  padding:9px 14px;border-radius:7px;
+  text-decoration:none;transition:all .15s;
+  letter-spacing:-.01em;
+}
+.cc-links a.primary:hover{filter:brightness(1.08);transform:translateY(-1px);}
+.cc-secondary-links{
+  display:flex;gap:5px;flex-wrap:wrap;align-items:center;
+}
+.cc-secondary-links a{
+  font-size:10.5px;font-weight:500;color:var(--slate);
+  text-decoration:none;padding:3px 9px;
+  border-radius:5px;border:1px solid var(--border);
+  background:var(--bg);
+  transition:all .15s;white-space:nowrap;
+}
+.cc-secondary-links a:hover{
+  color:var(--accent);
+  border-color:var(--accent);
+  background:color-mix(in srgb,var(--accent) 6%,transparent);
+}
+.cc-secondary-links .sep{display:none;}
 
-/* ── PIPELINE GRID ── */
-.pipeline-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px;}
-@media(max-width:900px){.pipeline-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:540px){.pipeline-grid{grid-template-columns:1fr;}}
+/* ── PIPELINE SECTION ── */
+.pipeline-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-bottom:52px;
+}
+.pipe-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  display:flex;flex-direction:column;gap:8px;
+  opacity:.78;position:relative;overflow:hidden;
+}
+.pipe-card-top{
+  position:absolute;top:0;left:0;right:0;
+  height:3px;background:#cbd5e1;
+}
+.pipe-status-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:9.5px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--muted);
+  background:#f1f5f9;border:1px solid var(--border);
+  padding:2px 8px;border-radius:20px;width:fit-content;
+}
+.pipe-icon-wrap{
+  width:32px;height:32px;border-radius:7px;
+  background:#f1f5f9;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+}
+.pipe-card h3{
+  font-family:var(--font-serif);
+  font-size:14.5px;font-weight:600;
+  color:#475569;letter-spacing:-.01em;
+}
+.pipe-fips{
+  font-size:10px;color:var(--muted);
+  font-family:'Courier New',monospace;
+}
+.pipe-card p{
+  font-size:11.5px;color:var(--muted);line-height:1.6;
+}
 
-/* ── PIPELINE CARD ── */
-.pipe-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px;opacity:.72;position:relative;overflow:hidden;}
-.pipe-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:#cbd5e1;border-radius:14px 14px 0 0;}
-.pipe-badge{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;background:#f1f5f9;border:1px solid #e2e8f0;padding:2px 8px;border-radius:8px;display:inline-flex;align-items:center;gap:5px;width:fit-content;}
-.pipe-icon{font-size:22px;color:#94a3b8;}
-.pipe-card h3{font-size:14px;font-weight:700;color:#475569;letter-spacing:-.01em;}
-.pipe-fips{font-size:10.5px;color:#94a3b8;font-family:monospace;}
-.pipe-card p{font-size:11.5px;color:#94a3b8;line-height:1.55;}
+/* ── REFERENCES ── */
+.references-section{
+  border-top:1px solid var(--border);
+  padding-top:36px;
+  margin-bottom:40px;
+}
+.references-section h2{
+  font-family:var(--font-serif);
+  font-size:17px;font-weight:600;
+  color:var(--text);margin-bottom:18px;
+  letter-spacing:-.01em;
+}
+.references-list{
+  list-style:none;
+  counter-reset:ref-counter;
+  display:flex;flex-direction:column;gap:8px;
+}
+.references-list li{
+  counter-increment:ref-counter;
+  display:flex;gap:12px;
+  font-size:12.5px;
+  color:var(--text-secondary);
+  line-height:1.65;
+  font-family:var(--font-serif);
+}
+.references-list li::before{
+  content:counter(ref-counter)".";
+  color:var(--muted);
+  font-size:11.5px;
+  font-weight:600;
+  font-family:var(--font-sans);
+  min-width:16px;
+  padding-top:1px;
+  flex-shrink:0;
+}
+.ref-journal{font-style:italic;}
+.ref-doi{
+  color:var(--blue);font-size:11px;
+  font-family:var(--font-sans);
+  font-style:normal;
+}
 
-/* ── COUNTY NAV STRIP ── */
-.county-nav{background:rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.1);}
-.county-nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;gap:6px;height:40px;}
-.cnav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.35);margin-right:4px;}
-.county-group{display:flex;gap:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:3px;}
-.county-group a{color:rgba(255,255,255,.8);font-size:12px;font-weight:600;padding:4px 11px;border-radius:5px;text-decoration:none;transition:all .15s;}
-.county-group a:hover,.county-group a.active{background:rgba(255,255,255,.14);color:#fff;}
-.cnav-divider{width:1px;height:16px;background:rgba(255,255,255,.15);margin:0 6px;}
-.cnav-pipeline{font-size:11px;color:rgba(255,255,255,.3);font-style:italic;}
-
-/* ── REQUEST CTA STRIP ── */
-.cta-strip{background:linear-gradient(90deg,#0f2d52 0%,#0a3d3d 100%);border-top:1px solid rgba(255,255,255,.08);}
-.cta-strip-inner{max-width:1140px;margin:0 auto;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-.cta-text h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px;}
-.cta-text p{font-size:12.5px;color:rgba(255,255,255,.55);max-width:560px;line-height:1.5;}
-.cta-btn{display:inline-flex;align-items:center;gap:7px;background:var(--teal);color:#fff;font-size:13px;font-weight:700;padding:10px 22px;border-radius:8px;text-decoration:none;white-space:nowrap;transition:all .15s;}
+/* ── CTA STRIP ── */
+.cta-strip{
+  background:linear-gradient(90deg,#0f2d52 0%,#0b3a3a 100%);
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.cta-strip-inner{
+  max-width:1080px;margin:0 auto;
+  padding:22px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;
+}
+.cta-text h3{
+  font-family:var(--font-serif);
+  font-size:16px;font-weight:600;
+  color:#fff;margin-bottom:4px;
+}
+.cta-text p{
+  font-size:12.5px;color:rgba(255,255,255,.5);
+  max-width:560px;line-height:1.55;
+}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--teal);color:#fff;
+  font-size:13px;font-weight:600;
+  padding:9px 20px;border-radius:7px;
+  text-decoration:none;white-space:nowrap;transition:all .15s;
+}
 .cta-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
 
 /* ── FOOTER ── */
-footer{background:var(--navy);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-footer span{font-size:11.5px;color:rgba(255,255,255,.4);}
-footer a{color:rgba(255,255,255,.5);text-decoration:none;font-size:11.5px;}
-footer a:hover{color:rgba(255,255,255,.8);}
+footer{background:var(--navy);padding:22px 32px;}
+.footer-inner{
+  max-width:1080px;margin:0 auto;
+  display:flex;flex-direction:column;gap:14px;
+}
+.footer-top{
+  display:flex;align-items:baseline;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;
+}
+.footer-top span{
+  font-size:11.5px;color:rgba(255,255,255,.4);
+}
+.footer-top a{color:rgba(255,255,255,.5);text-decoration:none;}
+.footer-top a:hover{color:rgba(255,255,255,.8);}
+.footer-sources{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.footer-sources-label{
+  font-size:9.5px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:rgba(255,255,255,.25);margin-right:2px;
+}
+.src-badge{
+  font-size:10px;font-weight:500;
+  color:rgba(255,255,255,.38);
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  padding:2px 9px;border-radius:4px;
+}
+.footer-disclaimer{
+  font-size:10.5px;color:rgba(255,255,255,.22);
+  border-top:1px solid rgba(255,255,255,.07);
+  padding-top:12px;
+  line-height:1.6;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1099px){
+  .county-grid{grid-template-columns:repeat(2,1fr);}
+  .pipeline-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:699px){
+  header{padding:0 18px;}
+  .brand-sub{display:none;}
+  .nav-strip-inner{padding:0 18px;}
+  .hero{padding:32px 18px 36px;}
+  .about-strip-inner{padding:18px;}
+  .about-icon{display:none;}
+  .main{padding:32px 18px;}
+  .county-grid{grid-template-columns:1fr;}
+  .pipeline-grid{grid-template-columns:1fr;}
+  .cta-strip-inner{padding:18px;}
+  footer{padding:18px;}
+  .footer-top{flex-direction:column;gap:6px;}
+  .hs{min-width:100px;}
+  .hero h1{font-size:26px;}
+  .hero-stats{gap:10px;}
+}
 </style>
 </head>
 <body>
 
+<!-- ══ HEADER ══ -->
 <header>
   <div class="brand">
-    <div class="brand-logo">🏥</div>
-    <div>
+    <div class="brand-mark">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M3 16 L6 8 L10 12 L13 6 L17 10" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="10" cy="12" r="2" fill="rgba(255,255,255,.4)"/>
+      </svg>
+    </div>
+    <div class="brand-text">
       <div class="brand-name">Lakes Linked Care</div>
-      <div class="brand-sub">Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University</div>
+      <div class="brand-sub">Soshnikov, MD PhD &middot; Public Health Division &middot; Central Michigan University</div>
     </div>
   </div>
-  <a class="gh-link" href="https://github.com/lakeslinkedcare" target="_blank">GitHub →</a>
+  <div class="header-right">
+    <a class="gh-link" href="https://github.com/lakeslinkedcare" target="_blank">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+  </div>
 </header>
 
-<div style="background:var(--navy);">
-  <div class="county-nav">
-    <div class="county-nav-inner">
-      <span class="cnav-label">Counties:</span>
-      <div class="county-group">
-        <a href="isabella.html">📊 Isabella</a>
-        <a href="clare.html">🚨 Clare</a>
-        <a href="midland.html">🏭 Midland</a>
-      </div>
-      <div class="cnav-divider"></div>
-      <span class="cnav-pipeline">🔒 Gratiot · Mecosta · Washtenaw — in pipeline</span>
+<!-- ══ NAV STRIP ══ -->
+<div class="nav-strip">
+  <div class="nav-strip-inner">
+    <span class="nav-label">Counties</span>
+    <div class="nav-group">
+      <a href="isabella.html">
+        <span class="nav-dot" style="background:var(--blue);"></span>Isabella
+      </a>
+      <a href="clare.html">
+        <span class="nav-dot" style="background:var(--red);"></span>Clare
+      </a>
+      <a href="midland.html">
+        <span class="nav-dot" style="background:var(--green);"></span>Midland
+      </a>
     </div>
+    <div class="nav-divider"></div>
+    <span class="nav-pipeline">Pipeline: Gratiot &middot; Mecosta &middot; Washtenaw</span>
   </div>
 </div>
 
+<!-- ══ HERO ══ -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="badge"><span>🗺️</span> Michigan Rural Health Burden Analysis · 2026</div>
-    <h1>Disease Burden in <em>Rural Michigan</em></h1>
-    <p>County-level disease burden analysis — translating CDC and IHME data into actionable health priorities for rural Michigan. Each county analysis identifies top conditions, quantifies economic burden, and maps evidence-based AI interventions for county health departments, CHNA processes, and grant applications.</p>
-    <div class="hero-stats">
-      <div class="hs">
-        <div class="n">3</div>
-        <div class="l">Counties analyzed</div>
-        <div class="hs-sub">Isabella · Clare · Midland · full DALY framework</div>
+    <div class="hero-content">
+      <div class="project-kicker">Educational Research Project &middot; Public Health</div>
+      <h1>Disease Burden in <em>Rural Michigan</em></h1>
+
+      <div class="byline-block">
+        <div class="author">Sergey Soshnikov, MD PhD</div>
+        <div class="affil">
+          Public Health Division &middot; Central Michigan University<br>
+          Mount Pleasant, Michigan &middot; 2026
+        </div>
       </div>
-      <div class="hs">
-        <div class="n">~37,960</div>
-        <div class="l">Combined DALYs/yr</div>
-        <div class="hs-sub">Primary estimates · frontier LE 89.1 yrs</div>
+
+      <p class="hero-abstract">Educational disability-adjusted life year (DALY) analysis for rural Michigan counties using open CDC and US Census data sources. Methodology adapted from IHME GBD 2021 disability weights and WHO Global Health Estimates reference standards for educational and health-planning purposes. Not a formal Global Burden of Disease estimate.</p>
+
+      <div class="hero-stats">
+        <div class="hs">
+          <div class="n">3</div>
+          <div class="l">Counties analyzed</div>
+          <div class="hs-sub">Isabella &middot; Clare &middot; Midland</div>
+        </div>
+        <div class="hs">
+          <div class="n">~37,960</div>
+          <div class="l">Combined DALYs/yr</div>
+          <div class="hs-sub">Primary estimates &middot; frontier LE 89.1 yrs</div>
+        </div>
+        <div class="hs">
+          <div class="n">3</div>
+          <div class="l">In pipeline</div>
+          <div class="hs-sub">Gratiot &middot; Mecosta &middot; Washtenaw</div>
+        </div>
       </div>
-      <div class="hs">
-        <div class="n">3 more</div>
-        <div class="l">Counties in pipeline</div>
-        <div class="hs-sub">Gratiot · Mecosta · Washtenaw</div>
-      </div>
+    </div>
+
+  </div>
+</div><!-- end .hero -->
+
+<!-- ══ ABOUT STRIP ══ -->
+<div class="about-strip">
+  <div class="about-strip-inner">
+    <div class="about-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+    </div>
+    <div class="about-text">
+      <strong>About this project</strong>
+      <p>This series provides educational disability-adjusted life year (DALY) analyses for rural Michigan counties, using open-access data from the CDC PLACES program, CDC WONDER mortality files, and US Census Bureau American Community Survey estimates. Disability weights are adapted from the IHME Global Burden of Disease Study 2021 and WHO Global Health Estimates reference standards; analyses are designed for educational and health-planning purposes and do not constitute a formal GBD estimate or peer-reviewed epidemiological study. Results are intended to support county health needs assessments, grant applications, and public health workforce training.</p>
     </div>
   </div>
 </div>
 
-<div class="section">
+<!-- ══ MAIN CONTENT ══ -->
+<div class="main">
 
-  <!-- Completed counties -->
-  <div class="section-label">Completed County Analyses</div>
+  <!-- Completed Counties -->
+  <div class="section-head">
+    <h2>Completed County Analyses</h2>
+    <div class="sh-line"></div>
+    <span class="section-meta">3 counties &middot; full DALY framework</span>
+  </div>
+
   <div class="county-grid">
 
     <!-- Isabella County -->
     <a class="county-card" href="isabella.html" style="--accent:var(--blue)">
-      <div class="cc-header">
-        <div class="cc-icon-wrap">📊</div>
-        <span class="cc-badge">Complete · v5.0</span>
+      <div class="county-card-top"></div>
+      <div class="cc-head">
+        <div>
+          <span class="cc-status-badge status-complete">
+            <span class="status-dot"></span>Completed
+          </span>
+          <div class="version-tag">v5.0</div>
+        </div>
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="flex-shrink:0;opacity:.18;">
+          <rect width="36" height="36" rx="8" fill="var(--blue)"/>
+          <path d="M8 26 L12 16 L18 20 L22 12 L28 17" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
       <div class="cc-body">
         <div class="cc-title">Isabella County, Michigan</div>
-        <div class="cc-desc">Population 64,565 · CMU home county · 15,430 DALYs/yr (primary). Diverse burden profile: cancer #1, CVD #2, opioids, mental health. Multiple HPSA designations.</div>
+        <div class="cc-desc">Population 64,565 &middot; CMU home county &middot; 15,430 DALYs/yr (primary). Diverse burden profile: cancer #1, CVD #2, opioids, mental health. Multiple HPSA designations.</div>
         <div class="cc-stats">
           <div class="cc-stat">
             <div class="sv" style="color:var(--blue)">15,430</div>
@@ -211,18 +701,18 @@ footer a:hover{color:rgba(255,255,255,.8);}
       <div class="cc-chips">
         <span class="chip">15,430 DALYs</span>
         <span class="chip">5 tools</span>
-        <span class="chip">Trends 2017–23</span>
-        <span class="chip">FIPS 26073</span>
+        <span class="chip">Trends 2017&ndash;23</span>
+        <span class="chip chip-fips">FIPS 26073</span>
       </div>
       <div class="cc-links" onclick="event.stopPropagation()">
-        <a class="primary" href="isabella.html">Dashboard →</a>
+        <a class="primary" href="isabella.html">View Dashboard</a>
         <div class="cc-secondary-links">
           <a href="isabella_methods.html">Methods</a>
-          <span class="sep">·</span>
+          <span class="sep">&middot;</span>
           <a href="isabella_roi.html">Economic Impact</a>
-          <span class="sep">·</span>
+          <span class="sep">&middot;</span>
           <a href="isabella_interventions.html">Interventions</a>
-          <span class="sep">·</span>
+          <span class="sep">&middot;</span>
           <a href="isabella_trends.html">Trends</a>
         </div>
       </div>
@@ -230,13 +720,23 @@ footer a:hover{color:rgba(255,255,255,.8);}
 
     <!-- Clare County -->
     <a class="county-card" href="clare.html" style="--accent:var(--red)">
-      <div class="cc-header">
-        <div class="cc-icon-wrap">🚨</div>
-        <span class="cc-badge">Complete · v1.0</span>
+      <div class="county-card-top"></div>
+      <div class="cc-head">
+        <div>
+          <span class="cc-status-badge status-complete">
+            <span class="status-dot"></span>Completed
+          </span>
+          <div class="version-tag">v1.0</div>
+        </div>
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="flex-shrink:0;opacity:.18;">
+          <rect width="36" height="36" rx="8" fill="var(--red)"/>
+          <path d="M18 8 L18 20 M14 14 L22 14" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="18" cy="26" r="2" fill="var(--red)"/>
+        </svg>
       </div>
       <div class="cc-body">
         <div class="cc-title">Clare County, Michigan</div>
-        <div class="cc-desc">Population 30,013 · MUA-designated · 8,198 DALYs/yr (primary). Severe opioid crisis, aging population (median 46.8 yrs), highest COPD in comparison set.</div>
+        <div class="cc-desc">Population 30,013 &middot; MUA-designated &middot; 8,198 DALYs/yr (primary). Severe opioid crisis, aging population (median age 46.8 yrs), highest COPD in comparison set.</div>
         <div class="cc-stats">
           <div class="cc-stat">
             <div class="sv" style="color:var(--red)">8,198</div>
@@ -256,15 +756,15 @@ footer a:hover{color:rgba(255,255,255,.8);}
         <span class="chip">8,198 DALYs</span>
         <span class="chip">3 tools</span>
         <span class="chip">Opioid crisis</span>
-        <span class="chip">FIPS 26035</span>
+        <span class="chip chip-fips">FIPS 26035</span>
       </div>
       <div class="cc-links" onclick="event.stopPropagation()">
-        <a class="primary" href="clare.html">Dashboard →</a>
+        <a class="primary" href="clare.html">View Dashboard</a>
         <div class="cc-secondary-links">
           <a href="clare_methods.html">Methods</a>
-          <span class="sep">·</span>
+          <span class="sep">&middot;</span>
           <a href="clare_roi.html">Economic Impact</a>
-          <span class="sep">·</span>
+          <span class="sep">&middot;</span>
           <a href="clare_ai_solutions.html">Interventions</a>
         </div>
       </div>
@@ -272,13 +772,24 @@ footer a:hover{color:rgba(255,255,255,.8);}
 
     <!-- Midland County -->
     <a class="county-card" href="midland.html" style="--accent:var(--green)">
-      <div class="cc-header">
-        <div class="cc-icon-wrap">🏭</div>
-        <span class="cc-badge">Complete · v1.0</span>
+      <div class="county-card-top"></div>
+      <div class="cc-head">
+        <div>
+          <span class="cc-status-badge status-complete">
+            <span class="status-dot"></span>Completed
+          </span>
+          <div class="version-tag">v1.0</div>
+        </div>
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="flex-shrink:0;opacity:.18;">
+          <rect width="36" height="36" rx="8" fill="var(--green)"/>
+          <rect x="10" y="18" width="5" height="10" rx="1" fill="var(--green)"/>
+          <rect x="16" y="13" width="5" height="15" rx="1" fill="var(--green)"/>
+          <rect x="22" y="8" width="5" height="20" rx="1" fill="var(--green)"/>
+        </svg>
       </div>
       <div class="cc-body">
         <div class="cc-title">Midland County, Michigan</div>
-        <div class="cc-desc">Population 82,884 · Dow Chemical HQ · 14,335 DALYs/yr (planning-grade). Cancer #1, SUD #2. Higher income profile; CDC PLACES 2023 observed county-level data.</div>
+        <div class="cc-desc">Population 82,884 &middot; Dow Chemical HQ &middot; 14,335 DALYs/yr (planning-grade). Cancer #1, SUD #2. Higher income profile; CDC PLACES 2023 observed county-level data.</div>
         <div class="cc-stats">
           <div class="cc-stat">
             <div class="sv" style="color:var(--green)">14,335</div>
@@ -296,67 +807,149 @@ footer a:hover{color:rgba(255,255,255,.8);}
       </div>
       <div class="cc-chips">
         <span class="chip">14,335 DALYs</span>
-        
         <span class="chip">$889M burden</span>
-        <span class="chip">FIPS 26111</span>
+        <span class="chip chip-fips">FIPS 26111</span>
       </div>
       <div class="cc-links" onclick="event.stopPropagation()">
-        <a class="primary" href="midland.html">Dashboard →</a>
+        <a class="primary" href="midland.html">View Dashboard</a>
         <div class="cc-secondary-links">
           <a href="midland_methods.html">Methods</a>
-          <span class="sep">·</span>
+          <span class="sep">&middot;</span>
           <a href="midland_roi.html">Economic Impact</a>
         </div>
       </div>
     </a>
 
+  </div><!-- end county-grid -->
+
+  <!-- Pipeline Counties -->
+  <div class="section-head">
+    <h2>Counties in Development Pipeline</h2>
+    <div class="sh-line"></div>
+    <span class="section-meta">Planned Q3&ndash;Q4 2026</span>
   </div>
 
-  <!-- Pipeline counties -->
-  <div class="section-label">Pipeline — In Development</div>
   <div class="pipeline-grid">
 
     <div class="pipe-card">
-      <span class="pipe-badge">🔒 Q3 2026</span>
-      <div class="pipe-icon">🌾</div>
+      <div class="pipe-card-top"></div>
+      <span class="pipe-status-badge">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" stroke="currentColor" stroke-width="1.2"/></svg>
+        Q3 2026
+      </span>
+      <div class="pipe-icon-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
       <h3>Gratiot County</h3>
       <div class="pipe-fips">FIPS 26057</div>
-      <p>Adjacent to Isabella, rural agricultural economy. No university anchor. Agricultural SDOH contrast.</p>
+      <p>Adjacent to Isabella; rural agricultural economy, no university anchor. Agricultural SDOH contrast study.</p>
     </div>
 
     <div class="pipe-card">
-      <span class="pipe-badge">🔒 Q4 2026</span>
-      <div class="pipe-icon">🎓</div>
+      <div class="pipe-card-top"></div>
+      <span class="pipe-status-badge">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" stroke="currentColor" stroke-width="1.2"/></svg>
+        Q4 2026
+      </span>
+      <div class="pipe-icon-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+        </svg>
+      </div>
       <h3>Mecosta County</h3>
       <div class="pipe-fips">FIPS 26107</div>
-      <p>Ferris State University county. Rural health desert designation. University demographic parallels Isabella.</p>
+      <p>Ferris State University county; rural health desert designation. University demographic parallels Isabella for comparative analysis.</p>
     </div>
 
     <div class="pipe-card">
-      <span class="pipe-badge">🔒 Q4 2026</span>
-      <div class="pipe-icon">🏙️</div>
+      <div class="pipe-card-top"></div>
+      <span class="pipe-status-badge">
+        <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" stroke="currentColor" stroke-width="1.2"/></svg>
+        Q4 2026
+      </span>
+      <div class="pipe-icon-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+        </svg>
+      </div>
       <h3>Washtenaw County</h3>
       <div class="pipe-fips">FIPS 26161</div>
-      <p>Ann Arbor / University of Michigan. Urban reference for rural–urban health equity benchmarking.</p>
+      <p>Ann Arbor / University of Michigan. Urban reference for rural&ndash;urban health equity benchmarking across the Michigan series.</p>
     </div>
 
+  </div><!-- end pipeline-grid -->
+
+  <!-- References -->
+  <div class="references-section">
+    <h2>References</h2>
+    <ol class="references-list">
+      <li>
+        GBD 2023 Collaborators. Global burden of 292 causes of death, 1990&ndash;2023.
+        <span class="ref-journal">Lancet.</span> 2025;406(10):2160&ndash;2203.
+      </li>
+      <li>
+        Centers for Disease Control and Prevention. PLACES: Local Data for Better Health, 2024 release.
+        <span class="ref-doi">cdc.gov/places</span>. Accessed 2025.
+      </li>
+      <li>
+        Centers for Disease Control and Prevention. WONDER: Underlying Cause of Death, 2020&ndash;2022.
+        <span class="ref-doi">wonder.cdc.gov</span>. Accessed 2025.
+      </li>
+      <li>
+        Institute for Health Metrics and Evaluation. Global Burden of Disease Study 2021: Disability Weights.
+        Seattle, WA: IHME; 2022.
+      </li>
+      <li>
+        Murray CJL, Lopez AD. Measuring the global burden of disease.
+        <span class="ref-journal">N Engl J Med.</span> 2013;369:448&ndash;457.
+      </li>
+      <li>
+        US Census Bureau. American Community Survey 5-Year Estimates, 2022.
+        <span class="ref-doi">data.census.gov</span>. Accessed 2025.
+      </li>
+      <li>
+        Michigan Department of Health and Human Services. 2020 Primary Care Needs Assessment: Isabella County Profile.
+        Lansing, MI: MDHHS; 2020.
+      </li>
+    </ol>
   </div>
 
-</div><!-- end .section -->
+</div><!-- end .main -->
 
+<!-- ══ CTA STRIP ══ -->
 <div class="cta-strip">
   <div class="cta-strip-inner">
     <div class="cta-text">
       <h3>Is your county next?</h3>
-      <p>Each analysis produces a full DALY burden profile, economic impact model, and AI intervention roadmap — ready for CHNA reports, grant applications (SAMHSA, HRSA, MDHHS), and county health department planning.</p>
+      <p>Each analysis produces a full DALY burden profile, economic impact model, and AI intervention roadmap &mdash; ready for CHNA reports, grant applications (SAMHSA, HRSA, MDHHS), and county health department planning.</p>
     </div>
-    <a class="cta-btn" href="mailto:biososh@gmail.com?subject=County%20Health%20Burden%20Analysis%20Inquiry">Request an analysis →</a>
+    <a class="cta-btn" href="mailto:biososh@gmail.com?subject=County%20Health%20Burden%20Analysis%20Inquiry">
+      Request an analysis
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
   </div>
 </div>
 
+<!-- ══ FOOTER ══ -->
 <footer>
-  <span>Lakes Linked Care · Dr. Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University · 2026</span>
-  <span>Data: CDC PLACES 2024 · CDC WONDER 2020–22 · IHME GBD 2021 · Planning grade — not peer-reviewed · <a href="mailto:biososh@gmail.com">biososh@gmail.com</a></span>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <span>Lakes Linked Care &middot; Dr. Sergey Soshnikov, MD PhD &middot; Public Health Division &middot; Central Michigan University &middot; 2026</span>
+      <span><a href="mailto:biososh@gmail.com">biososh@gmail.com</a></span>
+    </div>
+    <div class="footer-sources">
+      <span class="footer-sources-label">Data sources</span>
+      <span class="src-badge">CDC PLACES 2024</span>
+      <span class="src-badge">CDC WONDER 2020&ndash;22</span>
+      <span class="src-badge">IHME GBD 2021</span>
+      <span class="src-badge">ACS 2022</span>
+    </div>
+    <div class="footer-disclaimer">
+      Planning-grade educational analysis &mdash; not a peer-reviewed study or formal GBD estimate. Disability weights adapted from IHME GBD 2021 for educational purposes. County data from open CDC and US Census Bureau sources. Results should not be used as a sole basis for clinical or policy decisions without independent review.
+    </div>
+  </div>
 </footer>
 
 </body>
