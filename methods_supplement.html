@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methods Supplement — DALY Framework | Lakes Linked Care</title>
+<meta name="description" content="DALY methodology framework for the Lakes Linked Care Michigan rural health burden analysis. Python pipeline, data sources, equations, uncertainty model, code availability.">
+<meta property="og:title" content="DALY Methodology Framework | Lakes Linked Care">
+<meta property="og:description" content="Shared DALY framework and Python pipeline documentation for county-level disease burden analysis. CDC PLACES · CDC WONDER · IHME GBD 2021 · Monte Carlo n=10,000.">
+<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/methods_supplement.html">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --navy:#0f1f3d; --blue:#1a56db; --teal:#0d9488; --red:#dc2626;
+  --amber:#d97706; --green:#059669; --border:#e2e8f0; --bg:#f8fafc; --muted:#64748b;
+  --serif:Georgia,'Times New Roman',serif; --sans:-apple-system,'Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:#fff;color:#111;font-size:13.5px;line-height:1.75;}
+
+/* ── NAV ── */
+.sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
+.sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
+.sitenav .links{display:flex;gap:4px;align-items:center;flex-wrap:nowrap;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+
+/* ── DOCUMENT ── */
+.doc{max-width:840px;margin:0 auto;padding:44px 56px 80px;}
+@media(max-width:680px){.doc{padding:28px 18px;}}
+
+/* ── TITLE BLOCK ── */
+.title-block{border-bottom:3px double var(--navy);padding-bottom:24px;margin-bottom:28px;}
+.title-block .badge{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#666;font-weight:700;margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 8px;}
+.title-block h1{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.35;color:var(--navy);margin-bottom:8px;}
+.title-block .sub{font-size:13.5px;color:#444;margin-bottom:14px;}
+.authors{font-size:12px;margin-bottom:5px;color:#333;}
+.affil{font-size:11px;color:#666;font-style:italic;margin-bottom:5px;}
+.corr{font-size:11.5px;color:#555;margin-bottom:10px;}
+.meta-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.chip{font-size:11px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2px 10px;color:var(--muted);}
+
+/* ── ABSTRACT ── */
+.abstract{background:#f8f9fb;border:1px solid #d1d5db;border-left:4px solid var(--navy);padding:18px 22px;margin-bottom:28px;border-radius:0 6px 6px 0;}
+.abstract .hd{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.abstract p{font-size:13px;line-height:1.65;margin-bottom:6px;}
+.abstract p:last-child{margin-bottom:0;}
+.keywords{font-size:11.5px;color:#555;margin-bottom:26px;}
+
+/* ── SECTIONS ── */
+h2.sec{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);border-top:2px solid var(--navy);padding-top:14px;margin-top:36px;margin-bottom:12px;}
+h3.sub{font-size:13.5px;font-weight:700;color:#1e3a5f;margin-top:20px;margin-bottom:8px;}
+p{margin-bottom:10px;}
+
+/* ── EQUATIONS ── */
+.eq-box{background:#f9fafb;border:1px solid var(--border);border-radius:6px;padding:14px 20px;margin:14px 0;font-family:'Courier New',monospace;font-size:13px;line-height:1.9;position:relative;}
+.eq-label{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:var(--sans);font-size:11px;color:#94a3b8;font-style:italic;}
+
+/* ── CODE BLOCKS ── */
+.code-block{background:#0f172a;border-radius:8px;padding:16px 20px;margin:14px 0;font-family:'Courier New',monospace;font-size:12px;line-height:1.8;color:#e2e8f0;overflow-x:auto;}
+.code-block .cm{color:#64748b;}
+.code-block .kw{color:#7dd3fc;}
+.code-block .fn{color:#34d399;}
+.code-block .st{color:#fbbf24;}
+.code-block .cn{color:#f472b6;}
+
+/* ── PIPELINE DIAGRAM ── */
+.pipeline{display:flex;flex-direction:column;gap:0;margin:20px 0;}
+.pipe-step{display:flex;align-items:stretch;gap:0;}
+.pipe-num{width:36px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;}
+.pipe-circle{width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pipe-line{flex:1;width:2px;background:var(--border);margin:0 auto;}
+.pipe-content{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin:0 0 8px 12px;}
+.pipe-content h4{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.pipe-file{font-family:monospace;font-size:11px;color:var(--blue);background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:1px 6px;margin-right:6px;}
+.pipe-content p{font-size:12px;color:#475569;margin:4px 0 0;line-height:1.6;}
+.pipe-status{font-size:10px;font-weight:700;padding:1px 7px;border-radius:8px;float:right;}
+.pipe-status.live{background:#dcfce7;color:#166534;}
+.pipe-status.wip{background:#fef3c7;color:#92400e;}
+
+/* ── CALLOUT BOXES ── */
+.warn-box{background:#fffbeb;border:1px solid #fde68a;border-left:4px solid var(--amber);padding:12px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:12.5px;}
+.warn-box strong{color:#92400e;}
+.info-box{background:#f0f7ff;border:1px solid #bfdbfe;border-left:4px solid var(--blue);padding:12px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:12.5px;color:#1e3a5f;}
+.info-box strong{color:#1e3a5f;}
+.github-box{background:#0f172a;border-radius:10px;padding:20px 24px;margin:20px 0;color:#e2e8f0;}
+.github-box h4{color:#7dd3fc;font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.github-box p{font-size:12.5px;color:#94a3b8;margin-bottom:8px;line-height:1.6;}
+.github-box a{color:#34d399;text-decoration:none;font-weight:600;}
+.github-box a:hover{text-decoration:underline;}
+.github-box code{font-family:monospace;background:rgba(255,255,255,.08);padding:1px 6px;border-radius:4px;font-size:12px;color:#e2e8f0;}
+
+/* ── TABLES ── */
+.tbl-wrap{overflow-x:auto;margin:16px 0 4px;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+caption{font-size:11.5px;font-style:italic;text-align:left;margin-bottom:6px;color:#444;line-height:1.5;caption-side:top;}
+thead th{background:var(--navy);color:rgba(255,255,255,.92);padding:8px 10px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.03em;border-right:1px solid rgba(255,255,255,.12);}
+thead th:last-child{border-right:none;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:nth-child(even){background:var(--bg);}
+tbody td{padding:7px 10px;vertical-align:top;font-size:12.5px;}
+.tbl-note{font-size:11px;color:#555;margin-top:6px;line-height:1.65;}
+
+/* ── DATA QUALITY BADGES ── */
+.dc{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10.5px;font-weight:700;}
+.dc.obs{background:#dcfce7;color:#166534;}
+.dc.mdl{background:#fef9c3;color:#854d0e;}
+.dc.imp{background:#fee2e2;color:#991b1b;}
+.dc.sup{background:#f3e8ff;color:#6b21a8;}
+
+/* ── COUNTY SELECTOR ── */
+.county-selector{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:16px 20px;margin:20px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.county-selector .cs-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);}
+.cs-btn{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;padding:6px 14px;border-radius:7px;text-decoration:none;border:1.5px solid;transition:all .15s;}
+.cs-btn.isabella{color:var(--blue);border-color:var(--blue);background:color-mix(in srgb,var(--blue) 6%,transparent);}
+.cs-btn.isabella:hover{background:var(--blue);color:#fff;}
+.cs-btn.clare{color:var(--red);border-color:var(--red);background:color-mix(in srgb,var(--red) 6%,transparent);}
+.cs-btn.clare:hover{background:var(--red);color:#fff;}
+.cs-btn.pipeline{color:var(--muted);border-color:var(--border);background:var(--bg);cursor:default;opacity:.6;}
+
+/* ── REFERENCES ── */
+.refs{font-size:12px;line-height:1.75;}
+.refs li{margin-bottom:6px;padding-left:6px;}
+.refs a{color:var(--blue);}
+
+/* ── FOOTER ── */
+.doc-footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);font-size:11px;color:#888;line-height:1.8;}
+
+@media print{.sitenav{display:none;}.doc{padding-top:20px;}}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="sitenav">
+  <a class="brand" href="index.html">Lakes Linked Care</a>
+  <div class="links">
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink" href="isabella.html">📊 Isabella</a>
+      <a class="navlink" href="clare.html">🚨 Clare</a>
+      <a class="navlink" href="midland.html">🏭 Midland</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="index.html">🏠 Portal</a>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink active" href="methods_supplement.html">📋 Framework</a>
+  </div>
+</nav>
+
+<div class="doc">
+
+<!-- Title block -->
+<div class="title-block">
+  <div class="badge">Shared Methodology · Framework Document · v1.0</div>
+  <h1>County-Level Disease Burden Analysis in Rural Michigan: DALY Framework, Data Sources, and Reproducible Python Pipeline</h1>
+  <div class="sub">Methodology reference for the Lakes Linked Care Michigan Rural Health Burden Analysis series</div>
+  <div class="authors">Sergey Soshnikov, MD PhD</div>
+  <div class="affil">Department of Public Health, Central Michigan University · Mount Pleasant, Michigan</div>
+  <div class="corr">Correspondence: <a href="mailto:biososh@gmail.com" style="color:var(--blue)">biososh@gmail.com</a> · Lakes Linked Care · <a href="https://lakeslinkedcare.github.io/isabella_county/" style="color:var(--blue)" target="_blank">lakeslinkedcare.github.io</a></div>
+  <div class="meta-chips">
+    <span class="chip">Version 1.0 · June 2026</span>
+    <span class="chip">Not peer-reviewed</span>
+    <span class="chip">Planning purposes only</span>
+    <span class="chip">WHO GHE Frontier LE 89.1 yrs (primary)</span>
+    <span class="chip">Michigan LE 78.6 yrs (planning sensitivity)</span>
+    <span class="chip">Monte Carlo n=10,000</span>
+    <span class="chip">Python 3.10+</span>
+    <span class="chip">Code: GitHub</span>
+    <span class="chip">CDC PLACES 2024 · CDC WONDER 2020–22 · IHME GBD 2021</span>
+  </div>
+</div>
+
+<!-- Abstract -->
+<div class="abstract">
+  <div class="hd">Abstract</div>
+  <p><strong>Background.</strong> County-level disease burden estimates comparable to Global Burden of Disease (GBD) methodology are rarely available in the United States. This document describes a reproducible, open-source Python pipeline for computing planning-grade Disability-Adjusted Life Year (DALY) estimates for rural Michigan counties using exclusively open public data. The framework is designed to scale to all 83 Michigan counties with minimal per-county configuration changes.</p>
+  <p><strong>Methods.</strong> We constructed DALY estimates from five open data sources: CDC WONDER 2020–2022 (mortality), CDC PLACES 2024 (prevalence), IHME GBD 2021 (disability weights), County Health Rankings 2010–2024 (years of potential life lost), and U.S. Census ACS 2022 (population denominators). YLL uses the WHO GHE frontier reference life table (89.1 years) as primary; Michigan observed LE (78.6 years) is reported as a planning sensitivity. Uncertainty was quantified via Monte Carlo simulation (n = 10,000). All analyses were implemented in Python 3.10 using NumPy, Pandas, SciPy, and Matplotlib; source code is available on GitHub.</p>
+  <p><strong>Completed counties (June 2026).</strong> Isabella County (FIPS 26073): 15,430 DALYs/yr (95% UI 14,459–16,481), frontier LE primary. Clare County (FIPS 26035): 8,198 DALYs/yr (±20% uncertainty), frontier LE primary. Midland County (FIPS 26111): 14,335 DALYs/yr (MI LE) / ~20,400 (frontier LE) — CDC PLACES 2023 observed county-level prevalence. Three counties in pipeline: Gratiot (Q3 2026), Mecosta (Q4 2026), Washtenaw (Q4 2026, urban reference).</p>
+  <p><strong>Limitations.</strong> Mixed-source modeled planning scenario — not a validated GBD-standard county burden estimate. Prevalence inputs are model-based (CDC PLACES MLRP). Mortality uses mean-age-at-death simplification for YLL; rural adjustment factors (×1.2–1.85) proxy suppressed CDC WONDER cells. Results are directional planning approximations for grant writing, CHNA processes, and county health planning.</p>
+</div>
+
+<div class="keywords"><strong>Keywords:</strong> disability-adjusted life years · DALY methodology · rural health · Michigan · Python · reproducible research · CDC PLACES 2024 · county-level disease burden · open-source pipeline</div>
+
+<!-- GitHub Box -->
+<div class="github-box">
+  <h4>⚙️ Code &amp; Data Availability</h4>
+  <p>All analysis code, county configuration files, and derived data outputs are available at:</p>
+  <p><a href="https://github.com/lakeslinkedcare/isabella_county" target="_blank">https://github.com/lakeslinkedcare/isabella_county</a></p>
+  <p>The repository contains: <code>director.py</code> (pipeline orchestrator) · <code>harvester.py</code> (data collection) · <code>daly_calculator.py</code> (burden computation) · <code>fact_checker.py</code> (validation) · county <code>*_config.json</code> files · processed <code>data/</code> CSV outputs. Raw source data (CDC WONDER, PLACES, CHR) must be downloaded separately per the respective agencies' terms of service — exact URLs and API endpoints are documented in <code>data/README.md</code>.</p>
+  <p><strong>To reproduce Isabella County analysis:</strong></p>
+  <p><code>git clone https://github.com/lakeslinkedcare/isabella_county</code><br>
+  <code>pip install -r requirements.txt</code><br>
+  <code>python3 director.py --county isabella --steps harvest,calculate,factcheck</code></p>
+</div>
+
+<!-- 1. DALY Framework -->
+<h2 class="sec"><span style="color:var(--blue);margin-right:6px">1.</span> DALY Framework</h2>
+
+<h3 class="sub">1.1 Standard formula</h3>
+<p>This analysis adopts the standard WHO DALY formula with no age-weighting and no time discounting, consistent with the 2010 GBD revision and subsequent global burden analyses:</p>
+
+<div class="eq-box">DALY = YLL + YLD <span class="eq-label">(1)</span></div>
+
+<p><em>YLL</em> = Years of Life Lost (premature mortality); <em>YLD</em> = Years Lived with Disability (prevalent morbidity). The two components capture different dimensions of burden: YLL is sensitive to mortality rates and the reference life expectancy standard; YLD is sensitive to prevalence and disability weights. Conditions with high late-life mortality (CVD, cancer) are YLL-dominated; conditions with high prevalence and low mortality (mental health) are YLD-dominated.</p>
+
+<h3 class="sub">1.2 YLL calculation</h3>
+
+<div class="eq-box">YLL ≈ Deaths × (L − Ā) <span class="eq-label">(2, planning approximation)</span></div>
+
+<p><em>L</em> = reference life expectancy (two standards — see Section 1.5); <em>Ā</em> = mean age at death for the condition (condition-specific constants, see Table 1). Deaths estimated as:</p>
+
+<div class="eq-box">Deaths/yr = (WONDER_rate × rural_adj_factor) / 100,000 × population <span class="eq-label">(3)</span></div>
+
+<div class="warn-box">
+  <strong>YLL simplification note.</strong> The standard GBD YLL formula is YLL = Σ<sub>a</sub> d(a) × ℓ(a), where d(a) = age-specific deaths and ℓ(a) = remaining life expectancy at age a from the reference life table. The planning approximation above assumes all deaths in a condition group occur at a single mean age, which underestimates uncertainty and introduces systematic bias for conditions with wide age-at-death distributions. Future county-level extensions with age-stratified CDC WONDER data should use the full summation form. Mean ages used (national CDC WONDER 2019–21 aggregates): MH 46 yrs · SUD 44 yrs · Cancer 67 yrs · CVD 72 yrs · COPD 73 yrs · Stroke 73 yrs · Diabetes 70 yrs.
+</div>
+
+<h3 class="sub">1.3 YLD calculation</h3>
+
+<div class="eq-box">YLD = P × DW <span class="eq-label">(4)</span></div>
+
+<p><em>P</em> = prevalent cases (CDC PLACES 2024 prevalence × population denominator); <em>DW</em> = IHME GBD 2021 disability weight (moderate severity). Disability weights do not incorporate severity distributions or comorbidity corrections. For mental health, a remission adjustment is applied to convert lifetime-diagnosed BRFSS prevalence to active burden (see Section 1.6).</p>
+
+<h3 class="sub">1.4 Economic burden</h3>
+
+<p>Two parallel methods with distinct conceptual frameworks are reported for each county:</p>
+
+<div class="eq-box">Economic burden (Human Capital) = DALYs × GDP_per_capita <span class="eq-label">(5)</span></div>
+<div class="eq-box">Economic burden (VSL) = Deaths × VSL_adjusted <span class="eq-label">(6)</span></div>
+
+<p>Human Capital uses Michigan GDP per capita ($62,000, 2024) and represents indirect productivity losses. VSL uses the HHS ASPE 2026 central estimate ($13.4M per statistical life), income-adjusted per county median household income using income elasticity 0.4 (Viscusi &amp; Aldy 2003):</p>
+
+<div class="eq-box">VSL_county = $13.4M × (county_median_income / $80,000) ^ 0.4 <span class="eq-label">(7)</span></div>
+
+<p>The ~5–7× difference between Human Capital and VSL central estimates is methodologically expected. For grant applications use VSL (aligned with HHS/OMB cost-benefit guidance); for academic GBD comparison use Human Capital.</p>
+
+<h3 class="sub">1.5 Life expectancy reference standards</h3>
+
+<p>Two reference standards are reported for every county:</p>
+
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 1. Life expectancy reference standards used in this analysis.</caption>
+    <thead>
+      <tr><th>Standard</th><th>Value</th><th>Source</th><th>Use case</th><th>Effect on ranking</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Primary (frontier)</strong></td>
+        <td>89.1 yrs (sex-avg.)<br>M: 86.0 · F: 92.0</td>
+        <td>WHO GHE reference life table (global best-observed survival)</td>
+        <td>Cross-county comparison, academic publication, international GBD alignment</td>
+        <td>Favors late-death conditions: CVD, Cancer rank higher because more years are lost per late-life death. MH typically ranks lower under this standard.</td>
+      </tr>
+      <tr>
+        <td><strong>Planning sensitivity (Michigan LE)</strong></td>
+        <td>78.6 yrs (sex-avg.)<br>M: 76.2 · F: 80.9</td>
+        <td>MDHHS 2024, Michigan observed LE</td>
+        <td>Local planning documents, CHNA reports, comparisons with prior county analyses</td>
+        <td>Favors YLD-dominant conditions: MH typically ranks #1 because late-life YLL is compressed. Preferred by county health departments for local planning.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="info-box">
+  <strong>Why the standard matters for ranking:</strong> Under frontier LE (89.1 yrs), a cancer death at mean age 67 yields 22.1 remaining years of life lost; a CVD death at 72 yields 17.1 years. Under Michigan LE (78.6 yrs), those same deaths yield only 11.6 and 6.6 years. Mental health, which kills at ~46, yields 43.1 years (frontier) vs. 32.6 years (Michigan) — a smaller proportional gap. The LE standard therefore systematically shifts the ranking of late-death vs. early-death conditions.
+</div>
+
+<h3 class="sub">1.6 Mental health active disease approximation</h3>
+
+<p>CDC PLACES 2024 reports lifetime-diagnosed depressive disorder (BRFSS ADDEPEV3), not current episode. For YLD, a remission factor of 0.50 is applied in the primary estimate to approximate active burden:</p>
+
+<div class="eq-box">MH_active_prevalence = MH_lifetime_prevalence × 0.50 <span class="eq-label">(8)</span></div>
+
+<p>Evidence basis: NSDUH 2021 national past-year major depressive episode prevalence ~8.3% vs. PLACES national lifetime-diagnosed ~20.7%, implying ~60% remission at any given time. Published psychiatric epidemiology reports 40–60% 12-month remission for MDD. The central factor of 0.50 is propagated through Monte Carlo with uncertainty Uniform(0.40, 0.60). The planning sensitivity retains raw PLACES prevalence (no remission adjustment) for continuity with prior county documents.</p>
+
+<!-- 2. Python Pipeline -->
+<h2 class="sec"><span style="color:var(--blue);margin-right:6px">2.</span> Python Analysis Pipeline</h2>
+
+<p>All DALY computations are implemented in Python 3.10+ using a modular agent-based pipeline. The pipeline is designed for reproducibility: every computation step is parameterized by a county FIPS code, all intermediate outputs are serialized to JSON, and the full pipeline can be re-run with a single command.</p>
+
+<div class="info-box">
+  <strong>Libraries used:</strong> NumPy 1.24+ (Monte Carlo, array operations) · Pandas 2.0+ (data wrangling, CSV I/O) · SciPy 1.11+ (statistical distributions, regression) · Matplotlib 3.8+ (trend charts, CI shading) · Chart.js 4.4.1 (interactive browser dashboards, via CDN) · Requests (API data collection) · python-dotenv (environment variable management for API keys)
+</div>
+
+<div class="pipeline">
+  <div class="pipe-step">
+    <div class="pipe-num">
+      <div class="pipe-circle">1</div>
+      <div class="pipe-line"></div>
+    </div>
+    <div class="pipe-content">
+      <h4>Harvester <span class="pipe-file">harvester.py</span> <span class="pipe-status live">Live</span></h4>
+      <p>Collects county data from five open APIs: CDC PLACES 2024 (Socrata API, app.cdc.gov), County Health Rankings 2010–2024 (direct download), CDC WONDER (WONDER API — mortality counts, may require manual download for suppressed cells), U.S. Census ACS 5-year (census.gov API), USDA Food Environment Atlas (static CSV). Output: <code>*_county_harvest.json</code> — all raw collected values with source URLs and retrieval timestamps.</p>
+    </div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num">
+      <div class="pipe-circle">2</div>
+      <div class="pipe-line"></div>
+    </div>
+    <div class="pipe-content">
+      <h4>DALY Calculator <span class="pipe-file">daly_calculator.py</span> <span class="pipe-status live">Live</span></h4>
+      <p>Computes YLL, YLD, DALYs, economic burden, and 95% uncertainty intervals from harvest output. Implements equations (1)–(8) above. Applies rural adjustment factors for suppressed WONDER cells. Runs Monte Carlo simulation (n=10,000 iterations, seed=42) across mortality, prevalence, and disability weight uncertainty. Produces: <code>*_county_config.json</code> with all computed estimates, and <code>data/daly_longitudinal_v2.csv</code> for year-by-year trend analysis.</p>
+    </div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num">
+      <div class="pipe-circle">3</div>
+      <div class="pipe-line"></div>
+    </div>
+    <div class="pipe-content">
+      <h4>Longitudinal DALY Model <span class="pipe-file">longitudinal_daly_v2.py</span> <span class="pipe-status live">Live</span></h4>
+      <p>Extends the cross-sectional estimate backward (2017–2023) and forward (2026 projection) using CDC PLACES multi-year releases and County Health Rankings YPLL trends. YLD varies year-by-year from observed PLACES prevalence (with linear interpolation for 2021–2022 data gaps); YLL is scaled by the CHR 15-year YPLL trend relative to 2018 baseline. Outputs: <code>data/daly_longitudinal_v2.csv</code> (7 conditions × 7 years) and <code>data/daly_2026_projection_v2.csv</code> (OLS trend projection with 95% prediction intervals).</p>
+    </div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num">
+      <div class="pipe-circle">4</div>
+      <div class="pipe-line"></div>
+    </div>
+    <div class="pipe-content">
+      <h4>Fact Checker <span class="pipe-file">fact_checker.py</span> <span class="pipe-status live">Live</span></h4>
+      <p>Mathematical, statistical, and epidemiological quality control gatekeeper. Re-derives all DALY totals from config, checks internal consistency of YLL + YLD = DALYs, verifies economic burden formulas, flags stale values in dashboard HTML, checks for overclaiming in manuscript text (e.g., unsupported causal language). Severity levels: HIGH (material error), MEDIUM (inconsistency), LOW (disclosure). Output: <code>*_fact_check_report.md/.json</code>. Pipeline rule: no dashboard may be published if any HIGH issues remain unresolved.</p>
+    </div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num">
+      <div class="pipe-circle">5</div>
+      <div class="pipe-line"></div>
+    </div>
+    <div class="pipe-content">
+      <h4>Scientific Reviewer <span class="pipe-file">chatgpt_reviewer.py</span> <span class="pipe-status live">Live</span></h4>
+      <p>Sends computed estimates to GPT-4o with a structured epidemiological peer-review prompt (based on Naghavi et al. 2010 GBD methodology standards). Reviews for: methodological validity, appropriate uncertainty framing, evidence strength for intervention claims, and cross-county consistency. Requires <code>OPENAI_API_KEY</code> in <code>.env</code> file. Output: <code>*_review_report.md/.json</code>.</p>
+    </div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num">
+      <div class="pipe-circle">6</div>
+      <div class="pipe-line"></div>
+    </div>
+    <div class="pipe-content">
+      <h4>Dashboard Generator <span class="pipe-file">html_generator.py</span> <span class="pipe-status wip">In development</span></h4>
+      <p>Generates county dashboard HTML from config JSON. Will produce <code>home.html</code> (or <code>{county}.html</code>) as a templated output replacing the current manually-maintained HTML files. Uses Chart.js for interactive charts. Planned for Q3 2026.</p>
+    </div>
+  </div>
+  <div class="pipe-step">
+    <div class="pipe-num">
+      <div class="pipe-circle">7</div>
+    </div>
+    <div class="pipe-content">
+      <h4>Deployment <span class="pipe-file">deploy.py</span> <span class="pipe-status wip">In development</span></h4>
+      <p>Commits updated HTML files to the GitHub Pages repository and pushes to production. Will enforce the fact-checker publication rule (no HIGH issues) as a pre-deploy gate. Planned for Q3 2026.</p>
+    </div>
+  </div>
+</div>
+
+<p>The pipeline is orchestrated by <code>director.py</code>, which accepts a county FIPS name and a list of steps to run:</p>
+
+<div class="code-block"><span class="cm"># Full pipeline for a new county</span>
+python3 director.py --county gratiot --steps harvest,calculate,factcheck,review
+
+<span class="cm"># Run all 6 preset counties sequentially</span>
+python3 director.py --all
+
+<span class="cm"># Check pipeline status</span>
+python3 director.py --status
+
+<span class="cm"># Dry run</span>
+python3 director.py --county midland --dry-run</div>
+
+<p>Each county requires a minimal configuration entry in <code>director.py</code> (FIPS code, population, name) and the harvester automatically retrieves all other data from public APIs. Adding a new county to the pipeline is a one-line configuration change.</p>
+
+<!-- 3. Data Sources -->
+<h2 class="sec"><span style="color:var(--blue);margin-right:6px">3.</span> Data Sources</h2>
+
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 2. Primary data sources used across all county analyses. All sources are publicly available at no cost. API endpoints and download scripts are documented in <code>data/README.md</code> in the GitHub repository.</caption>
+    <thead>
+      <tr>
+        <th>Source</th><th>Version / Year</th><th>DALY Component</th><th>Access Method</th><th>County-level available?</th><th>Quality</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>CDC PLACES</strong><br>Multilevel Regression &amp; Poststratification (MLRP) on BRFSS</td>
+        <td>2024 release<br>(2022 BRFSS data)</td>
+        <td>YLD — prevalence input for all conditions</td>
+        <td>Socrata API<br><code>data.cdc.gov</code></td>
+        <td>Yes — county FIPS</td>
+        <td><span class="dc mdl">Model-based</span></td>
+      </tr>
+      <tr>
+        <td><strong>CDC WONDER</strong><br>Multiple Cause of Death, 1999–2022</td>
+        <td>2020–2022<br>(3-yr pooled)</td>
+        <td>YLL — cause-specific death counts and rates</td>
+        <td>WONDER web API<br>or manual download</td>
+        <td>Yes, but cells &lt;10 suppressed — rural adjustment required</td>
+        <td><span class="dc obs">Observed</span> / <span class="dc sup">Suppressed</span></td>
+      </tr>
+      <tr>
+        <td><strong>IHME GBD 2021</strong><br>Global Burden of Disease Study 2021</td>
+        <td>2021 release</td>
+        <td>Disability weights (DW) for all conditions; reference LE (frontier standard)</td>
+        <td>GHDx download<br>ghdx.healthdata.org</td>
+        <td>National/state only — applied uniformly to county analyses</td>
+        <td><span class="dc obs">Global meta-analysis</span></td>
+      </tr>
+      <tr>
+        <td><strong>County Health Rankings</strong><br>Robert Wood Johnson Foundation</td>
+        <td>2010–2024<br>(15-year trend)</td>
+        <td>YLL scaling — YPLL trend used for longitudinal YLL adjustment</td>
+        <td>Direct CSV download<br>countyhealthrankings.org</td>
+        <td>Yes — county FIPS</td>
+        <td><span class="dc obs">Observed</span></td>
+      </tr>
+      <tr>
+        <td><strong>U.S. Census ACS</strong><br>American Community Survey, 5-Year Estimates</td>
+        <td>2022 release<br>(2018–2022)</td>
+        <td>Population denominators; income for VSL adjustment; poverty, insurance SDOH</td>
+        <td>Census API<br>api.census.gov</td>
+        <td>Yes — county FIPS</td>
+        <td><span class="dc obs">Survey sample</span></td>
+      </tr>
+      <tr>
+        <td><strong>USDA Food Environment Atlas</strong></td>
+        <td>2020</td>
+        <td>SDOH context (food access, food insecurity)</td>
+        <td>Static Excel download<br>ers.usda.gov</td>
+        <td>Yes — county FIPS</td>
+        <td><span class="dc obs">Administrative</span></td>
+      </tr>
+      <tr>
+        <td><strong>CMS Medicare Geographic Variation</strong></td>
+        <td>2021</td>
+        <td>Healthcare utilization context</td>
+        <td>CMS data portal<br>data.cms.gov</td>
+        <td>Yes — county FIPS</td>
+        <td><span class="dc obs">Administrative claims</span></td>
+      </tr>
+      <tr>
+        <td><strong>MDHHS PCNA / Michigan vital statistics</strong></td>
+        <td>2020 baseline</td>
+        <td>All-cause mortality comparison; county health rankings context</td>
+        <td>MDHHS.gov<br>Michigan data portal</td>
+        <td>Yes — county FIPS</td>
+        <td><span class="dc obs">Administrative</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 class="sub">3.1 Rural adjustment factors for suppressed CDC WONDER cells</h3>
+
+<p>CDC WONDER suppresses death count cells with fewer than 10 events in a 3-year pooled window. For small rural counties (Clare: pop. 30,013; upcoming Mecosta: pop. ~43,000), most cause-specific death counts are suppressed. Rural adjustment factors are applied to Michigan state-level rates as proxies:</p>
+
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 3. Rural adjustment factors applied to Michigan state-level mortality rates for suppressed county cells. Factors represent central estimates within published rural/urban differential ranges.</caption>
+    <thead>
+      <tr><th>Condition</th><th>Rural adj. factor</th><th>Source range</th><th>Primary reference</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>SUD / Drug overdose</td><td>×1.85</td><td>1.6–2.0×</td><td>Hedegaard et al. (2021), Mack et al. (2017)</td></tr>
+      <tr><td>Mental Health</td><td>×1.40</td><td>1.3–1.5×</td><td>Searight (2018); WWAMI Rural Health Research</td></tr>
+      <tr><td>CVD</td><td>×1.30</td><td>1.2–1.4×</td><td>Moy et al. (2017), Garcia et al. (2017)</td></tr>
+      <tr><td>COPD</td><td>×1.35</td><td>1.2–1.5×</td><td>Moy et al. (2017)</td></tr>
+      <tr><td>Stroke</td><td>×1.25</td><td>1.1–1.4×</td><td>Garcia et al. (2017)</td></tr>
+      <tr><td>Diabetes</td><td>×1.30</td><td>1.2–1.4×</td><td>Moy et al. (2017)</td></tr>
+      <tr><td>Cancer</td><td>×1.20</td><td>1.1–1.3×</td><td>Zahnd et al. (2021)</td></tr>
+    </tbody>
+  </table>
+  <div class="tbl-note">These factors introduce ±30% additional uncertainty for suppressed cells, propagated through Monte Carlo simulation (Section 4). County-specific CDC WONDER 5-year pooled data (2019–2023) may reduce suppression and should be used when available.</div>
+</div>
+
+<!-- 4. Uncertainty Model -->
+<h2 class="sec"><span style="color:var(--blue);margin-right:6px">4.</span> Uncertainty Quantification</h2>
+
+<h3 class="sub">4.1 Monte Carlo simulation design</h3>
+
+<p>A structured Monte Carlo simulation (n = 10,000 iterations, NumPy seed=42) propagates uncertainty from three parameter sources. Reported 95% uncertainty intervals represent simulation-based percentile intervals (2.5th to 97.5th percentile across 10,000 iterations). They do not capture systematic biases in underlying data models.</p>
+
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 4. Monte Carlo uncertainty parameter specification.</caption>
+    <thead>
+      <tr><th>Parameter</th><th>Distribution</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Mortality — observed WONDER cells<br>(cancer, CVD, COPD, stroke)</td>
+        <td>Poisson(λ = observed annual deaths)</td>
+        <td>Sampling variability in small-count observed deaths</td>
+      </tr>
+      <tr>
+        <td>Mortality — suppressed cells<br>(SUD, MH, diabetes)</td>
+        <td>Uniform(lower, upper) for rural adj. factor</td>
+        <td>Ranges from Table 3; see Section 3.1</td>
+      </tr>
+      <tr>
+        <td>Prevalence (CDC PLACES)</td>
+        <td>Beta(α, β) matching reported 95% CI</td>
+        <td>Method of moments parameterization from PLACES reported CIs</td>
+      </tr>
+      <tr>
+        <td>MH remission factor</td>
+        <td>Uniform(0.40, 0.60)</td>
+        <td>Active-disease approximation uncertainty; primary estimate only</td>
+      </tr>
+      <tr>
+        <td>Disability weights (IHME GBD 2021)</td>
+        <td>Beta(α, β) matching ±15–25% at moderate severity</td>
+        <td>IHME-reported 95% uncertainty bounds</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 class="sub">4.2 Longitudinal uncertainty</h3>
+
+<p>For the 2017–2023 longitudinal analysis, additional uncertainty sources apply: (1) CDC PLACES 2021 and 2022 county-level data are unavailable — values for those years are linearly interpolated between 2020 and 2023 observations and flagged with <code>interpolated: True</code> in the output CSV; (2) CHR YPLL scaling introduces year-specific uncertainty in YLL estimates; (3) the 2021 all-cause mortality spike (COVID-19 driven YPLL = 8,100 per Isabella CHR) is preserved in the longitudinal model but flagged as an anomalous year. For 2026 projections, OLS regression is applied where ≥3 observed data points exist; conditions with fewer than 3 points receive flat projections and are flagged <code>reliability: insufficient_data</code>.</p>
+
+<!-- 5. County Supplements -->
+<h2 class="sec"><span style="color:var(--blue);margin-right:6px">5.</span> County-Specific Supplements</h2>
+
+<p>This shared framework document covers methodology common to all county analyses. County-specific data quality tables, condition rankings, population characteristics, and analytic considerations are documented in each county's supplement. The supplement also notes where county-specific data availability required modifications to the standard pipeline (e.g., Clare County: WONDER fully suppressed for all causes, requiring full state-rate substitution; Isabella County: University of Michigan CMU student population inflates ACS poverty rate).</p>
+
+<div class="county-selector">
+  <span class="cs-label">County supplements:</span>
+  <a class="cs-btn isabella" href="isabella_methods.html">📊 Isabella County — v5.0</a>
+  <a class="cs-btn clare" href="clare_methods.html">🚨 Clare County — v1.0</a>
+  <a class="cs-btn" style="background:#dcfce7;color:#065f46;border-color:#86efac;" href="midland_methods.html">🏭 Midland County — v1.0</a>
+  <span class="cs-btn pipeline">🌾 Gratiot — Q3 2026</span>
+  <span class="cs-btn pipeline">🎓 Mecosta — Q4 2026</span>
+  <span class="cs-btn pipeline">🏙️ Washtenaw — Q4 2026</span>
+</div>
+
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 5. Cross-county comparison of primary burden estimates (June 2026). Frontier LE 89.1 yrs primary standard.</caption>
+    <thead>
+      <tr>
+        <th>County</th><th>FIPS</th><th>Population</th><th>DALYs/yr (primary)</th><th>DALYs/yr (MI LE)</th><th>Top condition</th><th>Unique feature</th><th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="background:#f0f7ff;">
+        <td><strong>Isabella</strong></td><td>26073</td><td>64,565</td>
+        <td><strong>15,430</strong><br><span style="font-size:10.5px;color:#64748b">95% UI 14,459–16,481</span></td>
+        <td>10,579</td>
+        <td>Cancer #1 · CVD #2 · SUD #3</td>
+        <td>CMU university pop; MH HPSA 176,938:1</td>
+        <td><span class="dc obs">Complete v5.0</span></td>
+      </tr>
+      <tr style="background:#fff5f5;">
+        <td><strong>Clare</strong></td><td>26035</td><td>30,013</td>
+        <td><strong>8,198</strong><br><span style="font-size:10.5px;color:#64748b">±20% uncertainty</span></td>
+        <td>5,943 (remission-adj)</td>
+        <td>Cancer #1 · CVD #2 · SUD #3 (frontier)</td>
+        <td>MUA-designated; opioid ~47/100k; COPD 12.7%; median age 46.8</td>
+        <td><span class="dc obs">Complete v1.0</span></td>
+      </tr>
+      <tr style="background:#f0fdf4;">
+        <td><strong>Midland</strong></td><td>26111</td><td>82,884</td>
+        <td><strong>~20,400</strong><br><span style="font-size:10.5px;color:#64748b">CDC PLACES 2023</span></td>
+        <td>14,335</td>
+        <td>Cancer #1 · SUD #2 · MH #3</td>
+        <td>Dow Chemical HQ; higher income ($62k); industrial SDOH; CDC PLACES 2023 observed prevalence</td>
+        <td><span class="dc obs">Complete v1.0</span></td>
+      </tr>
+      <tr>
+        <td>Gratiot</td><td>26057</td><td>~40,000</td>
+        <td colspan="5" style="color:#94a3b8;font-style:italic;">Analysis planned Q3 2026 — agricultural economy, no university anchor, Gratiot County CMH</td>
+      </tr>
+      <tr>
+        <td>Mecosta</td><td>26107</td><td>~43,000</td>
+        <td colspan="5" style="color:#94a3b8;font-style:italic;">Analysis planned Q4 2026 — Ferris State University, rural health desert designation</td>
+      </tr>
+      <tr>
+        <td>Washtenaw</td><td>26161</td><td>~374,000</td>
+        <td colspan="5" style="color:#94a3b8;font-style:italic;">Analysis planned Q4 2026 — Urban reference county (U-M Ann Arbor), rural/urban comparison benchmark</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 6. Scope and Limitations -->
+<h2 class="sec"><span style="color:var(--blue);margin-right:6px">6.</span> Scope, Limitations, and Intended Use</h2>
+
+<p><strong>Intended use.</strong> These analyses are intended for: county health department planning, Community Health Needs Assessment (CHNA) process support, grant application development (SAMHSA SOR, HRSA Rural Health, MDHHS, NIH R21), academic collaboration, and public health education. They are NOT intended for clinical decision-making, regulatory submissions, or direct policy implementation without additional validation.</p>
+
+<p><strong>Not a formal GBD estimate.</strong> This framework adapts GBD methodology for open-data county planning analysis. It does not replicate formal GBD estimation, which requires: systematic literature reviews for disease parameters, DisMod-MR modeling for incidence/prevalence/duration, Bayesian meta-regression for risk factor attribution, and global validation. Results should be cited as "planning-grade DALY estimates derived from public data" rather than "GBD burden estimates."</p>
+
+<div class="warn-box">
+  <strong>Conditions not modeled.</strong> This analysis covers seven major condition groups (cancer, CVD, SUD, mental health, COPD, stroke, diabetes). Excluded conditions include: musculoskeletal disorders (leading global YLD source), maternal/neonatal conditions, injuries and violence, communicable diseases (except indirectly via SUD/opioids), oral health, and vision/hearing loss. Total burden is therefore underestimated relative to full GBD. Expansion to additional conditions is planned for v6.0.
+</div>
+
+<p><strong>Reproducibility caveats.</strong> CDC PLACES prevalence estimates are updated annually (new BRFSS data) and may differ between releases. CDC WONDER data are periodically revised. Re-running the pipeline with current-year data will produce updated estimates that may differ from those reported here. County config JSON files are version-stamped; always verify the data vintage when citing specific values.</p>
+
+<!-- 7. References -->
+<h2 class="sec"><span style="color:var(--blue);margin-right:6px">7.</span> References</h2>
+
+<ol class="refs">
+  <li>Salomon JA, Vos T, Hogan DR, et al. Common values in assessing health outcomes from disease and injury: disability weights measurement study for the Global Burden of Disease Study 2010. <em>Lancet</em>. 2012;380(9859):2129–2143.</li>
+  <li>GBD 2021 Diseases and Injuries Collaborators. Global incidence, prevalence, years lived with disability (YLDs), disability-adjusted life-years (DALYs), and healthy life expectancy (HALE) for 371 diseases and injuries: a systematic analysis for the Global Burden of Disease Study 2021. <em>Lancet</em>. 2024;403(10440):2133–2161.</li>
+  <li>Naghavi M, Makela S, Foreman K, et al. Algorithms for enhancing public health utility of national causes-of-death data. <em>Popul Health Metr</em>. 2010;8(1):9.</li>
+  <li>Centers for Disease Control and Prevention. PLACES: Local Data for Better Health. Atlanta, GA: CDC; 2024. <a href="https://www.cdc.gov/places" target="_blank" style="color:var(--blue)">cdc.gov/places</a>.</li>
+  <li>Centers for Disease Control and Prevention. CDC WONDER: Multiple Cause of Death, 1999–2022. Atlanta, GA: CDC; 2023. <a href="https://wonder.cdc.gov" target="_blank" style="color:var(--blue)">wonder.cdc.gov</a>.</li>
+  <li>University of Wisconsin Population Health Institute. County Health Rankings &amp; Roadmaps. Madison, WI: UWPHI; 2024. <a href="https://www.countyhealthrankings.org" target="_blank" style="color:var(--blue)">countyhealthrankings.org</a>.</li>
+  <li>Viscusi WK, Aldy JE. The Value of a Statistical Life: A Critical Review of Market Estimates throughout the World. <em>J Risk Uncertainty</em>. 2003;27(1):5–76.</li>
+  <li>Hedegaard H, Miniño AM, Warner M. Urban–rural differences in drug overdose death rates, by sex, age, and type of drugs involved, 2017–2019. <em>NCHS Data Brief</em>. 2021;(423):1–8.</li>
+  <li>Mack KA, Goding Sauer MM, Bhalla S, et al. Trends in drug overdose deaths among US women, 1999–2017. <em>MMWR</em>. 2019;68(1):1–10.</li>
+  <li>Moy E, Garcia MC, Bastian B, et al. Leading causes of death in nonmetropolitan and metropolitan areas — United States, 1999–2014. <em>MMWR Surveill Summ</em>. 2017;66(1):1–8.</li>
+  <li>Garcia MC, Rossen LM, Bastian B, et al. Potentially excess deaths from the five leading causes of death in metropolitan and nonmetropolitan counties — United States, 2010–2017. <em>MMWR Surveill Summ</em>. 2019;68(10):1–11.</li>
+  <li>Zahnd WE, James AS, Jenkins WD, et al. Rural-urban differences in cancer incidence and trends in the United States. <em>Cancer Epidemiol Biomarkers Prev</em>. 2021;30(5):860–869.</li>
+  <li>Michigan Department of Health and Human Services. Michigan Primary Care Needs Assessment 2020. Lansing, MI: MDHHS; 2020.</li>
+  <li>Substance Abuse and Mental Health Services Administration. Key Substance Use and Mental Health Indicators in the United States: Results from the 2021 National Survey on Drug Use and Health. Rockville, MD: SAMHSA; 2022.</li>
+  <li>Soshnikov S. Health Burden from NCDs, SUDs, and MHCs in Isabella County, Michigan: A Mixed-Source Modeled Estimate. Preprint in preparation, 2026. <a href="https://github.com/lakeslinkedcare/isabella_county" target="_blank" style="color:var(--blue)">github.com/lakeslinkedcare</a>.</li>
+</ol>
+
+<!-- Footer -->
+<div class="doc-footer">
+  <strong>Citation:</strong> Soshnikov S. County-Level Disease Burden Analysis in Rural Michigan: DALY Framework, Data Sources, and Reproducible Python Pipeline. Lakes Linked Care, 2026. Available at: <a href="https://lakeslinkedcare.github.io/isabella_county/methods_supplement.html" style="color:var(--blue)">lakeslinkedcare.github.io/isabella_county/methods_supplement.html</a><br>
+  <strong>Code repository:</strong> <a href="https://github.com/lakeslinkedcare/isabella_county" style="color:var(--blue)">github.com/lakeslinkedcare/isabella_county</a><br>
+  <strong>Data availability:</strong> All pipeline code and derived data outputs available on GitHub. Raw source data available from CDC, IHME, Census Bureau, RWJ Foundation, and USDA under their respective open-access terms.<br>
+  <strong>Conflict of interest:</strong> None declared. This analysis was conducted independently as part of research activities at Central Michigan University.<br>
+  <strong>Funding:</strong> No external funding. Analysis uses open public data and open-source software tools.<br>
+  <strong>Version:</strong> v1.0, June 2026. Living document — updated as new county analyses are completed and methodology evolves.
+</div>
+
+</div><!-- end .doc -->
+</body>
+</html>

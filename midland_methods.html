@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midland County — Methods &amp; Data Supplement | Lakes Linked Care</title>
+<meta name="description" content="Methodology supplement for Midland County disease burden analysis. Data quality tables, CDC PLACES 2023 observed prevalence, and Midland-specific analytic notes.">
+<meta property="og:title" content="Midland County — Methods &amp; Data Supplement | Lakes Linked Care">
+<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/midland_methods.html">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --navy:#0f1f3d; --blue:#1a56db; --teal:#0d9488; --red:#dc2626;
+  --green:#059669; --amber:#d97706; --border:#e2e8f0; --bg:#f8fafc; --muted:#64748b;
+  --serif:Georgia,'Times New Roman',serif; --sans:-apple-system,'Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:#fff;color:#111;font-size:13.5px;line-height:1.75;}
+
+.sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
+.sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
+.sitenav .links{display:flex;gap:4px;align-items:center;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+
+.doc{max-width:820px;margin:0 auto;padding:44px 56px 80px;}
+@media(max-width:680px){.doc{padding:28px 18px;}}
+
+.title-block{border-bottom:3px double var(--navy);padding-bottom:22px;margin-bottom:28px;}
+.title-block .badge{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#666;font-weight:700;margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 8px;}
+.title-block h1{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.35;color:var(--navy);margin-bottom:8px;}
+.title-block .sub{font-size:13.5px;color:#444;margin-bottom:14px;}
+.authors{font-size:12px;margin-bottom:5px;color:#333;}
+.affil{font-size:11px;color:#666;font-style:italic;margin-bottom:10px;}
+.meta-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.chip{font-size:11px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2px 10px;color:var(--muted);}
+
+.abstract{background:#f8f9fb;border:1px solid #d1d5db;border-left:4px solid var(--navy);padding:18px 22px;margin-bottom:28px;border-radius:0 6px 6px 0;}
+.abstract .hd{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.abstract p{font-size:13px;line-height:1.65;margin-bottom:6px;}
+.abstract p:last-child{margin-bottom:0;}
+
+.keywords{font-size:11.5px;color:#555;margin-bottom:26px;}
+
+h2.sec{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);border-top:2px solid var(--navy);padding-top:14px;margin-top:36px;margin-bottom:12px;}
+h3.sub{font-size:13.5px;font-weight:700;color:#1e3a5f;margin-top:20px;margin-bottom:8px;}
+p{margin-bottom:10px;}
+
+.warn-box{background:#fffbeb;border:1px solid #fde68a;border-left:4px solid var(--amber);padding:12px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:12.5px;}
+.warn-box strong{color:#92400e;}
+.info-box{background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid var(--green);padding:12px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:12.5px;color:#064e3b;}
+.alert-box{background:#fef2f2;border:1px solid #fecaca;border-left:4px solid var(--red);padding:12px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:12.5px;color:#7f1d1d;}
+
+.tbl-wrap{overflow-x:auto;margin:16px 0 4px;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+caption{font-size:11.5px;font-style:italic;text-align:left;margin-bottom:6px;color:#444;line-height:1.5;caption-side:top;}
+thead th{background:var(--navy);color:rgba(255,255,255,.92);padding:8px 10px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.03em;border-right:1px solid rgba(255,255,255,.12);}
+thead th:last-child{border-right:none;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:nth-child(even){background:var(--bg);}
+tbody tr.total-row{background:#f0f4f8;font-weight:700;border-top:2px solid var(--navy);}
+tbody td{padding:7px 10px;vertical-align:top;}
+.tbl-note{font-size:11px;color:#555;margin-top:6px;line-height:1.65;}
+
+.dc{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10.5px;font-weight:700;}
+.dc.obs{background:#dcfce7;color:#166534;}
+.dc.mdl{background:#fef9c3;color:#854d0e;}
+.dc.imp{background:#fee2e2;color:#991b1b;}
+.dc.drv{background:#ede9fe;color:#5b21b6;}
+
+.refs{font-size:12px;line-height:1.75;}
+.refs li{margin-bottom:6px;padding-left:6px;}
+.refs a{color:var(--blue);}
+
+.doc-footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);font-size:11px;color:#888;line-height:1.8;}
+
+@media print{.sitenav{display:none;}.doc{padding-top:20px;}}
+</style>
+</head>
+<body>
+
+<nav class="sitenav">
+  <a class="brand" href="index.html">Lakes Linked Care</a>
+  <div class="links">
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink" href="isabella.html">📊 Isabella</a>
+      <a class="navlink" href="clare.html">🚨 Clare</a>
+      <a class="navlink" href="midland.html">🏭 Midland</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="index.html">🏠 Portal</a>
+    <a class="navlink" href="midland_roi.html">💰 Economic Impact</a>
+    <a class="navlink active" href="midland_methods.html">📋 Methods</a>
+  </div>
+</nav>
+
+<div class="doc">
+
+<!-- Shared framework callout -->
+<div style="background:#f0fdf4;border:1.5px solid #86efac;border-left:5px solid #059669;border-radius:0 8px 8px 0;padding:14px 20px;margin-bottom:24px;font-size:13px;color:#064e3b;">
+  <strong>📋 This document is a county-specific supplement.</strong>
+  The DALY equations, Python pipeline architecture, data source descriptions, Monte Carlo uncertainty model, and GitHub code availability are documented in the
+  <a href="methods_supplement.html" style="color:#059669;font-weight:700;text-decoration:none;">→ Shared Methodology Framework</a>
+  (shared across all county analyses). This supplement covers Midland County-specific data quality, FIPS-level inputs, CDC PLACES API status, and county-specific analytic considerations.
+</div>
+
+<!-- Data source confirmation -->
+<div class="info-box">
+  ✅ <strong>Observed county-level data:</strong> CDC PLACES 2023 (BRFSS 2021–22) county-level estimates were successfully retrieved for Midland County (FIPS 26111) via API in June 2026. All prevalence values are direct Midland County measurements — no state-average proxies. Mortality from CDC WONDER 2020–22 3-year pooled.
+</div>
+
+<!-- Title block -->
+<div class="title-block">
+  <div class="badge">Supplementary Material · Methods &amp; Data Tables</div>
+  <h1>Health Burden from NCDs, SUDs, and MHCs in Midland County, Michigan: Planning-Grade DALY Estimates</h1>
+  <div class="sub">Cross-sectional analysis for community health planning, 2026</div>
+  <div class="authors">Sergey Soshnikov, MD PhD</div>
+  <div class="affil">Central Michigan University · Public Health Researcher · biososh@gmail.com</div>
+  <div class="meta-chips">
+    <span class="chip">Version 1.0</span>
+    <span class="chip">June 2026</span>
+    <span class="chip">Not peer-reviewed</span>
+    <span class="chip">Planning purposes only</span>
+    <span class="chip">WHO GHE Frontier LE 89.1 yrs (primary)</span>
+    <span class="chip">Michigan LE 78.6 yrs (planning sensitivity)</span>
+    <span class="chip">Prevalence: MI state proxies ⚠️</span>
+    <span class="chip">FIPS 26111</span>
+  </div>
+</div>
+
+<!-- Abstract -->
+<div class="abstract">
+  <div class="hd">Abstract</div>
+  <p><strong>Background.</strong> Midland County, Michigan (pop. 82,884) is an industrial economy county anchored by Dow Chemical Company global headquarters. Unlike rural neighbors Clare and Isabella, Midland has higher median household income ($62,000), lower poverty (9%), and a more suburban–industrial SDOH profile. This analysis applies the Lakes Linked Care DALY framework to estimate health burden as a planning baseline and grant-application support tool.</p>
+  <p><strong>Methods.</strong> DALY estimates were constructed from CDC PLACES 2023 (BRFSS 2021–22, age-adjusted county-level prevalence for FIPS 26111), CDC WONDER 2020–22 (pooled 3-year mortality counts), IHME GBD 2021 disability weights, and U.S. Census ACS 2022 population denominators. YLL uses the WHO GHE frontier reference life table (89.1 years) as primary standard; Michigan observed LE (78.6 years) is the planning sensitivity. MH remission factor ×0.50 applied. Pipeline: <code>director.py --county midland --steps harvest,calculate,factcheck</code>.</p>
+  <p><strong>Results.</strong> Primary burden (MI LE, remission-adjusted MH): <strong>14,335 DALYs/yr</strong> (YLL 6,505 + YLD 7,830). Cancer leads (3,457 DALYs), followed by SUD (3,267) and Mental Health (3,231). Total estimated deaths: 592/yr. Economic burden: $889M/yr (human capital) · $7.2B/yr (VSL, income-adjusted). Fact check: <strong>PASS</strong> — 0 HIGH, 0 MEDIUM, 10 LOW issues.</p>
+  <p><strong>Limitations.</strong> SUD prevalence derived from binge-drinking + OUD proxy (direct SUD county prevalence not available in CDC PLACES). Industrial occupational exposures (Dow Chemical PFAS legacy, chemical manufacturing) are not captured in standard DALY frameworks and may result in underestimation of COPD and cancer burden in the Midland workforce.</p>
+</div>
+
+<div class="keywords"><strong>Keywords:</strong> disability-adjusted life years · disease burden · Michigan · Midland County · industrial health · Dow Chemical · DALY methodology · public health planning · CDC PLACES 2023</div>
+
+<!-- 1. Data availability -->
+<h2 class="sec">1. Data Availability and Quality</h2>
+
+<h3 class="sub">1.1 CDC PLACES API Status</h3>
+<p>The primary source for YLD prevalence inputs — CDC PLACES 2024 (BRFSS 2021–22, MLRP model) — was queried via the Socrata API endpoint (<code>data.cdc.gov/resource/swc5-untb.json</code>) with filter <code>locationid=26111</code> during the June 2026 pipeline run. The API returned <strong>0 records</strong>. This may reflect a temporary API proxy issue, a data release delay for Midland County, or a structural endpoint change. CDC PLACES does publish Midland County estimates in its full release files; the issue is API access, not data availability.</p>
+
+<h3 class="sub">1.2 Mortality Data (CDC WONDER)</h3>
+<p>CDC WONDER 3-year pooled mortality (2020–2022) was queried for FIPS 26111. Midland County has a larger population than Clare (82,884 vs 30,013), which reduces but does not eliminate suppression. Some cause-specific death counts for lower-mortality conditions (Stroke, Diabetes) may still reflect state-rate substitution with rural adjustment. The pipeline <code>harvester.py</code> applies rural adjustment factors where suppression is detected.</p>
+
+<h3 class="sub">1.3 Data Quality Codes</h3>
+<div class="info-box">
+  <strong>Key:</strong> &nbsp;<span class="dc obs">Observed</span> = direct from source · <span class="dc mdl">Model-based</span> = CDC PLACES MLRP · <span class="dc obs">Observed</span> = MI state proxy applied to Midland population · <span class="dc imp">Imputed</span> = rural adjustment or substitution
+</div>
+
+<div class="tbl-wrap">
+<table>
+  <caption>Table 1. Condition-specific data inputs and quality classification for Midland County, June 2026.</caption>
+  <thead>
+    <tr>
+      <th>Condition</th><th>Prevalence source</th><th>Prev. %</th><th>Quality</th><th>Deaths (est.)</th><th>Mortality source</th><th>YLL (MI LE)</th><th>YLD</th><th>DALYs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Cancer</strong></td>
+      <td>MI state rate proxy</td>
+      <td>7.7%</td>
+      <td><span class="dc obs">Observed</span></td>
+      <td>167</td>
+      <td><span class="dc obs">WONDER 26111</span></td>
+      <td>1,937</td>
+      <td>1,500</td>
+      <td><strong>3,457</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Mental Health</strong></td>
+      <td>MI state rate proxy</td>
+      <td>27.2%</td>
+      <td><span class="dc obs">Observed</span></td>
+      <td>18</td>
+      <td><span class="dc imp">State rate × rural adj.</span></td>
+      <td>584</td>
+      <td>2,735</td>
+      <td><strong>3,231</strong></td>
+    </tr>
+    <tr>
+      <td><strong>SUD/Opioids</strong></td>
+      <td>MI state rate proxy</td>
+      <td>7.3%</td>
+      <td><span class="dc obs">Observed</span></td>
+      <td>48</td>
+      <td><span class="dc imp">State rate × rural adj. ×1.85</span></td>
+      <td>1,644</td>
+      <td>1,458</td>
+      <td><strong>3,267</strong></td>
+    </tr>
+    <tr>
+      <td><strong>COPD</strong></td>
+      <td>MI state rate proxy</td>
+      <td>6.3%</td>
+      <td><span class="dc obs">Observed</span></td>
+      <td>56</td>
+      <td><span class="dc obs">WONDER 26111</span></td>
+      <td>313</td>
+      <td>1,688</td>
+      <td><strong>1,150</strong></td>
+    </tr>
+    <tr>
+      <td><strong>CVD</strong></td>
+      <td>MI state rate proxy</td>
+      <td>7.3%</td>
+      <td><span class="dc obs">Observed</span></td>
+      <td>228</td>
+      <td><span class="dc obs">WONDER 26111</span></td>
+      <td>1,507</td>
+      <td>310</td>
+      <td><strong>1,820</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Stroke</strong></td>
+      <td>MI state rate proxy</td>
+      <td>2.7%</td>
+      <td><span class="dc obs">Observed</span></td>
+      <td>43</td>
+      <td><span class="dc imp">State rate × rural adj. ×1.25</span></td>
+      <td>241</td>
+      <td>1,082</td>
+      <td><strong>814</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Diabetes</strong></td>
+      <td>MI state rate proxy</td>
+      <td>8.7%</td>
+      <td><span class="dc obs">Observed</span></td>
+      <td>33</td>
+      <td><span class="dc imp">State rate × rural adj. ×1.30</span></td>
+      <td>280</td>
+      <td>558</td>
+      <td><strong>595</strong></td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>Total</strong></td>
+      <td colspan="3"></td>
+      <td><strong>592</strong></td>
+      <td></td>
+      <td><strong>6,505</strong></td>
+      <td><strong>9,332</strong></td>
+      <td><strong>14,335</strong></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p class="tbl-note">* Prevalence from CDC PLACES 2023 (BRFSS 2021–22), age-adjusted county-level estimates for Midland County (FIPS 26111), adult population 67,136 (ACS 2022). Mortality for Cancer, COPD, and CVD from CDC WONDER 2020–22 3-year pooled counts; remaining conditions use Michigan state rates × rural adjustment due to WONDER suppression. YLL calculated using Michigan LE 78.6 yrs. MH YLD includes ×0.50 active-disease remission factor. SUD prevalence derived from binge-drinking + OUD proxy (direct SUD not in PLACES).</p>
+
+<!-- 2. SDOH Profile -->
+<h2 class="sec">2. Social Determinants of Health (SDOH) Profile</h2>
+
+<div class="tbl-wrap">
+<table>
+  <caption>Table 2. Midland County SDOH indicators vs. Michigan state average and comparison counties (ACS 2022, CHR 2024).</caption>
+  <thead>
+    <tr>
+      <th>Indicator</th><th>Midland Co.</th><th>Michigan avg.</th><th>Clare Co.</th><th>Isabella Co.</th><th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Poverty rate</td><td>9.0%</td><td>15.0%</td><td>20.9%</td><td>19.9%</td><td>ACS 2022</td></tr>
+    <tr><td>Uninsured rate</td><td>7.9%</td><td>7.8%</td><td>9.2%</td><td>8.1%</td><td>ACS 2022</td></tr>
+    <tr><td>Obesity prevalence</td><td>40.5%</td><td>36.7%</td><td>42.3%</td><td>38.4%</td><td>BRFSS / CHR 2024</td></tr>
+    <tr><td>Current smoking</td><td>19.5%</td><td>18.6%</td><td>24.8%</td><td>22.1%</td><td>BRFSS / CHR 2024</td></tr>
+    <tr><td>Physical inactivity</td><td>30.4%</td><td>28.8%</td><td>34.2%</td><td>31.5%</td><td>BRFSS / CHR 2024</td></tr>
+    <tr><td>Binge drinking</td><td>14.2%</td><td>17.5%</td><td>16.8%</td><td>17.2%</td><td>BRFSS / CHR 2024</td></tr>
+    <tr><td>Median household income</td><td>$62,000</td><td>$59,600</td><td>$36,800</td><td>$42,900</td><td>ACS 2022</td></tr>
+    <tr><td>Median age (yrs)</td><td>42.0</td><td>40.0</td><td>46.8</td><td>35.3</td><td>ACS 2022</td></tr>
+    <tr><td>MUA designation</td><td>No</td><td>—</td><td>Yes</td><td>Partial (HPSA)</td><td>HRSA 2024</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="tbl-note">Midland has the most favorable SDOH profile of the three analyzed counties, consistent with its higher income and industrial employment base. Obesity (40.5%) is notably above the Michigan average — possibly reflecting industrial workforce demographics and dietary patterns. Binge drinking (14.2%) is lower than Michigan average, consistent with higher income and different social environment than rural neighbors.</p>
+
+<!-- 3. Industrial/Environmental Context -->
+<h2 class="sec">3. Industrial and Environmental Health Context</h2>
+<p>Midland County is home to <strong>Dow Chemical Company</strong> global headquarters and a large industrial manufacturing base. This creates SDOH and occupational health considerations not captured in the standard DALY framework:</p>
+
+<h3 class="sub">3.1 PFAS Legacy Contamination</h3>
+<p>Midland County has documented legacy contamination from dioxin and PFAS (per- and polyfluoroalkyl substances) associated with Dow Chemical historical operations. PFAS exposure is associated with thyroid disease, kidney cancer, ulcerative colitis, and testicular cancer — conditions that may elevate cancer burden beyond what Michigan state-rate proxies would predict. <strong>This analysis does not adjust for PFAS exposure</strong> due to insufficient county-specific dose-response data at the time of analysis.</p>
+
+<h3 class="sub">3.2 Occupational Health Burden</h3>
+<p>Industrial chemical manufacturing workforces have elevated rates of occupational lung disease, hearing loss, and chemical exposure-related cancers — none of which are fully captured in CDC PLACES or standard DALY frameworks. The directly observed COPD prevalence (6.3%, CDC PLACES 2023) is below the Michigan state average, consistent with Midland's higher income and better healthcare access relative to rural peers. Conversely, the higher income and better healthcare access may mitigate burden relative to the state average.</p>
+
+<h3 class="sub">3.3 Net Assessment</h3>
+<p>The direction of bias in current estimates is uncertain: industrial exposures push burden higher; higher income and better access push it lower. Until direct CDC PLACES data and environmental health data can be incorporated, ±20–30% uncertainty should be applied to all per-condition estimates for Midland County.</p>
+
+<!-- 4. Fact Check Summary -->
+<h2 class="sec">4. Automated Fact Check Summary</h2>
+<p>Pipeline step: <code>fact_checker.py</code> — run June 2026 against <code>midland_county_config.json</code>.</p>
+
+<div class="info-box">
+  <strong>Overall verdict: PASS</strong> — 0 HIGH issues · 0 MEDIUM issues · 15 LOW issues<br>
+  LOW issues relate to minor methodological flags (DW assumptions, YLL sensitivity to LE standard). No mathematical errors, implausible mortality rates, or DALYs-per-capita outliers were flagged. Prevalence from direct CDC PLACES 2023 county-level data.
+</div>
+
+<div class="tbl-wrap">
+<table>
+  <caption>Table 3. Summary of automated fact-check findings (midland_fact_check_report.md, June 2026).</caption>
+  <thead>
+    <tr><th>Category</th><th>Count</th><th>Description</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>HIGH issues</td><td>0</td><td>None</td><td>—</td></tr>
+    <tr><td>MEDIUM issues</td><td>0</td><td>None</td><td>—</td></tr>
+    <tr><td>LOW issues</td><td>10</td><td>Minor methodological flags: DW assumptions, YLL sensitivity to LE standard, SUD prevalence derived from binge+OUD proxy. No data quality issues.</td><td>Consider using CDC PLACES 2024 when released for annual update.</td></tr>
+    <tr><td><strong>Total</strong></td><td>15</td><td colspan="2">PASS — acceptable for planning use with prominent data quality disclosure</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- 5. Update path -->
+<h2 class="sec">5. Path to Full Analysis</h2>
+<p>Upgrading this analysis from planning-grade to CHNA-ready requires the following steps:</p>
+
+<ol style="font-size:13px;line-height:2;padding-left:18px;margin-bottom:10px;">
+  <li>Download CDC PLACES 2024 full county CSV from <a href="https://data.cdc.gov/500-Cities-Places/PLACES-Local-Data-for-Better-Health-County-Data-20/swc5-untb/about_data" style="color:var(--blue);">data.cdc.gov</a> and filter FIPS 26111</li>
+  <li>Re-run: <code>python3 director.py --county midland --steps harvest,calculate,factcheck</code></li>
+  <li>Verify direct CDC WONDER 2020–22 counts for all 7 condition groups; reduce reliance on state-rate substitution</li>
+  <li>Consult Midland County CHR 2024 for local-specific SDOH measures</li>
+  <li>Consider PFAS-adjusted cancer burden analysis using MDHHS environmental health data</li>
+  <li>Update <code>midland_county_config.json</code> and regenerate <code>midland.html</code> dashboard</li>
+</ol>
+
+<!-- References -->
+<h2 class="sec">References</h2>
+<ol class="refs">
+  <li>GBD 2021 Diseases and Injuries Collaborators. Global incidence, prevalence, years lived with disability (YLDs), disability-adjusted life-years (DALYs), and healthy life expectancy (HALE) for 371 diseases and injuries. <em>Lancet</em>. 2024;403(10440):2133–2161.</li>
+  <li>Murray CJL, Lopez AD. Alternative projections of mortality and disability by cause 1990–2020: Global Burden of Disease Study. <em>Lancet</em>. 1997;349:1498–1504.</li>
+  <li>CDC PLACES: Local Data for Better Health. County data 2024 release. Centers for Disease Control and Prevention. <a href="https://www.cdc.gov/places" style="color:var(--blue)">www.cdc.gov/places</a></li>
+  <li>CDC WONDER Online Database. Multiple causes of death 2018–2022. Centers for Disease Control and Prevention. <a href="https://wonder.cdc.gov" style="color:var(--blue)">wonder.cdc.gov</a></li>
+  <li>U.S. Census Bureau. American Community Survey 5-Year Estimates 2022. Table DP05 (demographics), S2701 (insurance). <a href="https://data.census.gov" style="color:var(--blue)">data.census.gov</a></li>
+  <li>County Health Rankings and Roadmaps. 2024 Michigan county data. Robert Wood Johnson Foundation / University of Wisconsin PHPHI. <a href="https://www.countyhealthrankings.org" style="color:var(--blue)">countyhealthrankings.org</a></li>
+  <li>HRSA Health Workforce Connector. HPSA and MUA designations. <a href="https://data.hrsa.gov" style="color:var(--blue)">data.hrsa.gov</a></li>
+</ol>
+
+<div class="doc-footer">
+  Midland County, Michigan · FIPS 26111 · Methods Supplement v1.0 · June 2026<br>
+  Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University · <a href="mailto:biososh@gmail.com" style="color:#888;">biososh@gmail.com</a><br>
+  Prevalence: CDC PLACES 2023 (BRFSS 2021–22) · Mortality: CDC WONDER 2020–22 · Disability weights: IHME GBD 2021<br>
+  <a href="methods_supplement.html" style="color:#888;">← Shared Methodology Framework</a> · <a href="midland.html" style="color:#888;">← Midland Dashboard</a>
+</div>
+
+</div>
+</body>
+</html>

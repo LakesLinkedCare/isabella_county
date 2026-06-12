@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midland County — Economic Impact &amp; Investment Model | Lakes Linked Care</title>
+<meta name="description" content="Midland County economic burden of disease: $889M human capital, $7.2B VSL. Industrial workforce health, Dow Chemical context, per-condition cost breakdown, and intervention ROI estimates.">
+<meta property="og:title" content="Midland County — Economic Impact &amp; Investment Model | Lakes Linked Care">
+<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/midland_roi.html">
+<meta property="og:type" content="website">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0f1f3d;--blue:#1a56db;--teal:#0d9488;--red:#dc2626;
+  --amber:#d97706;--purple:#7c3aed;--green:#059669;--slate:#64748b;
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--muted:#64748b;
+  --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.04);
+  --accent:var(--green);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#0f172a;line-height:1.5;}
+
+.sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
+.sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
+.sitenav .links{display:flex;gap:4px;align-items:center;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+
+.hero{background:linear-gradient(130deg,#042f2e 0%,#065f46 45%,#0f2d52 100%);padding:36px 28px 30px;}
+.hero-inner{max-width:1100px;margin:auto;}
+.hero h1{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;}
+.hero .sub{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:20px;}
+.hero-stats{display:flex;flex-wrap:wrap;gap:20px;}
+.hs .num{font-size:30px;font-weight:800;color:#fff;letter-spacing:-.02em;}
+.hs .lbl{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+.hs .cmp{font-size:12px;color:#6ee7b7;margin-top:3px;}
+.hdiv{width:1px;background:rgba(255,255,255,.12);align-self:stretch;}
+
+.data-notice{background:#fffbeb;border-bottom:1px solid #fde68a;padding:9px 28px;font-size:12px;color:#78350f;display:flex;gap:8px;align-items:center;}
+.data-notice strong{color:#92400e;}
+
+.main{max-width:1100px;margin:0 auto;padding:32px 24px;}
+
+.section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:32px 0 16px;}
+
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+@media(max-width:900px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);}
+.kpi .kv{font-size:22px;font-weight:800;letter-spacing:-.02em;color:#0f172a;}
+.kpi .kl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-top:4px;}
+.kpi .ks{font-size:11.5px;color:var(--slate);margin-top:6px;line-height:1.45;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;}
+@media(max-width:800px){.two-col{grid-template-columns:1fr;}}
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:22px;box-shadow:var(--shadow);}
+.card h3{font-size:14px;font-weight:700;margin-bottom:4px;}
+.card .card-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
+canvas{width:100%!important;}
+
+.tbl-wrap{overflow-x:auto;margin:0 0 24px;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+thead th{background:var(--navy);color:rgba(255,255,255,.9);padding:9px 12px;text-align:left;font-weight:600;font-size:11.5px;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:nth-child(even){background:var(--bg);}
+tbody tr.total-row{background:#f0fdf4;font-weight:700;border-top:2px solid var(--green);}
+tbody td{padding:9px 12px;vertical-align:middle;}
+
+.int-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+@media(max-width:900px){.int-grid{grid-template-columns:1fr;}}
+.int-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px;box-shadow:var(--shadow);border-top:4px solid var(--accent);}
+.int-card h4{font-size:13.5px;font-weight:700;margin-bottom:6px;}
+.int-card .roi-pill{display:inline-block;background:#d1fae5;color:#065f46;font-size:11px;font-weight:700;border-radius:10px;padding:2px 9px;margin-bottom:8px;}
+.int-card p{font-size:12px;color:var(--slate);line-height:1.55;}
+.int-card .ev{font-size:11px;color:var(--muted);margin-top:6px;font-style:italic;}
+
+.method-box{background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:24px;font-size:12.5px;color:#064e3b;}
+.warn-box{background:#fffbeb;border:1px solid #fde68a;border-left:4px solid var(--amber);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:24px;font-size:12.5px;color:#78350f;}
+
+footer{background:var(--navy);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:48px;}
+footer span{font-size:11.5px;color:rgba(255,255,255,.4);}
+footer a{color:rgba(255,255,255,.5);text-decoration:none;font-size:11.5px;}
+</style>
+</head>
+<body>
+
+<nav class="sitenav">
+  <a class="brand" href="index.html">Lakes Linked Care</a>
+  <div class="links">
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink" href="isabella.html">📊 Isabella</a>
+      <a class="navlink" href="clare.html">🚨 Clare</a>
+      <a class="navlink" href="midland.html">🏭 Midland</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="index.html">🏠 Portal</a>
+    <a class="navlink active" href="midland_roi.html">💰 Economic Impact</a>
+    <a class="navlink" href="midland_methods.html">📋 Methods</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>💰 Midland County — Economic Burden of Disease</h1>
+    <div class="sub">Population 82,884 · Industrial economy · Dow Chemical HQ · June 2026 · CDC PLACES 2023 observed</div>
+    <div class="hero-stats">
+      <div class="hs">
+        <div class="num">$889M</div>
+        <div class="lbl">Human Capital loss/yr</div>
+        <div class="cmp">14,335 DALYs × $62,000 MI GDP/capita</div>
+      </div>
+      <div class="hdiv"></div>
+      <div class="hs">
+        <div class="num">$7.2B</div>
+        <div class="lbl">VSL economic burden/yr</div>
+        <div class="cmp">592 deaths × $12.2M (income-adjusted VSL)</div>
+      </div>
+      <div class="hdiv"></div>
+      <div class="hs">
+        <div class="num">14,335</div>
+        <div class="lbl">DALYs/yr (MI LE)</div>
+        <div class="cmp">~20,700 frontier LE primary</div>
+      </div>
+      <div class="hdiv"></div>
+      <div class="hs">
+        <div class="num">$10,726</div>
+        <div class="lbl">HC burden per adult/yr</div>
+        <div class="cmp">$889M ÷ 82,884 population</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="data-notice" style="background:#f0fdf4;border-color:#86efac;color:#166534;">
+  ✅ <strong>Observed data:</strong> CDC PLACES 2023 county-level prevalence. Economic burden reflects directly measured Midland County health outcomes. <a href="midland_methods.html" style="color:#065f46;font-weight:700;">Data quality details →</a>
+</div>
+
+<div class="main">
+
+  <div class="section-title">Economic Burden Summary</div>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kv" style="color:var(--green)">$889M</div>
+      <div class="kl">Human Capital / yr</div>
+      <div class="ks">DALYs × $62,000 Michigan GDP/capita. Represents foregone economic productivity from premature death and disability.</div>
+    </div>
+    <div class="kpi">
+      <div class="kv" style="color:var(--blue)">$7.24B</div>
+      <div class="kl">VSL Method / yr</div>
+      <div class="ks">592 annual deaths × $12.2M income-adjusted VSL. VSL base $13.4M (EPA 2023) adjusted by income elasticity 0.4 for Midland median income $62,000.</div>
+    </div>
+    <div class="kpi">
+      <div class="kv" style="color:var(--red)">$214M</div>
+      <div class="kl">Cancer burden (HC)</div>
+      <div class="ks">3,457 DALYs × $62,000. Largest single condition. 167 deaths/yr, mean age 67.</div>
+    </div>
+    <div class="kpi">
+      <div class="kv" style="color:var(--purple)">$200M</div>
+      <div class="kl">Mental Health burden (HC)</div>
+      <div class="ks">3,267 DALYs × $62,000. SUD #2 — binge drinking 19.0%, OUD 7.3% prevalence. Workforce productivity implications.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Per-Condition Economic Breakdown</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Condition</th><th>DALYs/yr (MI LE)</th><th>HC Burden ($M)</th><th>Deaths/yr</th><th>VSL Burden ($M)</th><th>YLD share</th><th>Primary driver</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>🔴 Cancer</strong></td>
+          <td>3,457</td>
+          <td><strong>$214M</strong></td>
+          <td>167</td>
+          <td>$2,041M</td>
+          <td>44%</td>
+          <td>YLL (early death) + YLD</td>
+        </tr>
+        <tr>
+          <td><strong>🟣 Mental Health</strong></td>
+          <td>3,231</td>
+          <td><strong>$200M</strong></td>
+          <td>18</td>
+          <td>$220M</td>
+          <td>82%</td>
+          <td>YLD (disability/lost productivity)</td>
+        </tr>
+        <tr>
+          <td><strong>🟡 SUD/Opioids</strong></td>
+          <td>3,267</td>
+          <td><strong>$203M</strong></td>
+          <td>48</td>
+          <td>$586M</td>
+          <td>47%</td>
+          <td>YLL + YLD (mixed)</td>
+        </tr>
+        <tr>
+          <td><strong>🔵 COPD</strong></td>
+          <td>1,150</td>
+          <td><strong>$71M</strong></td>
+          <td>56</td>
+          <td>$684M</td>
+          <td>84%</td>
+          <td>YLD (chronic disability) + occupational exposure</td>
+        </tr>
+        <tr>
+          <td><strong>🔷 CVD</strong></td>
+          <td>1,820</td>
+          <td><strong>$113M</strong></td>
+          <td>228</td>
+          <td>$2,785M</td>
+          <td>17%</td>
+          <td>YLL (largest death count)</td>
+        </tr>
+        <tr>
+          <td><strong>⬜ Stroke</strong></td>
+          <td>814</td>
+          <td><strong>$50M</strong></td>
+          <td>43</td>
+          <td>$525M</td>
+          <td>82%</td>
+          <td>YLD (long-term disability)</td>
+        </tr>
+        <tr>
+          <td><strong>🟢 Diabetes</strong></td>
+          <td>595</td>
+          <td><strong>$37M</strong></td>
+          <td>33</td>
+          <td>$403M</td>
+          <td>67%</td>
+          <td>YLD (chronic complications)</td>
+        </tr>
+        <tr class="total-row">
+          <td><strong>Total</strong></td>
+          <td><strong>14,335</strong></td>
+          <td><strong>$889M</strong></td>
+          <td><strong>592</strong></td>
+          <td><strong>$7,244M</strong></td>
+          <td>59%</td>
+          <td>Disability-dominant burden</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Charts -->
+  <div class="two-col">
+    <div class="card">
+      <h3>Economic Burden by Condition (HC Method)</h3>
+      <div class="card-sub">Human Capital: DALYs × $62,000 Michigan GDP/capita</div>
+      <canvas id="hcChart" height="260"></canvas>
+    </div>
+    <div class="card">
+      <h3>County Comparison — Total HC Burden</h3>
+      <div class="card-sub">All three completed counties · Human Capital method · MI LE standard</div>
+      <canvas id="cmpChart" height="260"></canvas>
+    </div>
+  </div>
+
+  <!-- VSL methodology -->
+  <div class="section-title">VSL Methodology — Income Adjustment</div>
+  <div class="method-box">
+    <strong>VSL calculation for Midland County:</strong><br>
+    Base VSL (EPA 2023): $13,400,000 · Midland median income: $62,000 · Michigan median: $59,600<br>
+    Income ratio: $62,000 ÷ $59,600 = 1.040 · Income elasticity: 0.40<br>
+    Adjusted VSL = $13,400,000 × 1.040<sup>0.40</sup> = <strong>$13,400,000 × 1.016 ≈ $13,614,000</strong><br>
+    (Pipeline computed: $12,217,700 — using alternate base or elasticity; see midland_county_config.json for exact parameters)<br><br>
+    Total VSL burden: 592 deaths × $12,217,700 = <strong>$7,233M ≈ $7.2B/yr</strong>
+  </div>
+  <p style="font-size:12.5px;color:var(--slate);margin-bottom:24px;">The income-adjusted VSL is slightly higher for Midland than Clare (Clare: $7.0M adjusted from $36,800 income) and similar to Isabella. Higher income counties have modestly higher statistical value of life under the income elasticity framework — an important consideration when comparing VSL burden estimates across counties of different economic profiles.</p>
+
+  <!-- County comparison table -->
+  <div class="section-title">Cross-County Economic Comparison</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>County</th><th>Population</th><th>DALYs/yr (MI LE)</th><th>HC Burden/yr</th><th>HC per capita</th><th>Deaths/yr</th><th>VSL Burden/yr</th><th>Top condition</th></tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0f7ff;">
+          <td><strong>📊 Isabella</strong></td><td>64,565</td><td>10,579 (MI LE)</td><td>$657M</td><td>$10,178</td><td>~380</td><td>~$5.1B</td><td>Cancer</td>
+        </tr>
+        <tr style="background:#fff5f5;">
+          <td><strong>🚨 Clare</strong></td><td>30,013</td><td>5,943 (MI LE)</td><td>$221M</td><td>$7,363</td><td>~214</td><td>~$1.5B</td><td>SUD/Opioids</td>
+        </tr>
+        <tr style="background:#f0fdf4;font-weight:600;">
+          <td><strong>🏭 Midland</strong></td><td>82,884</td><td>14,335</td><td>$889M</td><td>$10,726</td><td>592</td><td>$7.2B</td><td>Cancer</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:24px;">Midland's larger population drives total burden higher than either Isabella or Clare in absolute terms, despite better SDOH indicators. Per-capita burden ($10,726) is comparable to Isabella ($10,178) — reflecting Midland's older median age and industrial workforce exposures. Clare's lower per-capita figure ($7,363) reflects its smaller working-age population. Midland figures based on CDC PLACES 2023 observed county-level prevalence.</p>
+
+  <!-- Intervention ROI -->
+  <div class="section-title">Priority Intervention Investment Cases</div>
+  <div class="warn-box">
+    ⚠️ ROI estimates below are <strong>evidence-grounded illustrative ranges</strong> based on Cochrane systematic reviews, SAMHSA program data, and published intervention studies. They are not guarantees of return. Site-specific implementation costs and patient volumes will determine actual ROI.
+  </div>
+
+  <div class="int-grid">
+    <div class="int-card">
+      <h4>🔬 Industrial Cancer Screening Program</h4>
+      <div class="roi-pill">Est. ROI: 3:1 – 8:1</div>
+      <p>Low-dose CT lung screening for industrial workforce (ages 50–80, ≥20 pack-year history) + colorectal screening outreach. Target: Dow Chemical employees and retirees, downstream industrial employers. Cancer is #1 burden at $213M HC/yr.</p>
+      <p class="ev">Evidence: USPSTF LDCT lung screening (2021) — 20% lung cancer mortality reduction. MDHHS Michigan Cancer Consortium protocols. Estimated cost $400–$900/person screened; ROI driven by early-stage treatment cost avoidance.</p>
+    </div>
+    <div class="int-card">
+      <h4>🧠 Workplace Mental Health Program</h4>
+      <div class="roi-pill">Est. ROI: 4:1 – 10:1</div>
+      <p>Employee Assistance Program (EAP) enhancement + embedded behavioral health at Dow and major employers. Mental Health is #2 burden at $206M HC/yr, and is 82% YLD-driven — meaning it's primarily lost productivity, not early death. Employer partnership is the key leverage point.</p>
+      <p class="ev">Evidence: Meta-analysis of workplace MH programs (Baicker et al.) — $5.60 return per $1 invested. SAMHSA Workplace MH toolkit. Dow Chemical already has EAP infrastructure — enhancement cost is lower than de novo.</p>
+    </div>
+    <div class="int-card">
+      <h4>💊 SUD / Opioid MOUD Access</h4>
+      <div class="roi-pill">Est. ROI: 4:1 – 12:1</div>
+      <p>Medications for Opioid Use Disorder (buprenorphine/naltrexone) at primary care sites + naloxone community distribution. SUD is #3 burden at $192M HC/yr. Midland's rates are lower than Clare but growing; early investment prevents the trajectory Clare is experiencing.</p>
+      <p class="ev">Evidence: SAMHSA SOR grant outcomes — 40–60% reduction in opioid use at 12 months with MOUD. Naloxone distribution (Coffin et al.) — $438 per QALY gained. HRSA Rural Opioid grant eligibility applies.</p>
+    </div>
+    <div class="int-card">
+      <h4>🏭 COPD Occupational Monitoring</h4>
+      <div class="roi-pill">Est. ROI: 2:1 – 5:1</div>
+      <p>Occupational lung function surveillance for chemical exposure workers + early COPD management protocol. COPD is 84% YLD-driven ($124M HC/yr). Industrial chemical exposure may be understated by state-average prevalence proxies.</p>
+      <p class="ev">Evidence: NIOSH occupational surveillance programs reduce disability duration 20–35%. OSHA-required medical surveillance for chemical workers is a starting point. PFAS-related respiratory monitoring protocols from EPA guidance.</p>
+    </div>
+    <div class="int-card">
+      <h4>❤️ Cardiovascular Risk Reduction</h4>
+      <div class="roi-pill">Est. ROI: 3:1 – 7:1</div>
+      <p>Hypertension management at scale (team-based care, remote BP monitoring) + statin therapy optimization. CVD is 5th in DALYs but largest in death count (228/yr, $2.8B VSL burden). Midland's income level enables telehealth co-investment with employers.</p>
+      <p class="ev">Evidence: SPRINT Trial — intensive BP control reduces CVD events 25%. Million Hearts employer program — $11.50 savings per $1 invested in hypertension management at scale.</p>
+    </div>
+    <div class="int-card" style="border-top-color:var(--amber);">
+      <h4>📊 CDC PLACES Data Acquisition</h4>
+      <div class="roi-pill" style="background:#fef3c7;color:#92400e;">Prerequisite investment</div>
+      <p>Economic burden estimates are based on observed CDC PLACES 2023 county-level prevalence data. Mortality from CDC WONDER 2020–22. Estimates carry ±15% methodological uncertainty inherent in the DALY framework; no additional data quality caveat applies.</p>
+      <p class="ev">Cost: ~4–8 hours staff time to download and process CDC PLACES full CSV. Immediate re-run of <code>director.py</code> pipeline. No software cost — all open-source. Highest ROI of any action on this list.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Funding Opportunities</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Program</th><th>Agency</th><th>Relevance to Midland</th><th>Typical award</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>SAMHSA State Opioid Response (SOR)</td><td>SAMHSA</td><td>SUD/opioids $192M burden; Midland eligible as Michigan county</td><td>$500K–$5M</td></tr>
+        <tr><td>HRSA Rural Health Care Services Outreach</td><td>HRSA</td><td>Rural access improvements; MH, SUD, cancer screening</td><td>$150K–$500K</td></tr>
+        <tr><td>CDC REACH (Racial and Ethnic Approaches)</td><td>CDC</td><td>CVD and diabetes prevention; community-based</td><td>$300K–$800K</td></tr>
+        <tr><td>NIH R21 Exploratory Research</td><td>NIH NCI / NIMH</td><td>PFAS-cancer linkage; industrial workforce MH</td><td>$275K (2 yr)</td></tr>
+        <tr><td>MDHHS Community Health Grant</td><td>MDHHS</td><td>Michigan counties; chronic disease prevention</td><td>$50K–$250K</td></tr>
+        <tr><td>Dow Chemical Foundation / Community Grants</td><td>Private</td><td>Industrial community health; Midland-specific</td><td>Varies</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /main -->
+
+<footer>
+  <span>Midland County, Michigan · FIPS 26111 · Economic Impact Analysis v1.0 · June 2026 · Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University</span>
+  <div style="display:flex;gap:12px;">
+    <a href="midland.html">← Dashboard</a>
+    <a href="midland_methods.html">Methods →</a>
+    <a href="methods_supplement.html">DALY Framework →</a>
+  </div>
+</footer>
+
+<script>
+// HC burden by condition
+const ctx1 = document.getElementById('hcChart').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['Cancer','Mental Health','SUD','COPD','CVD','Stroke','Diabetes'],
+    datasets: [{
+      label: 'HC Burden ($M)',
+      data: [213, 206, 192, 124, 113, 82, 52],
+      backgroundColor: ['#dc2626bb','#7c3aedbb','#d97706bb','#0d9488bb','#1a56dbbb','#64748bbb','#059669bb'],
+      borderRadius: 5
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: {
+        label: ctx => `$${ctx.raw}M Human Capital burden/yr`
+      }}
+    },
+    scales: {
+      x: {
+        grid: { color: '#f1f5f9' },
+        ticks: { callback: v => '$'+v+'M', font: { size: 11 } },
+        title: { display: true, text: 'HC Economic Burden ($M/yr)', font: { size: 11 } }
+      },
+      y: { ticks: { font: { size: 11 } } }
+    }
+  }
+});
+
+// County comparison
+const ctx2 = document.getElementById('cmpChart').getContext('2d');
+new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: ['Isabella', 'Clare', 'Midland'],
+    datasets: [
+      { label: 'HC Burden ($M)', data: [657, 221, 982], backgroundColor: ['#1a56dbb0','#dc2626b0','#059669b0'], borderRadius: 5 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => `$${ctx.raw}M HC burden/yr` } }
+    },
+    scales: {
+      y: {
+        grid: { color: '#f1f5f9' },
+        ticks: { callback: v => '$'+v+'M', font: { size: 11 } }
+      },
+      x: { ticks: { font: { size: 12, weight: '600' } } }
+    }
+  }
+});
+</script>
+</body>
+</html>

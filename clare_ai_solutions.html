@@ -124,20 +124,31 @@ footer-doc { display: block; margin-top: 40px; padding-top: 14px; border-top: 1p
 </head>
 <body>
 
-<nav style="background:#0f1f3d;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;">
-  <a href="index.html" style="color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9">Lakes Linked Care</a>
-  <div style="display:flex;gap:4px;align-items:center;">
+<style>
+.sitenav{background:#0f1f3d;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
+.sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
+.sitenav .links{display:flex;gap:4px;align-items:center;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+</style>
+<nav class="sitenav">
+  <a class="brand" href="index.html">Lakes Linked Care</a>
+  <div class="links">
     <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
-    <div style="display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;">
-      <a href="home.html" style="color:rgba(255,255,255,.8);font-size:12px;font-weight:600;padding:4px 11px;border-radius:5px;text-decoration:none">📊 Isabella</a>
-      <a href="clare.html" style="color:rgba(255,255,255,.8);font-size:12px;font-weight:600;padding:4px 11px;border-radius:5px;text-decoration:none">🚨 Clare</a>
+    <div class="county-group">
+      <a class="navlink" href="isabella.html">📊 Isabella</a>
+      <a class="navlink" href="clare.html">🚨 Clare</a>
+      <a class="navlink" href="midland.html">🏭 Midland</a>
     </div>
     <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
-    <a href="index.html" style="color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none">🏠 Portal</a>
+    <a class="navlink" href="index.html">🏠 Portal</a>
     <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
-    <a href="clare_roi.html" style="color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none">💰 Economic Impact</a>
-    <a href="clare_ai_solutions.html" style="background:rgba(255,255,255,.12);color:#fff;font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none">🤖 Interventions</a>
-    <a href="clare_methods.html" style="color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none">📋 Methods</a>
+    <a class="navlink" href="clare.html">🚨 Dashboard</a>
+    <a class="navlink" href="clare_roi.html">💰 Economic Impact</a>
+    <a class="navlink active" href="clare_ai_solutions.html">🤖 Interventions</a>
+    <a class="navlink" href="clare_methods.html">📋 Methods</a>
   </div>
 </nav>
 
@@ -543,7 +554,7 @@ footer-doc { display: block; margin-top: 40px; padding-top: 14px; border-top: 1p
 <footer-doc>
   <strong>Document status:</strong> Version 1.0 — Clare County AI Solutions. Companion to Clare County Disease Burden Analysis v1.0. Not peer-reviewed. For community planning, grant development, and county health board presentation.<br>
   <strong>Data sources:</strong> CDC PLACES 2024 · Michigan CDC WONDER (state rates × rural adj.) · IHME GBD 2021 · ACS 2022<br>
-  <strong>Author:</strong> Sergey Soshnikov<br>
+  <strong>Author:</strong> Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University<br>
   © 2026 Soshnikov
 </footer-doc>
 

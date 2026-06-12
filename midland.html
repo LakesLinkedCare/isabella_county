@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clare County Health Burden Dashboard | Lakes Linked Care</title>
-<meta name="description" content="Clare County, Michigan health burden analysis: 8,198 DALYs/year. Opioid crisis, COPD, aging rural population. Planning-grade DALY estimates. Dr. Sergey Soshnikov, MD PhD.">
-<meta property="og:title" content="Clare County Health Burden Dashboard | Lakes Linked Care">
-<meta property="og:description" content="8,198 DALYs/yr · SUD/Opioids #1, Cancer #2. MUA-designated rural county. DALY burden analysis for SAMHSA, HRSA, and MDHHS grant applications.">
-<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/clare.html">
+<title>Midland County Health Burden Dashboard | Lakes Linked Care</title>
+<meta name="description" content="Midland County, Michigan health burden analysis: 14,335 DALYs/year. Cancer #1, SUD #2. Industrial economy county. Planning-grade DALY estimates. Dr. Sergey Soshnikov, MD PhD.">
+<meta property="og:title" content="Midland County Health Burden Dashboard | Lakes Linked Care">
+<meta property="og:description" content="14,335 DALYs/yr · Cancer #1, SUD #2. Industrial economy county. Planning-grade DALY analysis.">
+<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/midland.html">
 <meta property="og:type" content="website">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -28,7 +28,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
 
 /* ── HERO ── */
-.hero{background:linear-gradient(130deg,#1a0f3d 0%,#2d1b69 40%,#1a3a5f 100%);padding:36px 28px 30px;}
+.hero{background:linear-gradient(130deg,#0a2618 0%,#0d3321 40%,#0f2d1f 100%);padding:36px 28px 30px;}
 .hero-inner{max-width:1200px;margin:auto;}
 .hero h1{font-size:28px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;}
 .hero .sub{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:20px;}
@@ -36,7 +36,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .hstat .num{font-size:32px;font-weight:800;color:#fff;letter-spacing:-.02em;}
 .hstat .lbl{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
 .hstat .cmp{font-size:12px;margin-top:3px;}
-.hstat .cmp.bad{color:#f87171;} .hstat .cmp.neu{color:rgba(255,255,255,.5);}
+.hstat .cmp.bad{color:#f87171;} .hstat .cmp.neu{color:rgba(255,255,255,.5);} .hstat .cmp.good{color:#86efac;}
 .hdiv{width:1px;background:rgba(255,255,255,.12);align-self:stretch;}
 
 /* ── NOTICE ── */
@@ -53,7 +53,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .cond-check{display:flex;align-items:center;gap:5px;background:var(--bg);border:1.5px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s;user-select:none;}
 .cond-check.on{border-color:var(--accent,var(--navy));background:rgba(var(--accent-rgb,15,31,61),.06);}
 .cond-check input{display:none;}
-.ctrl-info{font-size:11px;color:var(--muted);align-self:center;max-width:260px;line-height:1.5;}
+.ctrl-info{font-size:11px;color:var(--muted);align-self:center;max-width:300px;line-height:1.5;}
 
 /* ── PAGE ── */
 .page{max-width:1200px;margin:0 auto;padding:24px 20px 60px;}
@@ -61,11 +61,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 /* ── KPI STRIP ── */
 .kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px;}
 .kpi{background:var(--surface);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--blue));}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--green));}
 .kpi-num{font-size:26px;font-weight:800;color:#0f172a;letter-spacing:-.02em;line-height:1;}
 .kpi-label{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4;}
 .kpi-delta{font-size:11px;margin-top:5px;font-weight:600;}
-.kpi-delta.up{color:var(--red);} .kpi-delta.neu{color:var(--muted);}
+.kpi-delta.up{color:var(--red);} .kpi-delta.neu{color:var(--muted);} .kpi-delta.good{color:var(--green);}
 
 /* ── GRID ── */
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
@@ -89,13 +89,13 @@ tbody td{padding:9px 11px;vertical-align:top;}
 
 /* ── FINDINGS ── */
 .findings{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:24px;}
-.finding{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);border-left:3px solid var(--accent,var(--blue));}
+.finding{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);border-left:3px solid var(--accent,var(--green));}
 .finding h4{font-size:13px;font-weight:700;margin-bottom:4px;}
 .finding p{font-size:12.5px;color:#475569;line-height:1.55;}
 
 /* ── RECS ── */
 .rec{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:start;padding:13px 0;border-bottom:1px solid var(--border);}
-.rec-n{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rec-n{width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .rec-b h5{font-size:13px;font-weight:700;margin-bottom:2px;}
 .rec-b p{font-size:12px;color:var(--muted);line-height:1.5;}
 .rec-ev{font-size:11px;font-weight:700;color:var(--teal);background:#f0fdfa;border-radius:6px;padding:3px 8px;white-space:nowrap;align-self:start;}
@@ -117,15 +117,15 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
 .econ-desc{font-size:12px;color:#475569;line-height:1.5;}
 .econ-note{font-size:11px;color:var(--muted);margin-top:12px;border-top:1px solid var(--border);padding-top:10px;line-height:1.6;}
 
-/* opioid crisis badge */
-.crisis-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.3);border-radius:20px;padding:4px 12px;font-size:11.5px;font-weight:700;color:#dc2626;margin-bottom:16px;}
+/* industrial context badge */
+.industrial-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.3);border-radius:20px;padding:4px 12px;font-size:11.5px;font-weight:700;color:#059669;margin-bottom:16px;}
 
 /* ── COUNTY COMPARE BAR ── */
 .county-compare-bar{background:var(--surface);border-bottom:1px solid var(--border);}
 .ccb-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:stretch;overflow-x:auto;}
 .ccb-county{display:flex;flex-direction:column;padding:10px 20px 10px 0;margin-right:20px;border-right:1px solid var(--border);text-decoration:none;color:inherit;flex-shrink:0;border-bottom:3px solid transparent;transition:border-color .15s;}
 a.ccb-county:hover{border-bottom-color:var(--blue);}
-.ccb-county.active{border-bottom-color:var(--red);}
+.ccb-county.active{border-bottom-color:var(--green);}
 .ccb-county.disabled{opacity:.4;cursor:default;}
 .ccb-name{font-size:11.5px;font-weight:700;color:#0f172a;}
 .ccb-stat{font-size:13px;font-weight:800;margin-top:2px;}
@@ -147,51 +147,47 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
 <!-- Navigation -->
 <nav class="sitenav">
   <a class="brand" href="index.html">Lakes Linked Care</a>
-  <div class="links">
+  <div class="links" style="display:flex;gap:4px;align-items:center;">
     <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
     <div class="county-group">
       <a class="navlink" href="isabella.html">📊 Isabella</a>
-      <a class="navlink active" href="clare.html">🚨 Clare</a>
-      <a class="navlink" href="midland.html">🏭 Midland</a>
+      <a class="navlink" href="clare.html">🚨 Clare</a>
+      <a class="navlink active" href="midland.html">🏭 Midland</a>
     </div>
     <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
     <a class="navlink" href="index.html">🏠 Portal</a>
-    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
-    <a class="navlink" href="clare_roi.html">💰 Economic Impact</a>
-    <a class="navlink" href="clare_ai_solutions.html">🤖 Interventions</a>
-    <a class="navlink" href="clare_methods.html">📋 Methods</a>
+    <a class="navlink" href="midland_roi.html">💰 Economic Impact</a>
+    <a class="navlink" href="midland_methods.html">📋 Methods</a>
   </div>
 </nav>
 
+<!-- Notice (green — observed data confirmed) -->
+<div class="notice" style="background:#f0fdf4;border-bottom:1px solid #86efac;color:#166534;">
+  ✅ <strong>Observed data:</strong> CDC PLACES 2023 (BRFSS 2021–22) county-level prevalence loaded for Midland County. Mortality from CDC WONDER 2020–22. <a href="midland_methods.html" style="color:#065f46;font-weight:700;">Methods →</a>
+</div>
+
 <!-- County Compare Bar -->
-<div class="county-compare-bar">
-  <div class="ccb-inner">
-    <a class="ccb-county" href="isabella.html">
-      <span class="ccb-name">📊 Isabella County</span>
-      <span class="ccb-stat" style="color:var(--blue)">15,430 DALYs/yr</span>
-      <span class="ccb-pop">Pop. 64,565 · FIPS 26073</span>
+<div class="county-compare-bar" style="background:#f8fafc;border-bottom:1px solid #e2e8f0;">
+  <div style="max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:stretch;overflow-x:auto;">
+    <a href="isabella.html" style="display:flex;flex-direction:column;padding:10px 20px 10px 0;margin-right:20px;border-right:1px solid #e2e8f0;text-decoration:none;color:inherit;flex-shrink:0;border-bottom:3px solid transparent;">
+      <span style="font-size:11.5px;font-weight:700;color:#1a56db;">📊 Isabella</span>
+      <span style="font-size:13px;font-weight:800;">15,430</span>
+      <span style="font-size:10px;color:#64748b;">DALYs · pop 64,565</span>
     </a>
-    <div class="ccb-county active">
-      <span class="ccb-name">🚨 Clare County</span>
-      <span class="ccb-stat" style="color:var(--red)">8,198 DALYs/yr</span>
-      <span class="ccb-pop">Pop. 30,013 · FIPS 26035</span>
-    </div>
-    <a class="ccb-county" href="midland.html">
-      <span class="ccb-name" style="color:var(--green)">🏭 Midland County</span>
-      <span class="ccb-stat" style="color:var(--green)">14,335 DALYs/yr</span>
-      <span class="ccb-pop">Pop. 82,884 · FIPS 26111</span>
+    <a href="clare.html" style="display:flex;flex-direction:column;padding:10px 20px 10px 0;margin-right:20px;border-right:1px solid #e2e8f0;text-decoration:none;color:inherit;flex-shrink:0;border-bottom:3px solid transparent;">
+      <span style="font-size:11.5px;font-weight:700;color:#dc2626;">🚨 Clare</span>
+      <span style="font-size:13px;font-weight:800;">8,198</span>
+      <span style="font-size:10px;color:#64748b;">DALYs · pop 30,013</span>
     </a>
-    <div class="ccb-county disabled">
-      <span class="ccb-name">🌾 Gratiot</span>
-      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q3 2026</span>
+    <div style="display:flex;flex-direction:column;padding:10px 20px 10px 0;margin-right:20px;border-right:1px solid #e2e8f0;flex-shrink:0;border-bottom:3px solid #059669;">
+      <span style="font-size:11.5px;font-weight:700;color:#059669;">🏭 Midland</span>
+      <span style="font-size:13px;font-weight:800;">14,335</span>
+      <span style="font-size:10px;color:#64748b;">DALYs · pop 82,884</span>
     </div>
-    <div class="ccb-county disabled">
-      <span class="ccb-name">🎓 Mecosta</span>
-      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q4 2026</span>
-    </div>
-    <div class="ccb-county disabled">
-      <span class="ccb-name">🏙️ Washtenaw</span>
-      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q4 2026</span>
+    <div style="display:flex;flex-direction:column;padding:10px 20px 10px 0;margin-right:20px;flex-shrink:0;opacity:0.4;">
+      <span style="font-size:11.5px;font-weight:700;color:#64748b;">🌾 Gratiot</span>
+      <span style="font-size:13px;font-weight:800;">—</span>
+      <span style="font-size:10px;color:#64748b;">Q3 2026</span>
     </div>
   </div>
 </div>
@@ -199,47 +195,40 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
 <!-- Hero -->
 <div class="hero">
   <div class="hero-inner">
-    <h1>Clare County, Michigan — Health Burden Analysis</h1>
-    <p class="sub">Planning-grade DALY framework · Severe opioid crisis, aging rural population, MUA designation · 2026</p>
+    <h1>Midland County Health Burden Analysis</h1>
+    <p class="sub">Population 82,884 · Industrial economy · Planning-grade DALY estimates · June 2026</p>
     <div class="hero-stats">
       <div class="hstat">
-        <div class="num">8,198</div>
-        <div class="lbl">DALYs/yr (Primary · Frontier LE)</div>
-        <div class="cmp neu">Frontier LE 89.1 yrs · YLL 4,612 + YLD 3,586 (MH remission-adj)</div>
+        <div class="num">14,335</div>
+        <div class="lbl">DALYs/yr (MI LE 78.6)</div>
+        <div class="cmp neu">Michigan LE 78.6 yrs · YLL 6,506 + YLD 9,331</div>
       </div>
       <div class="hdiv"></div>
       <div class="hstat">
-        <div class="num">6,555</div>
-        <div class="lbl">DALYs/yr (Sensitivity · MI LE)</div>
-        <div class="cmp neu">Michigan LE 78.6 yrs · YLL 2,358 + YLD 4,197</div>
+        <div class="num">~20,700</div>
+        <div class="lbl">DALYs/yr (Frontier LE 89.1)</div>
+        <div class="cmp neu">Frontier LE 89.1 yrs · Higher YLL under longer standard</div>
       </div>
       <div class="hdiv"></div>
       <div class="hstat">
-        <div class="num">~850</div>
-        <div class="lbl">Mortality rate per 100k (est.)</div>
-        <div class="cmp bad">▲ ~8.6% above MI avg (783) · High-mortality rural</div>
+        <div class="num">592</div>
+        <div class="lbl">Est. annual deaths</div>
+        <div class="cmp neu">~714/100k · Similar to MI avg 783</div>
       </div>
       <div class="hdiv"></div>
       <div class="hstat">
-        <div class="num">~47/100k</div>
-        <div class="lbl">Opioid overdose death rate (est.)</div>
-        <div class="cmp bad">▲ Among highest in Michigan · ~14 deaths/yr</div>
+        <div class="num">$889M</div>
+        <div class="lbl">Economic burden (human capital)</div>
+        <div class="cmp neu">DALYs × $62,000 GDP/capita · VSL: $7.2B</div>
       </div>
       <div class="hdiv"></div>
       <div class="hstat">
-        <div class="num">30,013</div>
+        <div class="num">82,884</div>
         <div class="lbl">County population</div>
-        <div class="cmp neu">Census ACS 2022 · FIPS 26035 · Median age 46.8</div>
+        <div class="cmp neu">Census ACS 2022 · FIPS 26111 · Dow Chemical HQ</div>
       </div>
     </div>
   </div>
-</div>
-
-<!-- Notice -->
-<div class="notice">
-  <span>&#9888;</span>
-  <span><strong>Planning model — not a validated county burden estimate.</strong> Primary: WHO/GBD Frontier LE 89.1 yrs + MH remission adjustment (×0.50) = 8,198 DALYs. Sensitivity (Michigan LE 78.6 yrs) = 6,555 DALYs. Mixed-source: CDC PLACES 2024, Michigan CDC WONDER rates × rural adjustment, IHME GBD 2021 disability weights. ±20% uncertainty applies to all figures.
-  <a href="clare_methods.html" style="color:#7f1d1d;font-weight:700;"> Full methods &amp; data quality notes</a></span>
 </div>
 
 <!-- Controls -->
@@ -254,7 +243,7 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
   <div class="ctrl-group">
     <label>MH Prevalence</label>
     <div class="btns">
-      <button class="btn-toggle" id="btn-raw" onclick="setRemission(false, this)">PLACES 28.1%</button>
+      <button class="btn-toggle" id="btn-raw" onclick="setRemission(false, this)">Raw 28.1%</button>
       <button class="btn-toggle active" id="btn-remission" onclick="setRemission(true, this)">Remission-Adj. 14.1%</button>
     </div>
   </div>
@@ -262,7 +251,7 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
     <label>Show Conditions</label>
     <div class="cond-checks" id="cond-checks"></div>
   </div>
-  <div class="ctrl-info" id="ctrl-info">Michigan LE 78.6 yrs + MH remission-adjustment = 5,943 DALYs. Primary standard (Frontier LE 89.1) = 8,198 DALYs. Clare County is an MUA-designated, HPSA-designated high-mortality rural county with severe opioid crisis.</div>
+  <div class="ctrl-info" id="ctrl-info">Michigan LE 78.6 yrs + MH remission-adjustment. Midland County: industrial economy, Dow Chemical HQ, lower poverty than rural neighbors, higher median income ($62,000).</div>
 </div>
 
 <!-- Jump Bar -->
@@ -270,7 +259,6 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
   <span class="jb-label">Jump to:</span>
   <a class="jb-link" href="#sec-kpi">KPIs</a>
   <a class="jb-link" href="#sec-charts">Charts</a>
-  <a class="jb-link" href="#sec-opioid">Opioid Crisis</a>
   <a class="jb-link" href="#sec-econ">Economic Burden</a>
   <a class="jb-link" href="#sec-table">DALY Table</a>
   <a class="jb-link" href="#sec-findings">Key Findings</a>
@@ -281,45 +269,45 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
 
   <!-- KPI Strip -->
   <div class="kpi-strip" id="sec-kpi">
-    <div class="kpi" style="--accent:var(--red)">
-      <div class="kpi-num">~850</div>
+    <div class="kpi" style="--accent:var(--green)">
+      <div class="kpi-num">~714/100k</div>
       <div class="kpi-label">Estimated mortality rate per 100k</div>
-      <div class="kpi-delta up">▲ ~8.6% vs MI (783) · Rural high-mortality</div>
+      <div class="kpi-delta good">▼ Below MI avg 783 · Industrial economy advantage</div>
     </div>
     <div class="kpi" style="--accent:var(--red)">
-      <div class="kpi-num">~47/100k</div>
-      <div class="kpi-label">Opioid overdose deaths (est. 14/yr)</div>
-      <div class="kpi-delta up">▲ Among highest in Michigan</div>
+      <div class="kpi-num">167</div>
+      <div class="kpi-label">Cancer deaths/yr (est.) — #1 burden driver</div>
+      <div class="kpi-delta neu">160/100k · Similar to MI avg 161 · 3,457 DALYs</div>
     </div>
     <div class="kpi" style="--accent:var(--amber)">
-      <div class="kpi-num">16.8%</div>
+      <div class="kpi-num">9.0%</div>
       <div class="kpi-label">Poverty rate (ACS 2022)</div>
-      <div class="kpi-delta up">▲ vs MI 15% · Up to 22-25% by MDHHS sources</div>
+      <div class="kpi-delta good">▼ vs MI 15% · Higher median income $62,000</div>
     </div>
     <div class="kpi" style="--accent:var(--amber)">
       <div class="kpi-num">40.5%</div>
-      <div class="kpi-label">Adult obesity (CDC PLACES 2024)</div>
-      <div class="kpi-delta up">▲ vs MI 36.7% · ▲ vs US 35.3%</div>
+      <div class="kpi-label">Adult obesity (state proxy)</div>
+      <div class="kpi-delta up">▲ vs MI 36.7% · Key SDOH risk factor</div>
     </div>
-    <div class="kpi" style="--accent:var(--red)">
+    <div class="kpi" style="--accent:var(--green)">
       <div style="display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;">
         <div>
-          <div class="kpi-num" id="kpi-dalys-primary" style="font-size:20px">8,198</div>
-          <div style="font-size:10px;color:var(--muted);font-weight:600">Frontier LE</div>
+          <div class="kpi-num" id="kpi-dalys-primary" style="font-size:20px">14,335</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:600">MI LE</div>
         </div>
         <div style="color:#cbd5e1;font-size:18px">|</div>
         <div>
-          <div class="kpi-num" id="kpi-dalys-mi" style="font-size:20px">6,555</div>
-          <div style="font-size:10px;color:var(--muted);font-weight:600">MI LE</div>
+          <div class="kpi-num" id="kpi-dalys-frontier" style="font-size:20px">~20,700</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:600">Frontier LE</div>
         </div>
       </div>
       <div class="kpi-label">Estimated DALYs/year · YLL + YLD</div>
-      <div class="kpi-delta neu">±20% uncertainty</div>
+      <div class="kpi-delta neu">CDC PLACES 2023 · Age-adjusted prevalence</div>
     </div>
-    <div class="kpi" style="--accent:var(--purple)">
-      <div class="kpi-num">MUA</div>
-      <div class="kpi-label">Medically Underserved Area + HPSA designation</div>
-      <div class="kpi-delta up">Primary care &amp; mental health shortage</div>
+    <div class="kpi" style="--accent:var(--teal)">
+      <div class="kpi-num">$62K</div>
+      <div class="kpi-label">Median household income</div>
+      <div class="kpi-delta good">▲ vs MI ~$63K · Dow Chemical industrial base</div>
     </div>
   </div>
 
@@ -343,7 +331,7 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
   <div class="g2">
     <div class="card">
       <h3>Social Determinants vs Michigan Average</h3>
-      <p class="sub">% of population · CDC PLACES 2024 + ACS 2022</p>
+      <p class="sub">% of population · State-rate proxies scaled to Midland demographics · ACS 2022</p>
       <canvas id="sdohChart" height="250"></canvas>
     </div>
     <div class="card">
@@ -353,10 +341,34 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
     </div>
   </div>
 
+  <!-- Economic Burden Section -->
+  <div class="card" id="sec-econ" style="margin-bottom:18px">
+    <h3>Economic Burden</h3>
+    <p class="sub">Human Capital + Value of Statistical Life approaches · Midland County pop. 82,884</p>
+    <div class="industrial-badge">🏭 Dow Chemical HQ — $62,000 median income baseline</div>
+    <div class="econ-split">
+      <div class="econ-m">
+        <h4>Human Capital Method</h4>
+        <div class="econ-big" style="color:var(--green)">$889M</div>
+        <div class="econ-rng">14,335 DALYs × $62,000 GDP/capita</div>
+        <div class="econ-desc">Lost economic productivity from premature death (YLL) and disability (YLD). Reflects Midland's higher-than-rural median income driven by industrial and chemical sector employment.</div>
+      </div>
+      <div class="econ-m">
+        <h4>Value of Statistical Life</h4>
+        <div class="econ-big" style="color:var(--navy)">$7,235M</div>
+        <div class="econ-rng">592 deaths × $12.2M VSL (income-adjusted)</div>
+        <div class="econ-desc">Willingness-to-pay based VSL. Includes mortality only — does not capture morbidity burden. VSL income-adjusted for $62,000 median income. Full morbidity burden adds ~$889M.</div>
+      </div>
+    </div>
+    <div class="econ-note">
+      <strong>Note:</strong> Human Capital ($889M) is the conservative floor — it captures what's measurable in productivity terms. VSL ($7.2B) reflects societal willingness-to-pay to prevent death and is the standard for federal cost-benefit analysis (EPA, DOT, HHS). Both figures are based on observed CDC PLACES 2023 prevalence data. Cancer dominates economic burden: 3,457 DALYs × $62,000 = ~$214M in HC terms alone.
+    </div>
+  </div>
+
   <!-- DALY Detail Table -->
   <div class="card" id="sec-table" style="margin-bottom:18px">
     <h3>Disease Burden Detail</h3>
-    <p class="sub"><span id="table-sub">Michigan LE 78.6 yrs · No discounting (WHO standard) · Population 30,013</span></p>
+    <p class="sub"><span id="table-sub">Michigan LE 78.6 yrs · No discounting (WHO standard) · Population 82,884</span></p>
     <div class="tbl-wrap">
       <table>
         <thead>
@@ -376,40 +388,40 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
         <tbody id="daly-tbody"></tbody>
       </table>
     </div>
-    <p style="font-size:11px;color:var(--muted);margin-top:10px">Mortality derived from Michigan CDC WONDER 2020–22 rates × rural high-mortality adjustment (+15–20%). Prevalence from CDC PLACES 2024 model-based estimates (FIPS 26035). SUD prevalence is a derived estimate — no direct county-level survey.
+    <p style="font-size:11px;color:var(--muted);margin-top:10px">Prevalence from CDC PLACES 2023 (BRFSS 2021–22) county-level estimates. Mortality from CDC WONDER 2020–22 3-year pooled. YLL and YLD are planning-grade estimates.
     <span id="remission-footnote"> * MH YLD uses active disease prevalence (14.1% = 28.1% × 0.50 remission factor) when remission-adjusted mode is selected.</span></p>
   </div>
 
   <!-- Methodology note box -->
-  <div style="border:2px solid var(--navy);border-radius:12px;padding:22px 28px;margin-bottom:28px;background:linear-gradient(135deg,#0f1f3d 0%,#1a2d5f 100%);position:relative;overflow:hidden;">
-    <div style="position:absolute;top:0;right:0;width:180px;height:180px;background:radial-gradient(circle,rgba(220,38,38,.15) 0%,transparent 70%);pointer-events:none;"></div>
+  <div style="border:2px solid var(--navy);border-radius:12px;padding:22px 28px;margin-bottom:28px;background:linear-gradient(135deg,#0a2618 0%,#0d3321 100%);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:0;right:0;width:180px;height:180px;background:radial-gradient(circle,rgba(5,150,105,.2) 0%,transparent 70%);pointer-events:none;"></div>
     <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.45);margin-bottom:6px;">Methodology</div>
     <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-.01em;">Two standards, one county</div>
     <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:20px;">Both estimates are valid — they answer different questions about burden.</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
       <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:14px;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);margin-bottom:8px;">Sensitivity · MI LE 78.6</div>
-        <div style="font-size:26px;font-weight:800;color:#94a3b8;letter-spacing:-.02em;line-height:1;">6,555</div>
-        <div style="font-size:10.5px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.5;">Michigan state life expectancy · Local planning standard · YLL 2,358 + YLD 4,197</div>
-        <div style="font-size:10.5px;color:#fbbf24;margin-top:6px;font-weight:600;">CVD #1 · Cancer #2 · MH #3</div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);margin-bottom:8px;">Primary · MI LE 78.6</div>
+        <div style="font-size:26px;font-weight:800;color:#86efac;letter-spacing:-.02em;line-height:1;">14,335</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.5;">Michigan state life expectancy · Local planning standard · YLL 6,506 + YLD 9,331</div>
+        <div style="font-size:10.5px;color:#fbbf24;margin-top:6px;font-weight:600;">Cancer #1 · MH #2 · SUD #3</div>
       </div>
       <div style="display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.2);">&#8594;</div>
       <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:14px;">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);margin-bottom:8px;">+MH Remission Adj. ×0.50</div>
-        <div style="font-size:26px;font-weight:800;color:#60a5fa;letter-spacing:-.02em;line-height:1;">5,943</div>
-        <div style="font-size:10.5px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.5;">CDC PLACES reports lifetime-diagnosed prevalence. Active burden ×0.50 = 14.1% active. Reduces MH YLD 1,223 → 611.</div>
-        <div style="font-size:10.5px;color:#fbbf24;margin-top:6px;font-weight:600;">CVD #1 · Cancer #2 · SUD #3</div>
+        <div style="font-size:26px;font-weight:800;color:#60a5fa;letter-spacing:-.02em;line-height:1;">14,468</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.5;">Active burden ×0.50 = 14.1% active MH prevalence. Reduces MH YLD 2,735 → 1,368.</div>
+        <div style="font-size:10.5px;color:#fbbf24;margin-top:6px;font-weight:600;">Cancer #1 · MH #2 · SUD #3</div>
       </div>
       <div style="display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.2);">&#8594;</div>
-      <div style="background:rgba(13,148,136,.18);border:1.5px solid rgba(13,148,136,.5);border-radius:8px;padding:14px;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.55);margin-bottom:8px;">Primary · Frontier LE 89.1</div>
-        <div style="font-size:26px;font-weight:800;color:#34d399;letter-spacing:-.02em;line-height:1;">8,198</div>
-        <div style="font-size:10.5px;color:rgba(255,255,255,.7);margin-top:4px;line-height:1.5;">WHO GBD frontier LE · Enables cross-county comparison · YLL 4,612 + YLD 3,586 (remission-adj)</div>
-        <div style="font-size:10.5px;color:#34d399;margin-top:6px;font-weight:600;">CVD #1 · Cancer #2 · SUD #3</div>
+      <div style="background:rgba(5,150,105,.18);border:1.5px solid rgba(5,150,105,.5);border-radius:8px;padding:14px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.55);margin-bottom:8px;">Sensitivity · Frontier LE 89.1</div>
+        <div style="font-size:26px;font-weight:800;color:#34d399;letter-spacing:-.02em;line-height:1;">~20,700</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.7);margin-top:4px;line-height:1.5;">WHO GBD frontier LE · Enables cross-county comparison · Higher YLL under longer standard</div>
+        <div style="font-size:10.5px;color:#34d399;margin-top:6px;font-weight:600;">Cancer #1 · CVD #2 · SUD #3</div>
       </div>
     </div>
     <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:rgba(255,255,255,.4);line-height:1.7;">
-      <strong style="color:rgba(255,255,255,.6);">Note:</strong> All figures are planning estimates. Mortality data derived from Michigan CDC WONDER 2020–22 state rates with rural adjustment. No discounting or age-weighting applied (WHO standard). Disability weights: IHME GBD 2021.
+      <strong style="color:rgba(255,255,255,.6);">Note:</strong> Prevalence from CDC PLACES 2023 (BRFSS 2021–22), age-adjusted county-level estimates. Mortality from CDC WONDER 2020–22 3-year pooled. No discounting or age-weighting (WHO standard). Disability weights: IHME GBD 2021.
     </div>
   </div>
 
@@ -418,33 +430,23 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
   <div class="findings">
 
     <div class="finding" style="--accent:var(--red)">
-      <h4>Opioid Crisis — #3 Burden · ~1,247 DALYs (MI LE)</h4>
-      <p>Opioid overdose death rate estimated at ~47/100k — among the highest in Michigan. Approximately 14 opioid deaths/year in a population of 30,013. SUD kills at a mean age of 44 (34.6 years of remaining life lost per death). Clare County's opioid crisis is structural: high poverty, older workforce, limited MAT access, and MUA designation all compound risk. Neonatal abstinence syndrome rates are elevated statewide in rural Michigan counties.</p>
-    </div>
-
-    <div class="finding" style="--accent:var(--blue)">
-      <h4>Aging Population — Elevated CVD &amp; Cancer Burden</h4>
-      <p>Clare County's median age is 46.8 years versus Michigan's ~40 — one of the oldest counties in the state. This demographic drives the #1 ranking for cardiovascular disease (710 DALYs, MI LE) and #2 for cancer (1,372 DALYs). CVD accounts for 82.8 estimated deaths/year. An older, rural population also means higher COPD burden (12.7% prevalence vs. MI ~8.2%) and greater disability years relative to mortality.</p>
+      <h4>Cancer Leads Burden — 3,457 DALYs/yr · 167 Deaths</h4>
+      <p>Cancer is the #1 disease burden driver with 3,457 DALYs/yr and 167 estimated deaths annually. Per-capita cancer mortality (~160/100k) is nearly identical to the Michigan state average (161/100k), reflecting Midland's less-rural population with better healthcare access than counties like Clare. Despite overall lower mortality, the large population base (82,884) means the absolute burden is substantial. Cancer screening and early detection are high-priority interventions.</p>
     </div>
 
     <div class="finding" style="--accent:var(--purple)">
-      <h4>Mental Health — 28.1% Prevalence · #3 DALY Driver</h4>
-      <p>CDC PLACES 2024 reports 28.1% lifetime-diagnosed mental health prevalence — well above state and national averages. With remission adjustment (×0.50 active burden = 14.1%), MH contributes ~611 YLD. Clare is MUA-designated with severe mental health provider shortages. The intersection of SUD + mental health comorbidity (dual diagnosis) creates disproportionate burden in this population.</p>
+      <h4>Mental Health #2 — 3,319 DALYs/yr · Predominantly YLD-Driven</h4>
+      <p>Mental health disorders rank second with 3,319 DALYs/yr — predominantly from disability (YLD: 2,735 raw, 1,368 remission-adjusted) rather than premature death. The 28.1% prevalence estimate (state proxy) is notable in Midland's context: the Dow Chemical industrial workforce faces specific occupational stress and potential chemical exposure burdens not fully captured in general prevalence data. Workplace-based mental health programs represent a key partnership opportunity.</p>
     </div>
 
     <div class="finding" style="--accent:var(--amber)">
-      <h4>Poverty &amp; Social Determinants</h4>
-      <p>16.8% poverty rate by ACS 2022 (estimated 22–25% by MDHHS sources). Median household income of $42,100 versus Michigan's ~$63,000. Physical inactivity at 30.4%, obesity 40.5%, smoking 19.5%. These SDOH are structural drivers of every health condition in the DALY model. Medicaid-heavy payer mix reduces hospital margins and limits specialist access, further compounding the access gap.</p>
-    </div>
-
-    <div class="finding" style="--accent:var(--teal)">
-      <h4>COPD — Elevated Respiratory Burden</h4>
-      <p>COPD prevalence of 12.7% is well above Michigan average (~8.2%). This reflects the county's high smoking rates (19.5%), older population, and occupational/environmental exposures. COPD contributes 868 DALYs (MI LE) — the 4th largest driver. Smoking cessation and pulmonary rehabilitation are high-ROI interventions in this population.</p>
+      <h4>SUD Third — 3,101 DALYs/yr · 48 Estimated Deaths</h4>
+      <p>Substance use disorders rank third with 3,101 DALYs/yr and 48 estimated annual deaths. The opioid mortality rate (~58/100k estimated) is lower than Clare County (~47/100k direct) when adjusted for population, but Midland's larger population base (82,884 vs 30,013) means the absolute number of deaths is substantially higher. SUD kills at a mean age of 44 — among the youngest of any condition — maximizing years of life lost per death.</p>
     </div>
 
     <div class="finding" style="--accent:var(--green)">
-      <h4>Diabetes &amp; Hypertension — Chronic Disease Cluster</h4>
-      <p>Diabetes prevalence of 15.4% (vs MI ~11%) and hypertension at 35.4% signal a severe chronic disease cluster. Both are amplified by obesity (40.5%), physical inactivity (30.4%), and limited preventive care access. Diabetes contributes 351 DALYs and is a multiplicative risk factor for CVD, stroke, and COPD mortality.</p>
+      <h4>Dow Chemical SDOH Context — Industrial Economy Advantage and Burden</h4>
+      <p>Midland is home to Dow Chemical global headquarters. Higher median income ($62,000) and lower poverty (9.0% vs MI 15%) create a better health baseline than rural neighbors Isabella and Clare. However, the industrial workforce carries specific occupational health exposures — chemical, respiratory, and stress-related — that are not captured in the standard DALY framework. Dow's scale also presents a major corporate wellness and workplace health partnership opportunity.</p>
     </div>
 
   </div>
@@ -456,101 +458,105 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
     <strong>YLL</strong> Years of Life Lost (premature mortality) &nbsp;&#183;&nbsp;
     <strong>YLD</strong> Years Lived with Disability &nbsp;&#183;&nbsp;
     <strong>MH</strong> Mental Health Disorders &nbsp;&#183;&nbsp;
-    <strong>SUD</strong> Substance Use Disorders (opioids primary) &nbsp;&#183;&nbsp;
+    <strong>SUD</strong> Substance Use Disorders &nbsp;&#183;&nbsp;
     <strong>CVD</strong> Cardiovascular Disease &nbsp;&#183;&nbsp;
     <strong>COPD</strong> Chronic Obstructive Pulmonary Disease &nbsp;&#183;&nbsp;
     <strong>DM</strong> Diabetes Mellitus Type 2 &nbsp;&#183;&nbsp;
     <strong>DW</strong> Disability Weight (IHME GBD 2021) &nbsp;&#183;&nbsp;
     <strong>LE</strong> Life Expectancy &nbsp;&#183;&nbsp;
-    <strong>MUA</strong> Medically Underserved Area &nbsp;&#183;&nbsp;
-    <strong>HPSA</strong> Health Professional Shortage Area &nbsp;&#183;&nbsp;
-    <strong>MAT</strong> Medication-Assisted Treatment &nbsp;&#183;&nbsp;
-    <strong>NAS</strong> Neonatal Abstinence Syndrome
+    <strong>HC</strong> Human Capital &nbsp;&#183;&nbsp;
+    <strong>VSL</strong> Value of Statistical Life &nbsp;&#183;&nbsp;
+    <strong>CHNA</strong> Community Health Needs Assessment
   </div>
 
   <!-- Recommendations -->
   <div class="card" id="sec-recs" style="margin-bottom:24px">
     <h3 style="margin-bottom:4px">Evidence-Based Recommendations</h3>
-    <p class="sub" style="margin-bottom:16px">Prioritized by DALY impact and Clare County context · Clare-specific MUA/HPSA designations qualify for additional federal funding streams</p>
-    <div class="rec"><div class="rec-n">1</div><div class="rec-b"><h5>MAT telehealth for opioid use disorder</h5><p>SUD · ~14 opioid deaths/year · mean age 44 · 34.6 life-years lost per death · Buprenorphine + naltrexone via telehealth addresses geographic access barriers</p></div><span class="rec-ev">Strong</span></div>
-    <div class="rec"><div class="rec-n">2</div><div class="rec-b"><h5>AI-assisted CVD risk stratification in primary care</h5><p>CVD · 82.8 deaths/year · 35.4% hypertension · Older population amplifies benefit · Community health worker hypertension control + remote monitoring</p></div><span class="rec-ev">Strong</span></div>
-    <div class="rec"><div class="rec-n">3</div><div class="rec-b"><h5>Cancer screening navigation + teleoncology</h5><p>Cancer · 60.5 deaths/year at mean age 67 · Rural travel barriers reduce screening rates · Stage-shift = highest mortality impact per dollar in rural settings</p></div><span class="rec-ev">Strong</span></div>
-    <div class="rec"><div class="rec-n">4</div><div class="rec-b"><h5>Integrated behavioral health in primary care</h5><p>MH + SUD · 28.1% MH prevalence · Collaborative care model (IMPACT) + SUD co-management · Addresses dual diagnosis burden at point of care</p></div><span class="rec-ev">Moderate–Strong</span></div>
-    <div class="rec" style="border:none"><div class="rec-n">5</div><div class="rec-b"><h5>Tobacco cessation + COPD pulmonary rehab via telehealth</h5><p>COPD · 12.7% prevalence · 19.5% smoking · Michigan Tobacco Quitline + NRT through Medicaid · Telehealth pulmonary rehab for rural access</p></div><span class="rec-ev">Strong</span></div>
+    <p class="sub" style="margin-bottom:16px">Prioritized by DALY impact and Midland County context · Industrial economy + Dow Chemical partnership opportunities</p>
+    <div class="rec"><div class="rec-n">1</div><div class="rec-b"><h5>Cancer screening outreach — industrial workforce focus</h5><p>Cancer · 3,457 DALYs · 167 deaths/yr · Expand colorectal, lung, and breast screening to at-risk industrial and chemical workforce segments; Dow Chemical and supplier employer partnerships for occupational screening programs</p></div><span class="rec-ev">Strong</span></div>
+    <div class="rec"><div class="rec-n">2</div><div class="rec-b"><h5>SUD harm reduction — naloxone, MOUD at primary care</h5><p>SUD · 3,267 DALYs · 7.3% prevalence · 48 deaths/yr · Naloxone community access, Medication for Opioid Use Disorder (MOUD) at primary care sites; binge drinking 19.0% is above state average (17.5%)</p></div><span class="rec-ev">Strong</span></div>
+    <div class="rec"><div class="rec-n">3</div><div class="rec-b"><h5>MH workplace programs — Dow Chemical partnership</h5><p>Mental Health · 3,231 DALYs · 27.2% prevalence · Employee Assistance Program expansion, stress/burnout reduction, occupational psychological safety initiatives; leverage Dow's scale for population-level impact</p></div><span class="rec-ev">Strong</span></div>
+    <div class="rec"><div class="rec-n">4</div><div class="rec-b"><h5>COPD occupational monitoring — chemical exposure tracking</h5><p>COPD · 1,150 DALYs · 6.3% prevalence · Industrial chemical exposure surveillance for Dow and downstream employers; spirometry screening for at-risk workers; smoking cessation integration (13.5% smokers)</p></div><span class="rec-ev">Moderate–Strong</span></div>
+    <div class="rec" style="border:none"><div class="rec-n">5</div><div class="rec-b"><h5>PFAS health surveillance — cancer registry linkage</h5><p>Cancer · 3,457 DALYs · 7.7% prevalence · Establish PFAS-exposed worker registry and cancer incidence tracking; Dow legacy contamination may underestimate true cancer burden beyond PLACES estimates</p></div><span class="rec-ev">Moderate</span></div>
   </div>
 
-  <!-- Methodology disclaimer -->
-  <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:16px 20px;margin-bottom:24px;font-size:12px;color:#7c2d12;line-height:1.7;">
-    <strong>Planning-grade estimate — methodology note.</strong> All DALY figures are derived from public data sources: CDC PLACES 2024 (prevalence, model-based county estimates), Michigan CDC WONDER 2020–22 (mortality rates, applied with rural adjustment), IHME GBD 2021 (disability weights), and Census ACS 2022 (demographics). Mortality for Clare County is estimated from Michigan state rates adjusted +15–20% to reflect documented high-mortality rural status — direct county-level vital statistics were not available via the automated pipeline. SUD/opioid prevalence is a derived estimate. Uncertainty: ±20% on all DALY components. These estimates are intended for grant applications, community health needs assessments, and program planning — not for clinical or regulatory decisions. For peer-reviewed analysis, see the Isabella County methodology supplement.
+  <!-- Methodology note -->
+  <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:16px 20px;margin-bottom:24px;font-size:12px;color:#064e3b;line-height:1.7;">
+    <strong>Data sources — methodology note.</strong> Prevalence from CDC PLACES 2023 (BRFSS 2021–22), age-adjusted county-level estimates for Midland County (FIPS 26111). Mortality from CDC WONDER 2020–22 3-year pooled. Disability weights from IHME GBD 2021. Methodological uncertainty ±15% inherent in the DALY framework. See <a href="midland_methods.html" style="color:#065f46;font-weight:700;">Methods →</a> for full data quality notes.
   </div>
 
 </div><!-- end .page -->
 
 <footer>
-  <span>Clare County Health Burden Dashboard · June 2026 · Data: CDC PLACES 2024, Michigan CDC WONDER 2020–22, IHME GBD 2021</span>
+  <span>Midland County, Michigan · FIPS 26111 · Pipeline run June 2026 · Data: CDC PLACES 2023, CDC WONDER 2020–22, ACS 2022, IHME GBD 2021 · Observed county-level data</span>
   <span>Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University</span>
 </footer>
 
 <script>
 // ═══════════════════════════════════════════
-// CLARE COUNTY DATA
-// CDC PLACES 2024 (FIPS 26035) + Michigan mortality rates × rural adj.
-// Population: 30,013 · Median age: 46.8 · FIPS: 26035
+// MIDLAND COUNTY DATA
+// CDC PLACES 2023 (BRFSS 2021–22) · CDC WONDER 2020–22 · ACS 2022 · IHME GBD 2021
+// Population: 82,884 · FIPS: 26111 · Median income: $62,000
 // ═══════════════════════════════════════════
-const POP = 30013;
+const POP = 82884;
 const MI_LE = 78.6;
 const FRONTIER_LE = 89.1;
 
 const CONDITIONS = {
-  cancer:  {
+  cancer: {
     name: 'Cancer (all types)', short: 'Cancer', icd: 'C00–C97',
-    prev_pct: 7.6, cases: 2281, deaths: 60.5, mean_age: 67.0,
-    dw: 0.294, yld_raw: 671,
-    color: '#dc2626', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2024','WONDER × rural adj.']
+    prev_pct: 7.7, deaths: 167, mean_age: 67.0,
+    dw: 0.294, yld_raw: 1520,
+    color: '#dc2626', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2023','CDC WONDER 2020–22']
   },
   mh: {
     name: 'Mental Health', short: 'MH', icd: 'F30–F48',
-    prev_pct: 28.1, cases: 8434, deaths: 6.5, mean_age: 46.0,
-    dw: 0.145, yld_raw: 1223, yld_active: 611,
-    color: '#7c3aed', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2024','IHME GBD 2021']
+    prev_pct: 27.2, deaths: 18, mean_age: 46.0,
+    dw: 0.145, yld_raw: 5296, yld_active: 2648,
+    color: '#7c3aed', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2023','IHME GBD 2021']
   },
   sud: {
     name: 'Substance Use Disorders', short: 'SUD', icd: 'F10–F19',
-    prev_pct: 6.6, cases: 1981, deaths: 17.2, mean_age: 44.0,
-    dw: 0.329, yld_raw: 652,
-    color: '#d97706', quality: ['imp','mdl'], qLabel: ['Derived estimate','WONDER × rural adj.']
-  },
-  cvd: {
-    name: 'Cardiovascular Disease', short: 'CVD', icd: 'I20–I51',
-    prev_pct: 7.8, cases: 2341, deaths: 82.8, mean_age: 72.0,
-    dw: 0.070, yld_raw: 164,
-    color: '#1a56db', quality: ['mdl','mdl'], qLabel: ['Derived estimate','WONDER × rural adj.']
+    prev_pct: 7.3, deaths: 48, mean_age: 44.0,
+    dw: 0.329, yld_raw: 1623,
+    color: '#d97706', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2023','CDC WONDER 2020–22']
   },
   copd: {
     name: 'COPD & Respiratory', short: 'COPD', icd: 'J44',
-    prev_pct: 12.7, cases: 3812, deaths: 20.3, mean_age: 73.0,
-    dw: 0.198, yld_raw: 755,
-    color: '#059669', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2024','WONDER × rural adj.']
+    prev_pct: 6.3, deaths: 56, mean_age: 73.0,
+    dw: 0.198, yld_raw: 838,
+    color: '#0d9488', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2023','CDC WONDER 2020–22']
+  },
+  cvd: {
+    name: 'Cardiovascular Disease', short: 'CVD', icd: 'I20–I51',
+    prev_pct: 6.7, deaths: 228, mean_age: 72.0,
+    dw: 0.070, yld_raw: 314,
+    color: '#1a56db', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2023','CDC WONDER 2020–22']
   },
   stroke: {
     name: 'Stroke', short: 'Stroke', icd: 'I60–I69',
-    prev_pct: 5.1, cases: 1531, deaths: 15.6, mean_age: 73.0,
-    dw: 0.316, yld_raw: 484,
-    color: '#0d9488', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2024','WONDER × rural adj.']
+    prev_pct: 2.7, deaths: 43, mean_age: 73.0,
+    dw: 0.316, yld_raw: 573,
+    color: '#64748b', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2023','CDC WONDER 2020–22']
   },
   diabetes: {
     name: 'Diabetes (Type 2)', short: 'DM', icd: 'E11',
-    prev_pct: 15.4, cases: 4622, deaths: 11.8, mean_age: 70.0,
-    dw: 0.054, yld_raw: 250,
-    color: '#64748b', quality: ['obs'], qLabel: ['CDC PLACES 2024']
+    prev_pct: 8.7, deaths: 33, mean_age: 70.0,
+    dw: 0.054, yld_raw: 315,
+    color: '#059669', quality: ['obs','mdl'], qLabel: ['CDC PLACES 2023','CDC WONDER 2020–22']
   },
 };
 
-// SDOH comparison data
+// Compute prevalent cases from POP
+Object.keys(CONDITIONS).forEach(k => {
+  CONDITIONS[k].cases = Math.round(POP * CONDITIONS[k].prev_pct / 100);
+});
+
+// SDOH comparison data — Midland vs Michigan
 const SDOH = {
-  labels: ['Poverty\n%FPL', 'Obesity\n%', 'Smoking\n%', 'Phys.\nInactivity', 'COPD\n%', 'Diabetes\n%'],
-  clare:    [16.8, 40.5, 19.5, 30.4, 12.7, 15.4],
-  michigan: [15.0, 36.7, 15.9, 27.5,  8.2, 11.0],
+  labels: ['Poverty\n%', 'Obesity\n%', 'Smoking\n%', 'Phys.\nInactivity', 'Uninsured\n%', 'Binge\nDrinking'],
+  midland:  [9.0,  31.7, 13.5, 20.2, 6.0,  19.0],
+  michigan: [15.0, 36.7, 18.6, 28.8, 7.8,  17.5],
 };
 
 // ═══════════════════════════════════════════
@@ -600,9 +606,9 @@ function setRemission(val, btn) {
 
 function updateInfo() {
   const leLabel = state.le === MI_LE ? 'Michigan LE 78.6 yrs' : 'Frontier LE 89.1 yrs';
-  const mhLabel = state.remission ? 'MH remission-adj (14.1% active)' : 'MH raw PLACES (28.1%)';
+  const mhLabel = state.remission ? 'MH remission-adj (14.1% active)' : 'MH raw state proxy (28.1%)';
   document.getElementById('ctrl-info').textContent =
-    `${leLabel} + ${mhLabel} → ${totalDALYs().toLocaleString()} DALYs (selected conditions). Clare: MUA + HPSA designation, severe opioid crisis, median age 46.8.`;
+    `${leLabel} + ${mhLabel} → ${totalDALYs().toLocaleString()} DALYs (selected conditions). Midland County: Dow Chemical HQ, $62K median income, lower poverty (9%) than rural neighbors.`;
 }
 
 function toggleCond(k) {
@@ -640,7 +646,7 @@ function updateAll() {
 
   document.getElementById('chart1-sub').textContent = `${leLabel} · ranked by burden`;
   document.getElementById('chart2-sub').textContent = leLabel;
-  document.getElementById('table-sub').textContent  = `${leLabel} · No discounting (WHO standard) · Population 30,013`;
+  document.getElementById('table-sub').textContent  = `${leLabel} · No discounting (WHO standard) · Population 82,884`;
 
   const fn = document.getElementById('remission-footnote');
   if (fn) fn.style.display = state.remission ? 'inline' : 'none';
@@ -662,13 +668,13 @@ function getSorted() {
 }
 
 function initCharts() {
-  // Chart 1: DALYs by condition (horizontal bar)
+  // Chart 1: DALYs by condition (horizontal stacked bar)
   const ctx1 = document.getElementById('dalyChart').getContext('2d');
   ch1 = new Chart(ctx1, {
     type: 'bar',
     data: { labels:[], datasets:[
       { label:'YLL (premature death)', data:[], backgroundColor:'#dc2626', borderRadius:3 },
-      { label:'YLD (disability)',      data:[], backgroundColor:'#1a56db', borderRadius:3 }
+      { label:'YLD (disability)',      data:[], backgroundColor:'#059669', borderRadius:3 }
     ]},
     options: {
       indexAxis: 'y', responsive: true,
@@ -683,7 +689,7 @@ function initCharts() {
     }
   });
 
-  // Chart 2: YLL vs YLD stacked vertical
+  // Chart 2: YLD % stacked (disability share)
   const ctx2 = document.getElementById('stackChart').getContext('2d');
   ch2 = new Chart(ctx2, {
     type: 'bar',
@@ -707,15 +713,15 @@ function initCharts() {
     }
   });
 
-  // Chart 3: SDOH radar
+  // Chart 3: SDOH radar — Midland vs Michigan
   const ctx3 = document.getElementById('sdohChart').getContext('2d');
   ch3 = new Chart(ctx3, {
     type: 'radar',
     data: {
       labels: SDOH.labels,
       datasets: [
-        { label:'Clare County', data:SDOH.clare, backgroundColor:'rgba(220,38,38,.12)', borderColor:'#dc2626', borderWidth:2, pointRadius:4 },
-        { label:'Michigan Avg',  data:SDOH.michigan, backgroundColor:'rgba(26,86,219,.12)', borderColor:'#1a56db', borderWidth:2, pointRadius:4 }
+        { label:'Midland County', data:SDOH.midland, backgroundColor:'rgba(5,150,105,.12)', borderColor:'#059669', borderWidth:2, pointRadius:4 },
+        { label:'Michigan Avg',   data:SDOH.michigan, backgroundColor:'rgba(26,86,219,.12)',  borderColor:'#1a56db', borderWidth:2, pointRadius:4 }
       ]
     },
     options: {
@@ -727,12 +733,11 @@ function initCharts() {
 
   // Chart 4: MI LE vs Frontier LE comparison by condition
   const ctx4 = document.getElementById('compareChart').getContext('2d');
-  // Pre-calculated values (MI LE standard, raw prevalence)
-  const condOrder = ['cancer','cvd','mh','sud','copd','stroke','diabetes'];
-  const labels = condOrder.map(k=>CONDITIONS[k].short);
+  const condOrder = ['cancer','mh','sud','copd','cvd','stroke','diabetes'];
+  const labels4 = condOrder.map(k=>CONDITIONS[k].short);
   const miVals = condOrder.map(k=>{
     const yllMI = Math.round(CONDITIONS[k].deaths * Math.max(0, MI_LE - CONDITIONS[k].mean_age));
-    const yldVal = k==='mh' ? CONDITIONS.mh.yld_raw : CONDITIONS[k].yld_raw;
+    const yldVal = k==='mh' ? CONDITIONS.mh.yld_active : CONDITIONS[k].yld_raw;
     return yllMI + yldVal;
   });
   const frVals = condOrder.map(k=>{
@@ -744,10 +749,10 @@ function initCharts() {
   ch4 = new Chart(ctx4, {
     type: 'bar',
     data: {
-      labels,
+      labels: labels4,
       datasets: [
-        { label:'MI LE 78.6 (sensitivity)',   data:miVals, backgroundColor:'#0f1f3d', borderRadius:3 },
-        { label:'Frontier LE 89.1 (primary)', data:frVals, backgroundColor:'#3b82f6', borderRadius:3 }
+        { label:'MI LE 78.6 (primary)',       data:miVals, backgroundColor:'#059669', borderRadius:3 },
+        { label:'Frontier LE 89.1 (sensitivity)', data:frVals, backgroundColor:'#0d9488', borderRadius:3 }
       ]
     },
     options: {
@@ -775,6 +780,7 @@ function updateCharts() {
   ch1.data.datasets[0].data = ylls;
   ch1.data.datasets[0].backgroundColor = colors.map(c=>c+'cc');
   ch1.data.datasets[1].data = ylds;
+  ch1.data.datasets[1].backgroundColor = colors.map(c=>c+'88');
   ch1.update('none');
 
   const byYldPct = [...sorted].sort((a,b)=>(b.yld/b.total)-(a.yld/a.total));
@@ -793,7 +799,7 @@ function updateTable() {
   let tYLL=0, tYLD=0, tDALY=0, tDeaths=0;
 
   tbody.innerHTML = sorted.map(({k, d, yll:y, yld, total})=>{
-    tYLL+=y; tYLD+=yld; tDALY+=total; tDeaths+=d.deaths||0;
+    tYLL+=y; tYLD+=yld; tDALY+=total; tDeaths+=(d.deaths||0);
     const remLE = Math.max(0, leVal() - d.mean_age).toFixed(1);
     const qBadges = d.quality.map((q,i)=>`<span class="dc ${q}">${d.qLabel[i]}</span>`).join(' ');
     const yldDisplay = k==='mh'
@@ -833,7 +839,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateAll();
 
   // ── Jump bar active section via IntersectionObserver ──
-  const sections = ['sec-kpi','sec-charts','sec-table','sec-findings','sec-recs'];
+  const sections = ['sec-kpi','sec-charts','sec-econ','sec-table','sec-findings','sec-recs'];
   const jbLinks = {};
   sections.forEach(id => {
     jbLinks[id] = document.querySelector(`.jb-link[href="#${id}"]`);

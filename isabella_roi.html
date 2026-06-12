@@ -3,11 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clare County — Economic Impact & ROI Model | Lakes Linked Care</title>
-<meta name="description" content="Clare County health intervention ROI model: MAT telehealth, CHW hypertension, cancer screening, tobacco cessation. Cochrane-grounded estimates with VSL methodology.">
-<meta property="og:title" content="Clare County — Economic Impact & ROI Model | Lakes Linked Care">
-<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/clare_roi.html">
-<meta property="og:type" content="website">
+<title>Health Technology ROI - Isabella County</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
@@ -22,14 +18,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 /* NAV */
 .sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
 .sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
-.sitenav .links{display:flex;gap:4px;align-items:center;}
+.sitenav .links{display:flex;gap:4px;}
 .sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
 .sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
 .county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
 .county-group .navlink{border-radius:5px;}
 
 /* HERO */
-.hero{background:linear-gradient(130deg,#1c0a0a 0%,#3b1515 45%,#1a2040 100%);padding:36px 28px 30px;}
+.hero{background:linear-gradient(130deg,var(--navy) 0%,#1e3a5f 60%,#0d6c5a 100%);padding:36px 28px 30px;}
 .hero-inner{max-width:1100px;margin:auto;}
 .hero h1{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;}
 .hero .sub{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:20px;}
@@ -44,10 +40,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .ctrl-bar label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-right:4px;}
 .ctrl-bar select{background:var(--bg);border:1.5px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;color:#374151;}
 .ctrl-note{font-size:11.5px;color:var(--muted);flex:1;min-width:200px;}
-
-/* CRISIS BANNER */
-.crisis-banner{background:#7f1d1d;border-bottom:1px solid #991b1b;padding:9px 28px;font-size:12px;color:#fca5a5;display:flex;gap:8px;align-items:center;}
-.crisis-banner strong{color:#fecaca;}
 
 /* LAYOUT */
 .page{max-width:1100px;margin:0 auto;padding:24px 20px 60px;}
@@ -87,10 +79,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .source-note{font-size:11px;color:#94a3b8;line-height:1.5;margin-top:8px;border-top:1px solid var(--border);padding-top:8px;}
 .source-note a{color:var(--blue);}
 
-/* PRIORITY BADGE */
-.priority-1{background:#fef2f2;border-left:3px solid var(--red);}
-.priority-badge{display:inline-block;background:var(--red);color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:10px;margin-bottom:4px;}
-
 /* TABLE */
 .roi-table{width:100%;border-collapse:collapse;font-size:12.5px;}
 .roi-table thead th{background:var(--navy);color:rgba(255,255,255,.9);padding:9px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.03em;}
@@ -123,31 +111,25 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
     <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
     <a class="navlink" href="index.html">🏠 Portal</a>
     <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
-    <a class="navlink active" href="clare_roi.html">💰 Economic Impact</a>
-    <a class="navlink" href="clare_ai_solutions.html">🤖 Interventions</a>
-    <a class="navlink" href="clare_methods.html">📋 Methods</a>
+    <a class="navlink active" href="isabella_roi.html">💰 Economic Impact</a>
+    <a class="navlink" href="isabella_interventions.html">🤖 Interventions</a>
+    <a class="navlink" href="isabella_methods.html">📋 Methods</a>
   </div>
 </nav>
-
-<!-- Crisis banner -->
-<div class="crisis-banner">
-  <span>🚨</span>
-  <span><strong>High-Priority County.</strong> Clare County is a Medically Underserved Area (MUA). Opioid overdose mortality ~47/100,000 — ROI analysis leads with MAT Telehealth as the highest-priority intervention. All estimates ±30–50%; planning grade only.</span>
-</div>
 
 <!-- Hero -->
 <div class="hero">
   <div class="hero-inner">
-    <h1>Return on Investment — AI &amp; Digital Health · Clare County</h1>
-    <p class="sub">Evidence-based ROI estimates for Clare County, Michigan (pop. 30,013) · Based on peer-reviewed meta-analyses · Soshnikov · 2026</p>
+    <h1>Return on Investment - AI & Digital Health Interventions</h1>
+    <p class="sub">Evidence-based ROI estimates for Isabella County, Michigan · Based on peer-reviewed meta-analyses · Soshnikov · 2026</p>
     <div class="hero-stats">
-      <div class="hs"><div class="num" id="h-roi">3.68</div><div class="lbl">Portfolio ROI ($ per $1)</div><div class="cmp" id="h-net">Net benefit ~$5.9M/year</div></div>
+      <div class="hs"><div class="num" id="h-roi">2.58</div><div class="lbl">Portfolio ROI ($ per $1)</div><div class="cmp" id="h-net">Net benefit ~$9.6M/year</div></div>
       <div class="hdiv"></div>
-      <div class="hs"><div class="num" id="h-inv">$2.6M</div><div class="lbl">Total investment/year</div><div class="cmp">All 6 programs at default reach</div></div>
+      <div class="hs"><div class="num" id="h-inv">$6.1M</div><div class="lbl">Total investment/year</div><div class="cmp">All 6 interventions at default reach</div></div>
       <div class="hdiv"></div>
-      <div class="hs"><div class="num" id="h-sav">$9.5M</div><div class="lbl">Total estimated savings/year</div><div class="cmp">Human-capital value of DALYs averted</div></div>
+      <div class="hs"><div class="num" id="h-sav">$15.7M</div><div class="lbl">Total estimated savings/year</div><div class="cmp">Human-capital value of DALYs averted</div></div>
       <div class="hdiv"></div>
-      <div class="hs"><div class="num">5,943</div><div class="lbl">DALYs/year (MI LE baseline)</div><div class="cmp">→ <a href="clare.html" style="color:#34d399">See full burden dashboard</a></div></div>
+      <div class="hs"><div class="num">15,430</div><div class="lbl">DALYs/year current burden</div><div class="cmp">→ <a href="isabella.html" style="color:#34d399">See full burden dashboard</a></div></div>
     </div>
   </div>
 </div>
@@ -171,7 +153,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
       <option value="20">20 years</option>
     </select>
   </div>
-  <p class="ctrl-note" id="ctrl-note">Societal perspective includes healthcare costs, lost productivity, and criminal justice savings. Clare County baseline: 5,943 DALYs/yr (MI LE 78.6 yrs). Adjust reach sliders below.</p>
+  <p class="ctrl-note" id="ctrl-note">Societal perspective includes healthcare costs, lost productivity, and criminal justice savings. Adjust reach sliders on each intervention below.</p>
 </div>
 
 <div class="page">
@@ -179,38 +161,38 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
   <!-- Summary strip -->
   <div class="summary-strip">
     <div class="scard" style="--accent:var(--green)">
-      <div class="num" id="s-roi">$3.68</div>
+      <div class="num" id="s-roi">$2.58</div>
       <div class="lbl">Return per $1 invested (portfolio)</div>
       <div class="delta">▲ Net benefit per year</div>
     </div>
     <div class="scard" style="--accent:var(--blue)">
-      <div class="num" id="s-inv">$2.6M</div>
+      <div class="num" id="s-inv">$6.1M</div>
       <div class="lbl">Total annual investment required</div>
       <div class="delta">All 6 programs combined</div>
     </div>
     <div class="scard" style="--accent:var(--teal)">
-      <div class="num" id="s-sav">$9.5M</div>
+      <div class="num" id="s-sav">$15.7M</div>
       <div class="lbl">Estimated annual savings</div>
-      <div class="delta">5-yr net benefit: <span id="s-5yr">$29.5M</span></div>
+      <div class="delta">5-yr net benefit: <span id="s-5yr">$48M</span></div>
     </div>
-    <div class="scard" style="--accent:var(--red)">
-      <div class="num" id="s-daly">~117</div>
+    <div class="scard" style="--accent:var(--purple)">
+      <div class="num" id="s-daly">~254</div>
       <div class="lbl">Estimated DALYs averted/year</div>
-      <div class="delta">~2.0% of 5,943 MI LE baseline</div>
+      <div class="delta">~1.7% of primary 15,430 burden</div>
     </div>
   </div>
 
   <!-- Methodology note -->
   <div class="meth-box">
-    <strong>Methodology (Clare County · v1.0 · June 2026).</strong> ROI ratios use the same Cochrane and peer-reviewed meta-analyses as the Isabella County ROI analysis. Formula: DALYs averted = target DALYs × programme reach × meta-analysis effect fraction; savings = DALYs averted × $62,000 (Michigan human capital rate, GDP per capita 2024). ROI = savings ÷ annualised investment. Intervention reach numbers are scaled proportionally to Clare County's population (30,013 = ~46.5% of Isabella's 64,565). Priority ordering differs from Isabella — MAT Telehealth for OUD is #1 given Clare's severe opioid crisis (~47/100k overdose mortality). COPD remote monitoring added as a sixth intervention not present in the Isabella analysis (12.7% prevalence, standout condition). DALY baseline: 5,943 (Michigan LE 78.6 yrs planning standard). All figures ±30–50% uncertainty — directional planning estimates only.
-    <br><strong>Population base:</strong> 30,013 total / ~24,310 adults · Burden: 5,943 DALYs (MI LE) / 8,198 DALYs (frontier LE primary) · <a href="clare_methods.html">Full methods →</a>
+    <strong>Methodology (June 2026 v5.0 update).</strong> ROI ratios are recalculated from Cochrane and peer-reviewed meta-analyses (Reilly 2024 for MH; Perry 2025 for MAT; Whittaker 2019 for tobacco; Agarwal 2025 for BP; Freeman 2021 for cancer screening; Jiang 2026 for diabetes). Formula: DALYs averted = target DALYs × programme reach × meta-analysis effect fraction; savings = DALYs averted × $62,000 (Michigan human capital rate, GDP per capita 2024). ROI = savings ÷ annualised investment. Estimates apply to Isabella County population subgroups derived from CDC PLACES 2024; SUD and CVD prevalence are derived, and several mortality inputs are rural-adjusted proxies. MH and cancer screening ROI are below 2:1, reflecting limitations of cited evidence. All figures ±30–50% uncertainty - directional planning estimates only, not audited projections. Use sliders to model different reach scenarios.
+    <br><strong>Population base:</strong> 64,565 total / ~52,297 adults · Primary burden: 15,430 DALYs (frontier LE + MH remission-adj; 95% UI 14,459–16,481) · Planning sensitivity (MI LE 78.6 yrs): 10,579 DALYs · Monte Carlo n=10,000 · <a href="isabella_methods.html">Full methods →</a>
   </div>
 
   <!-- Charts -->
   <div class="g2" style="margin-bottom:18px;">
     <div class="card">
       <h3>Investment vs. Savings by Intervention</h3>
-      <p class="sub">$ thousands/year at current reach settings</p>
+      <p class="sub">$ millions/year at current reach settings</p>
       <canvas id="barChart" height="250"></canvas>
     </div>
     <div class="card">
@@ -242,11 +224,11 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
 
   <!-- Grant framing section -->
   <div class="card" style="margin-bottom:24px;">
-    <h3>💡 Grant Application Framing — Clare County</h3>
-    <p class="sub">How to use this ROI analysis in funding applications for MUA-designated rural county</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <h3>💡 Grant Application Framing</h3>
+    <p class="sub">How to use this ROI analysis in funding applications</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" id="grant-grid">
       <div style="background:var(--bg);border-radius:8px;padding:16px;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;">NIH / HRSA / SAMHSA Significance Section</div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;">NIH / HRSA Significance Section</div>
         <p style="font-size:12.5px;line-height:1.65;" id="grant-significance">Loading...</p>
       </div>
       <div style="background:var(--bg);border-radius:8px;padding:16px;">
@@ -259,144 +241,136 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
 </div><!-- end .page -->
 
 <footer>
-  <span>ROI Analysis · Clare County · June 2026 · Data: CDC PLACES 2024 · Michigan rates × rural adj.</span>
-  <span>Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University · <a href="clare.html" style="color:inherit">← Back to Clare Dashboard</a></span>
+  <span>ROI Analysis · Isabella County · June 2026 · Data: CDC PLACES 2024</span>
+  <span>Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University · <a href="isabella.html" style="color:inherit">← Back to Dashboard</a></span>
 </footer>
 
 <script>
 // ═══════════════════════════════════════════════════════
-// CLARE COUNTY ROI DATA
-// Population: 30,013 total / ~24,310 adults (~46.5% of Isabella's 64,565)
-// Baseline: 5,943 DALYs (MI LE 78.6 yrs planning standard)
-// Priority order differs from Isabella: MAT Telehealth is #1 (opioid crisis)
-// COPD monitoring added as 6th intervention (not in Isabella analysis)
+// DATA - Updated 2026 (CDC PLACES 2024 · CDC WONDER 2020-22 · Cochrane meta-analyses)
+// ROI recalculated: DALYs averted = target × 15% reach × meta-analysis effect fraction
+// Savings = DALYs averted × $62,000 (Michigan human capital rate, GDP per capita 2024)
 // ═══════════════════════════════════════════════════════
 const INTERVENTIONS = {
+  mh: {
+    name: 'Collaborative Care for Mental Health',
+    short: 'Mental Health',
+    icon: '🧠',
+    color: '#7c3aed',
+    accentBg: '#faf5ff',
+    condition: 'Mental health disorders (29.8% lifetime prev.; #4 burden, 1,733 DALYs remission-adj)',
+    mechanism: 'Telepsychiatry + collaborative care in primary care (SMI population - schizophrenia, bipolar)',
+    targetPop: 7792,
+    targetLabel: '~7,792 active MH patients (CDC PLACES × 0.50 remission)',
+    defaultReach: 20,
+    costPerPt: 800,
+    roiRatio: 0.6,
+    roiRange: [0.3, 1.0],
+    roiSource: 'Reilly 2024 (CD009531, PMID 38712709): no significant QoL benefit (SMD 0·03); borderline disability improvement (RR 1·38, low certainty, 1 RCT); SMI population only. ROI estimated from care coordination efficiencies, not clinical outcome improvement.',
+    roiUrl: 'https://pubmed.ncbi.nlm.nih.gov/38712709/',
+    savings_mechanism: 'Care coordination efficiencies; Reilly 2024 found no significant QoL or mental state improvement for SMI; ROI below 1:1',
+    dalys_averted_pct: 0.008,
+    perspective_adj: { healthcare: 0.6, societal: 1.0, medicaid: 0.7 },
+  },
   sud: {
     name: 'MAT Telehealth for Opioid Use Disorder',
-    short: 'MAT / OUD',
+    short: 'MAT / SUD',
     icon: '💊',
-    color: '#dc2626',
-    accentBg: '#fef2f2',
-    priority: 1,
-    condition: 'SUD/Opioids (#2 burden, 1,247 DALYs · ~17 deaths/yr · ~47/100k overdose rate — Clare\'s defining crisis)',
-    mechanism: 'Buprenorphine/OAT via telehealth primary care; delivery equivalence validated by Perry 2025 (Cochrane)',
-    targetPop: 1604,
-    targetLabel: '~1,604 SUD patients (6.6% × 24,310 adults)',
-    defaultReach: 20,
+    color: '#d97706',
+    accentBg: '#fff7ed',
+    condition: 'Substance use disorders (#3 burden, 2,904 DALYs · 37 deaths/yr at age 44)',
+    mechanism: 'OAT (buprenorphine) via telehealth primary care; delivery equivalence validated by Perry 2025',
+    targetPop: 3755,
+    targetLabel: '~3,755 SUD patients (CDC PLACES 2024)',
+    defaultReach: 15,
     costPerPt: 3000,
     roiRatio: 1.3,
     roiRange: [0.8, 3.5],
-    roiSource: 'Perry 2025 (CD013672, PMID 40919724): primary care OAT equivalent to specialty care — validates telehealth delivery. SAMHSA data: telehealth MAT doubled rural access 2020–2022. DALYs averted estimated from background OAT efficacy literature.',
+    roiSource: 'Perry 2025 (CD013672, PMID 40919724): primary care OAT equivalent to specialty care outcomes - validates telehealth delivery channel. Does not compare vs. no treatment; DALYs averted estimated from background OAT efficacy literature.',
     roiUrl: 'https://pubmed.ncbi.nlm.nih.gov/40919724/',
-    savings_mechanism: 'Averted overdose deaths, reduced ER visits; ~47/100k baseline Clare rate indicates high avoidable mortality. Telehealth delivery critical given no MAT specialist access.',
+    savings_mechanism: 'Averted overdose deaths, reduced ER visits; telehealth delivery validated as equivalent to specialty care by Perry 2025',
     dalys_averted_pct: 0.062,
     perspective_adj: { healthcare: 0.3, societal: 1.0, medicaid: 0.45 },
   },
-  bp: {
-    name: 'Community Health Worker Hypertension Control',
-    short: 'BP / CHW',
-    icon: '❤️',
-    color: '#1a56db',
-    accentBg: '#eff6ff',
-    priority: 2,
-    condition: 'CVD + Stroke (#5–6 burden, ~1,281 DALYs combined · hypertension prevalence ~32%+ in Clare adults)',
-    mechanism: 'CHW-led remote BP monitoring + AI-assisted clinical decision support + targeted patient communication (Agarwal 2025)',
-    targetPop: 9720,
-    targetLabel: '~9,720 hypertensive adults (~40% × 24,310)',
-    defaultReach: 10,
-    costPerPt: 500,
-    roiRatio: 6.4,
-    roiRange: [3.0, 9.0],
-    roiSource: 'Agarwal 2025 (CD014652): CV events OR 0.58 (Tracking+CDSS+TCC, high-risk adults); SBP MD −2.80 mmHg. CHW delivery model appropriate for Clare where no CMU Health infrastructure exists.',
-    roiUrl: 'https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD014652',
-    savings_mechanism: 'Prevented strokes (~$100K/event), reduced cardiovascular event rates; CHW workforce model scalable without specialist access.',
-    dalys_averted_pct: 0.052,
-    perspective_adj: { healthcare: 0.9, societal: 1.0, medicaid: 0.8 },
-  },
   tobacco: {
-    name: 'Tobacco Cessation Quitline + NRT',
+    name: 'AI-Guided Tobacco Cessation',
     short: 'Tobacco Cessation',
     icon: '🚭',
     color: '#059669',
     accentBg: '#f0fdf4',
-    priority: 3,
-    condition: 'COPD, Cancer, CVD (smoking ~18–22% adult prevalence; primary COPD driver in aging Clare population)',
-    mechanism: 'Automated SMS quitline + NRT provision (Whittaker 2019: RR 1.54 vs minimal support); state SmokefreeMI partnership',
-    targetPop: 4862,
-    targetLabel: '~4,862 adult smokers (~20% × 24,310)',
-    defaultReach: 12,
+    condition: 'COPD, cardiovascular disease, cancer (18.6% adult smoking rate)',
+    mechanism: 'Automated SMS-based cessation support (Whittaker 2019: RR 1·54 vs minimal support)',
+    targetPop: 9727,
+    targetLabel: '~9,727 adult smokers (18.6% × 52,297)',
+    defaultReach: 10,
     costPerPt: 183,
     roiRatio: 11.0,
     roiRange: [6.0, 14.0],
-    roiSource: 'Whittaker 2019 (CD006611, PMID 31638271): RR 1.54 (95% CI 1.19–2.00) automated SMS vs minimal support; moderate certainty; 13 RCTs, 14,133 participants; ~3.2 pp additional quit rate. Tobacco cessation is the highest-leverage intervention for COPD, which is Clare\'s standout burden.',
+    roiSource: 'Whittaker 2019 (CD006611, PMID 31638271): RR 1·54 (95% CI 1·19–2·00) automated SMS vs minimal support; moderate certainty; 13 RCTs, 14,133 participants; ~3·2 percentage-point additional quit rate.',
     roiUrl: 'https://pubmed.ncbi.nlm.nih.gov/31638271/',
-    savings_mechanism: 'Reduced COPD exacerbations, cardiovascular hospitalizations, averted cancer treatment costs. COPD at 12.7% makes tobacco the most impactful modifiable driver.',
+    savings_mechanism: 'Reduced cardiovascular hospitalizations, COPD exacerbations, averted cancer treatment costs; low cost per participant drives high ROI',
     dalys_averted_pct: 0.033,
     perspective_adj: { healthcare: 0.8, societal: 1.0, medicaid: 0.9 },
   },
+  bp: {
+    name: 'Remote BP Monitoring + Telehealth Hypertension Control',
+    short: 'BP Monitoring',
+    icon: '❤️',
+    color: '#1a56db',
+    accentBg: '#eff6ff',
+    condition: 'Ischemic heart disease, stroke (32.1% hypertension · CVD+Stroke 4,375 DALYs)',
+    mechanism: 'Digital BP tracking + clinical decision support + targeted client communication (Agarwal 2025)',
+    targetPop: 16768,
+    targetLabel: '~16,768 hypertensive adults (32.1% × 52,297)',
+    defaultReach: 10,
+    costPerPt: 500,
+    roiRatio: 6.4,
+    roiRange: [3.0, 9.0],
+    roiSource: 'Agarwal 2025 (CD014652): SBP MD −2·80 mmHg (TCC, stroke patients, 1 RCT, n=1,226); CV events OR 0·58 (Tracking+CDSS+TCC, high-risk adults). Most studies showed small or no differences; estimates rest on single RCTs.',
+    roiUrl: 'https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD014652',
+    savings_mechanism: 'Prevented strokes (~$100K/event), reduced cardiovascular event rates (~42% reduction OR 0·58); modest SBP reduction (−2·80 mmHg)',
+    dalys_averted_pct: 0.052,
+    perspective_adj: { healthcare: 0.9, societal: 1.0, medicaid: 0.8 },
+  },
   cancer: {
-    name: 'AI-Assisted Cancer Screening Navigation',
+    name: 'AI-Assisted Cancer Screening Support',
     short: 'Cancer Screening',
     icon: '🔬',
-    color: '#7c3aed',
-    accentBg: '#faf5ff',
-    priority: 4,
-    condition: 'Cancer (#1 burden, 1,372 DALYs · ~60 deaths/yr at age 67 · 7.6% county prevalence)',
-    mechanism: 'AI-assisted care navigation for cancer screening; automated follow-up reminders; rural patient navigation support (addresses long travel distances to oncology)',
-    targetPop: 2282,
-    targetLabel: '~2,282 high-risk patients (7.6% × 30,013)',
-    defaultReach: 20,
+    color: '#dc2626',
+    accentBg: '#fef2f2',
+    condition: 'Cancer, all sites (#1 burden, 4,057 DALYs · 130 deaths/yr at age 67)',
+    mechanism: 'AI triage for mammography/lung CT screening - workload reduction, not incremental detection',
+    targetPop: 5000,
+    targetLabel: '5,000 high-risk patients',
+    defaultReach: 30,
     costPerPt: 200,
     roiRatio: 1.1,
     roiRange: [0.7, 1.5],
-    roiSource: 'Freeman 2021 (BMJ n1872, PMID 34470740): 94% of AI systems less accurate than a single radiologist for mammography; AI triage excludes 45–53% low-risk but misses 4–10% of cancers. Navigation component has moderate independent evidence for rural populations. ROI reflects workload efficiency and navigation adherence, not incremental early detection.',
+    roiSource: 'Freeman 2021 (BMJ n1872, PMID 34470740): 94% of AI systems less accurate than a single radiologist for mammography; triage excludes 45–53% low-risk women but misses 4–10% of cancers. No incremental cancer detection benefit demonstrated. ROI reflects workload efficiency only.',
     roiUrl: 'https://pubmed.ncbi.nlm.nih.gov/34470740/',
-    savings_mechanism: 'Navigation reduces treatment abandonment (critical for rural patients with long travel distances); AI triage reduces radiologist workload; modest early detection improvement.',
+    savings_mechanism: 'Radiologist workload reduction (45–53% low-risk triage) only; no incremental early detection benefit per Freeman 2021',
     dalys_averted_pct: 0.012,
     perspective_adj: { healthcare: 1.0, societal: 1.0, medicaid: 0.7 },
   },
   diabetes: {
-    name: 'Telehealth Diabetes Management',
-    short: 'Diabetes Telehealth',
+    name: 'Remote Diabetes Monitoring',
+    short: 'Diabetes Monitoring',
     icon: '📱',
     color: '#0d9488',
     accentBg: '#f0fdfa',
-    priority: 5,
-    condition: 'Diabetes T2 (#7 burden, 351 DALYs · 15.4% prevalence — 33% above Isabella; aging population amplifies complications)',
-    mechanism: 'Remote glucose monitoring + AI coaching; telehealth follow-up for medication adjustment; HbA1c reduction per Jiang 2026 (−0.38%)',
-    targetPop: 4628,
-    targetLabel: '~4,628 diabetic adults (15.4% × 30,013)',
-    defaultReach: 12,
+    condition: 'Diabetes (11.6% adult prevalence · 607 DALYs/year)',
+    mechanism: 'Remote glucose monitoring + AI coaching; HbA1c reduction per Jiang 2026 (−0·38%)',
+    targetPop: 6066,
+    targetLabel: '~6,066 diabetic adults (11.6% × 52,297)',
+    defaultReach: 10,
     costPerPt: 922,
     roiRatio: 7.7,
     roiRange: [4.0, 12.0],
-    roiSource: 'Jiang 2026 (PMID 41707176): HbA1c MD −0.38% (95% CI −0.49 to −0.27) vs usual care; 58 RCTs, 13,942 participants; high heterogeneity (I²=96%). Clare\'s 15.4% diabetes prevalence (highest of the two counties) makes this a high-volume target population.',
+    roiSource: 'Jiang 2026 (PMID 41707176): HbA1c MD −0·38% (95% CI −0·49 to −0·27) vs usual care; 58 RCTs, 13,942 participants; high heterogeneity (I²=96%). Effect size revised from earlier −0·5% assumption.',
     roiUrl: 'https://pubmed.ncbi.nlm.nih.gov/41707176/',
-    savings_mechanism: 'Reduced diabetes complications (cardiovascular, renal, neuropathy), averted hospitalizations from better glycaemic control; telehealth necessary given Clare\'s specialist shortage.',
+    savings_mechanism: 'Reduced diabetes complications (cardiovascular, renal, neuropathy), averted hospitalizations from better glycaemic control',
     dalys_averted_pct: 0.115,
     perspective_adj: { healthcare: 0.7, societal: 1.0, medicaid: 0.8 },
-  },
-  copd: {
-    name: 'Remote COPD Monitoring',
-    short: 'COPD Monitoring',
-    icon: '🫁',
-    color: '#d97706',
-    accentBg: '#fff7ed',
-    priority: 6,
-    condition: 'COPD/Respiratory (#3 burden, 868 DALYs · 12.7% prevalence — standout Clare condition vs. 8.8% Isabella, ~7% MI avg)',
-    mechanism: 'Remote pulse oximetry + spirometry monitoring; AI-assisted exacerbation early warning; telehealth follow-up reducing ER visits',
-    targetPop: 3087,
-    targetLabel: '~3,087 COPD patients (12.7% × 24,310 adults)',
-    defaultReach: 15,
-    costPerPt: 800,
-    roiRatio: 3.5,
-    roiRange: [1.5, 6.0],
-    roiSource: 'Cochrane remote COPD monitoring reviews (Walker 2018 CD013040; Lundell 2015): reduced COPD exacerbation-related hospitalizations 30–40% in moderate-to-severe COPD with telehealth monitoring. ROI estimate from hospitalization avoidance (~$15K/COPD hospitalization × exacerbation rate). Clare-specific intervention not in Isabella ROI analysis.',
-    roiUrl: 'https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD013040',
-    savings_mechanism: 'Reduced COPD exacerbation hospitalizations (most costly acute event for COPD patients); early warning of deterioration enables outpatient intervention; relevant for aging Clare population (46.8 yr median age).',
-    dalys_averted_pct: 0.040,
-    perspective_adj: { healthcare: 0.85, societal: 1.0, medicaid: 0.9 },
   },
 };
 
@@ -406,9 +380,11 @@ const PERSPECTIVE_LABELS = {
   medicaid: 'Medicaid/payer perspective only',
 };
 
+// State
 const state = { reach: {} };
 Object.keys(INTERVENTIONS).forEach(k => state.reach[k] = INTERVENTIONS[k].defaultReach);
 
+// Calculations
 function calc(k) {
   const d = INTERVENTIONS[k];
   const persp = document.getElementById('perspective')?.value || 'societal';
@@ -434,6 +410,7 @@ function fmtM(v) {
   return `$${Math.round(v/1000)}K`;
 }
 
+// Build intervention cards
 function buildCards() {
   const grid = document.getElementById('int-grid');
   grid.innerHTML = '';
@@ -446,7 +423,6 @@ function buildCards() {
       <div class="int-head" style="background:${d.accentBg}">
         <span class="int-icon">${d.icon}</span>
         <div class="int-title">
-          ${d.priority===1 ? '<span class="priority-badge">Priority #1 · Opioid Crisis</span><br>' : ''}
           <h4>${d.name}</h4>
           <p>${d.condition} · ${d.mechanism}</p>
         </div>
@@ -555,9 +531,9 @@ function updateGrant() {
   const t = totalCalc();
   const horizon = parseInt(document.getElementById('horizon')?.value||5);
   document.getElementById('grant-significance').innerHTML =
-    `Clare County, Michigan faces an estimated 5,943 DALYs/year (MI LE 78.6 yrs planning standard; primary frontier estimate 8,198 DALYs). The county is a designated Medically Underserved Area (MUA) with opioid overdose mortality ~47/100,000 — among Michigan's highest. MAT telehealth is the highest-priority intervention given the severity of the OUD crisis. COPD burden (12.7% prevalence, highest in the mid-Michigan comparison set) is the standout condition unique to Clare. A portfolio of six targeted programs is estimated to require ${fmtM(t.inv)} annually and return ${fmtM(t.sav)} in societal savings — a ${t.roi.toFixed(1)}:1 ROI and ${fmtM(t.net*horizon)} net benefit over ${horizon} years. Applicable funders: SAMHSA MAT expansion grants, HRSA Rural Health care programs, MDHHS opioid settlement funds, CMS MUA-designated care model incentives.`;
+    `Isabella County, Michigan faces a primary burden of 15,430 estimated DALYs annually (95% UI 14,459–16,481; frontier LE + MH remission-adj; CDC PLACES 2024, CDC WONDER 2020–22, Monte Carlo n=10,000). Cancer is the leading burden (#1, 4,057 DALYs), followed by CVD (#2, 3,302), SUD (#3, 2,904), and mental health (#4, 1,733 DALYs remission-adj). Mental health access (176,938:1 psychiatrist ratio) remains the dominant structural gap despite the remission adjustment. Evidence strength varies by intervention; current meta-analysis-based ROI ratios range from ${Math.min(...Object.values(INTERVENTIONS).map(d=>d.roiRatio)).toFixed(1)}:1 to ${Math.max(...Object.values(INTERVENTIONS).map(d=>d.roiRatio)).toFixed(0)}:1. A portfolio of six targeted programs is estimated to require ${fmtM(t.inv)} annually and return ${fmtM(t.sav)} in savings - a ${t.roi.toFixed(1)}:1 return and ${fmtM(t.net*horizon)} net benefit over ${horizon} years. Several inputs rely on modeled prevalence or rural-adjusted mortality proxies and should be treated as planning estimates.`;
   document.getElementById('grant-board').innerHTML =
-    `For every dollar invested in this six-program package, Clare County would see an estimated <strong>${t.roi.toFixed(1)} dollars in return</strong> — led by tobacco cessation (11:1) and diabetes telehealth (7.7:1), with MAT telehealth prioritized for patient impact despite its lower modeled ROI (1.3:1) given Clare's ~47/100k opioid overdose death rate. The total annual investment of ${fmtM(t.inv)} is approximately half that of a comparable Isabella County portfolio, reflecting Clare's smaller population. Remote COPD monitoring is a Clare-specific intervention not present in the Isabella ROI analysis, targeting the county's standout 12.7% COPD prevalence.`;
+    `For every dollar invested in this package of six AI-enhanced health programs, Isabella County would see an estimated <strong>${t.roi.toFixed(1)} dollars in return</strong> under conservative meta-analysis-based assumptions - mainly through tobacco cessation, blood-pressure control, diabetes monitoring, and selected access improvements. The total annual investment of ${fmtM(t.inv)} would generate ${fmtM(t.net)} in annual net benefit and ${fmtM(t.net*horizon)} over ${horizon} years. Mental-health collaborative care and AI cancer screening are retained as access/workflow strategies, but their ROI should be interpreted cautiously because the cited evidence does not support strong incremental-effect claims.`;
 }
 
 // Charts
@@ -593,7 +569,7 @@ function updateCharts() {
 
 function updateAll() {
   const persp = document.getElementById('perspective')?.value||'societal';
-  document.getElementById('ctrl-note').textContent = PERSPECTIVE_LABELS[persp] + '. Clare County (pop. 30,013) · Baseline 5,943 DALYs (MI LE).';
+  document.getElementById('ctrl-note').textContent = PERSPECTIVE_LABELS[persp] + '. Adjust reach % sliders below.';
   Object.keys(INTERVENTIONS).forEach(k=>updateMetrics(k));
   updateSummary(); updateCharts(); updateTable(); updateGrant();
 }

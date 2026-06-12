@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isabella County Health Burden Dashboard | Lakes Linked Care</title>
+<meta name="description" content="Isabella County, Michigan health burden analysis: 15,430 DALYs/year. Planning-grade DALY estimates using CDC PLACES 2024, CDC WONDER 2020–22, and IHME GBD 2021. Dr. Sergey Soshnikov, MD PhD.">
+<meta property="og:title" content="Isabella County Health Burden Dashboard | Lakes Linked Care">
+<meta property="og:description" content="15,430 DALYs/yr · Cancer #1, CVD #2, SUD #3. County-level disease burden analysis for grant applications and CHNA planning.">
+<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/isabella.html">
+<meta property="og:type" content="website">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy:#0f1f3d; --blue:#1a56db; --teal:#0d9488; --red:#dc2626;
+  --amber:#d97706; --purple:#7c3aed; --green:#059669; --slate:#64748b;
+  --bg:#f8fafc; --surface:#fff; --border:#e2e8f0; --muted:#64748b;
+  --radius:10px; --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#0f172a;line-height:1.5;}
+
+/* ── NAV ── */
+.sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
+.sitenav .brand{color:#fff;font-size:13px;font-weight:700;letter-spacing:.02em;text-decoration:none;opacity:.9;}
+.sitenav .links{display:flex;gap:4px;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(130deg,var(--navy) 0%,#1e3a5f 60%,#1a4a6e 100%);padding:36px 28px 30px;}
+.hero-inner{max-width:1200px;margin:auto;}
+.hero h1{font-size:28px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;}
+.hero .sub{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:20px;}
+.hero-stats{display:flex;flex-wrap:wrap;gap:20px;}
+.hstat .num{font-size:32px;font-weight:800;color:#fff;letter-spacing:-.02em;}
+.hstat .lbl{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+.hstat .cmp{font-size:12px;margin-top:3px;}
+.hstat .cmp.bad{color:#f87171;} .hstat .cmp.neu{color:rgba(255,255,255,.5);}
+.hdiv{width:1px;background:rgba(255,255,255,.12);align-self:stretch;}
+
+/* ── NOTICE ── */
+.notice{background:#fffbeb;border-bottom:1px solid #fde68a;padding:9px 28px;font-size:12px;color:#92400e;display:flex;gap:8px;align-items:flex-start;}
+
+/* ── CONTROLS ── */
+.ctrl-bar{background:#fff;border-bottom:1px solid var(--border);padding:12px 28px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;}
+.ctrl-group{display:flex;flex-direction:column;gap:6px;}
+.ctrl-group label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+.ctrl-group .btns{display:flex;gap:4px;}
+.btn-toggle{background:var(--bg);border:1.5px solid var(--border);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;color:#374151;}
+.btn-toggle.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+.cond-checks{display:flex;flex-wrap:wrap;gap:6px;}
+.cond-check{display:flex;align-items:center;gap:5px;background:var(--bg);border:1.5px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:12px;font-weight:600;transition:all .15s;user-select:none;}
+.cond-check.on{border-color:var(--accent,var(--navy));background:rgba(var(--accent-rgb,15,31,61),.06);}
+.cond-check input{display:none;}
+.ctrl-info{font-size:11px;color:var(--muted);align-self:center;max-width:260px;line-height:1.5;}
+
+/* ── PAGE ── */
+.page{max-width:1200px;margin:0 auto;padding:24px 20px 60px;}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:24px;}
+.kpi{background:var(--surface);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--blue));}
+.kpi-num{font-size:26px;font-weight:800;color:#0f172a;letter-spacing:-.02em;line-height:1;}
+.kpi-label{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4;}
+.kpi-delta{font-size:11px;margin-top:5px;font-weight:600;}
+.kpi-delta.up{color:var(--red);} .kpi-delta.neu{color:var(--muted);}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px;}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr;}}
+.card{background:var(--surface);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);}
+.card h3{font-size:14px;font-weight:700;margin-bottom:2px;}
+.card .sub{font-size:11.5px;color:var(--muted);margin-bottom:14px;}
+
+/* ── ECON ── */
+.econ-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:640px){.econ-split{grid-template-columns:1fr;}}
+.econ-m{background:var(--bg);border-radius:8px;padding:16px;}
+.econ-m h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;margin-bottom:5px;}
+.econ-big{font-size:28px;font-weight:800;letter-spacing:-.02em;transition:all .3s;}
+.econ-rng{font-size:12px;color:var(--muted);margin:3px 0 6px;}
+.econ-desc{font-size:12px;color:#475569;line-height:1.5;}
+.econ-note{font-size:11px;color:var(--muted);margin-top:12px;border-top:1px solid var(--border);padding-top:10px;line-height:1.6;}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+thead th{background:var(--navy);color:rgba(255,255,255,.9);padding:9px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.03em;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:hover{background:var(--bg);}
+tbody tr.total{background:#f0f4f8;font-weight:700;border-top:2px solid var(--navy);}
+tbody td{padding:9px 11px;vertical-align:top;}
+.dc{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10.5px;font-weight:700;}
+.dc.obs{background:#dcfce7;color:#166534;} .dc.mdl{background:#fef9c3;color:#854d0e;}
+.dc.imp{background:#fee2e2;color:#991b1b;} .dc.sup{background:#f3e8ff;color:#6b21a8;}
+
+/* ── FINDINGS ── */
+.findings{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:24px;}
+.finding{background:var(--surface);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);border-left:3px solid var(--accent,var(--blue));}
+.finding h4{font-size:13px;font-weight:700;margin-bottom:4px;}
+.finding p{font-size:12.5px;color:#475569;line-height:1.55;}
+
+/* ── RECS ── */
+.rec{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:start;padding:13px 0;border-bottom:1px solid var(--border);}
+.rec-n{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rec-b h5{font-size:13px;font-weight:700;margin-bottom:2px;}
+.rec-b p{font-size:12px;color:var(--muted);line-height:1.5;}
+.rec-ev{font-size:11px;font-weight:700;color:var(--teal);background:#f0fdfa;border-radius:6px;padding:3px 8px;white-space:nowrap;align-self:start;}
+
+/* transition for live updates */
+.live-val{transition:color .25s;}
+.flash{animation:flash .4s;}
+@keyframes flash{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+/* ── COUNTY COMPARE BAR ── */
+.county-compare-bar{background:var(--surface);border-bottom:1px solid var(--border);}
+.ccb-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:stretch;overflow-x:auto;}
+.ccb-county{display:flex;flex-direction:column;padding:10px 20px 10px 0;margin-right:20px;border-right:1px solid var(--border);text-decoration:none;color:inherit;flex-shrink:0;border-bottom:3px solid transparent;transition:border-color .15s;cursor:pointer;}
+a.ccb-county:hover{border-bottom-color:var(--blue);}
+.ccb-county.active{border-bottom-color:var(--blue);}
+.ccb-county.disabled{opacity:.4;cursor:default;}
+.ccb-name{font-size:11.5px;font-weight:700;color:#0f172a;}
+.ccb-stat{font-size:13px;font-weight:800;color:var(--blue);margin-top:2px;}
+.ccb-county.active .ccb-stat{color:var(--blue);}
+.ccb-pop{font-size:10px;color:var(--muted);margin-top:1px;}
+.ccb-divider{width:1px;background:var(--border);margin:8px 0;}
+
+/* ── JUMP BAR ── */
+.jump-bar{background:#fff;border-bottom:1px solid var(--border);padding:7px 28px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;position:sticky;top:48px;z-index:90;}
+.jb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-right:4px;white-space:nowrap;}
+.jb-link{font-size:11.5px;font-weight:600;color:var(--slate);text-decoration:none;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:var(--bg);transition:all .15s;white-space:nowrap;}
+.jb-link:hover,.jb-link.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+/* ── COUNTY NAV PILL ── */
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+
+/* ── TRENDS ── */
+.trend-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:6px;}
+@media(max-width:1000px){.trend-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:540px){.trend-grid{grid-template-columns:1fr;}}
+.tcrd{background:var(--surface);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);}
+.tcrd h4{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.tcrd .tsub{font-size:10.5px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.tbadge{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:8px;}
+.tbadge.up{background:#fef2f2;color:#dc2626;}
+.tbadge.down{background:#f0fdf4;color:#16a34a;}
+.tbadge.flat{background:#f8fafc;color:#64748b;}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="sitenav">
+  <a class="brand" href="index.html">Lakes Linked Care</a>
+  <div class="links">
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink active" href="isabella.html">📊 Isabella</a>
+      <a class="navlink" href="clare.html">🚨 Clare</a>
+      <a class="navlink" href="midland.html">🏭 Midland</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="index.html">🏠 Portal</a>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="isabella_roi.html">💰 Economic Impact</a>
+    <a class="navlink" href="isabella_interventions.html">🤖 Interventions</a>
+    <a class="navlink" href="isabella_methods.html">📋 Methods</a>
+    <a class="navlink" href="isabella_trends.html">📈 Trends</a>
+  </div>
+</nav>
+
+<!-- County Compare Bar -->
+<div class="county-compare-bar">
+  <div class="ccb-inner">
+    <div class="ccb-county active">
+      <span class="ccb-name">📊 Isabella County</span>
+      <span class="ccb-stat">15,430 DALYs/yr</span>
+      <span class="ccb-pop">Pop. 64,565 · FIPS 26073</span>
+    </div>
+    <a class="ccb-county" href="clare.html">
+      <span class="ccb-name">🚨 Clare County</span>
+      <span class="ccb-stat" style="color:var(--red)">8,198 DALYs/yr</span>
+      <span class="ccb-pop">Pop. 30,013 · FIPS 26035</span>
+    </a>
+    <a class="ccb-county" href="midland.html">
+      <span class="ccb-name" style="color:var(--green)">🏭 Midland County</span>
+      <span class="ccb-stat" style="color:var(--green)">14,335 DALYs/yr</span>
+      <span class="ccb-pop">Pop. 82,884 · FIPS 26111</span>
+    </a>
+    <div class="ccb-county disabled">
+      <span class="ccb-name">🌾 Gratiot</span>
+      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q3 2026</span>
+    </div>
+    <div class="ccb-county disabled">
+      <span class="ccb-name">🎓 Mecosta</span>
+      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q4 2026</span>
+    </div>
+    <div class="ccb-county disabled">
+      <span class="ccb-name">🏙️ Washtenaw</span>
+      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q4 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Isabella County, Michigan - Health Burden Analysis</h1>
+    <p class="sub">Planning-grade DALY framework using public county health data · 2026</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="num" id="h-dalys-gbd">15,430</div><div class="lbl">DALYs/yr (Primary · frontier LE)</div><div class="cmp neu">Frontier LE 89.1 yrs · YLL 9,915 + YLD 5,515 · 95% UI 14,459–16,481</div></div>
+      <div class="hdiv"></div>
+      <div class="hstat"><div class="num">10,579</div><div class="lbl">DALYs/yr (Sensitivity · MI LE, remission-adj)</div><div class="cmp neu">Michigan LE 78.6 yrs · YLL 5,067 + YLD 5,515</div></div>
+      <div class="hdiv"></div>
+      <div class="hstat"><div class="num">819.9</div><div class="lbl">Mortality rate per 100k</div><div class="cmp bad">▲ 4.7% above MI · ▲ 13.3% above US</div></div>
+      <div class="hdiv"></div>
+      <div class="hstat"><div class="num" id="h-econ">$957M</div><div class="lbl">Economic burden/year (Primary · frontier LE)</div><div class="cmp neu" id="h-econ-sub">Human capital · Primary 15,430 DALYs</div></div>
+      <div class="hdiv"></div>
+      <div class="hstat"><div class="num">64,565</div><div class="lbl">County population</div><div class="cmp neu">Census ACS 2024 · Mount Pleasant</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Notice -->
+<div class="notice">
+  <span>⚠</span>
+  <span><strong>Planning model — not a validated county burden estimate.</strong> Primary: WHO/GBD Frontier LE 89.1 yrs + mental health remission adjustment (×0.50) = 15,430 DALYs (95% UI 14,459–16,481). Sensitivity (Michigan LE 78.6 yrs) = 10,579 DALYs. Monte Carlo n=10,000. Mixed-source: CDC PLACES 2024, CDC WONDER 2020–22, IHME GBD 2021 disability weights.
+  <a href="isabella_methods.html" style="color:#92400e;font-weight:700;">→ Full methods & data quality notes</a></span>
+</div>
+
+<!-- Controls -->
+<div class="ctrl-bar">
+  <div class="ctrl-group">
+    <label>Economic Burden Method</label>
+    <div class="btns">
+      <button class="btn-toggle active" onclick="setEcon('hc', this)">Human Capital</button>
+      <button class="btn-toggle" onclick="setEcon('vsl', this)">VSL (HHS 2026)</button>
+    </div>
+  </div>
+  <div class="ctrl-group">
+    <label>MH Prevalence</label>
+    <div class="btns">
+      <button class="btn-toggle" id="btn-raw" onclick="setRemission(false, this)" title="CDC PLACES 2024 lifetime-diagnosed depression (BRFSS ADDEPEV3). Used in local planning documents and dashboard default.">PLACES 29.8%</button>
+      <button class="btn-toggle active" id="btn-remission" onclick="setRemission(true, this)" title="Active disease approximation: 29.8% × 0.50 remission factor = 14.9%. Consistent with NSDUH 2021 past-year MDE. Used in academic paper (v6).">Remission-Adj. 14.9%</button>
+    </div>
+  </div>
+  <div class="ctrl-group">
+    <label>Show Conditions</label>
+    <div class="cond-checks" id="cond-checks"></div>
+  </div>
+  <div class="ctrl-info" id="ctrl-info">Primary standard: Frontier LE 89.1 yrs + MH remission adjustment = 15,430 DALYs. Sensitivity: Michigan LE 78.6 yrs = 10,579 DALYs. YLD varies with MH prevalence toggle (29.8% raw vs. 14.9% remission-adj).</div>
+</div>
+
+<!-- Jump Bar -->
+<div class="jump-bar">
+  <span class="jb-label">Jump to:</span>
+  <a class="jb-link" href="#sec-kpi">KPIs</a>
+  <a class="jb-link" href="#sec-charts">Charts</a>
+  <a class="jb-link" href="#sec-econ">Economic Burden</a>
+  <a class="jb-link" href="#sec-table">DALY Table</a>
+  <a class="jb-link" href="#sec-methods">Methodology</a>
+  <a class="jb-link" href="#sec-findings">Key Findings</a>
+  <a class="jb-link" href="#sec-recs">Recommendations</a>
+  <a class="jb-link" href="#sec-trends">Trends</a>
+</div>
+
+<div class="page">
+
+  <!-- KPI Strip -->
+  <div class="kpi-strip" id="sec-kpi">
+    <div class="kpi" style="--accent:var(--red)">
+      <div class="kpi-num">819.9</div>
+      <div class="kpi-label">Total mortality rate per 100k (MDHHS 2020)</div>
+      <div class="kpi-delta up">▲ 4.7% vs MI (783.1) · ▲ 13.3% vs US (723.6)</div>
+    </div>
+    <div class="kpi" style="--accent:var(--amber)">
+      <div class="kpi-num">21–26%</div>
+      <div class="kpi-label">Poverty rate (varies by source †)</div>
+      <div class="kpi-delta up">Well above MI avg (15%) regardless of source</div>
+    </div>
+    <div class="kpi" style="--accent:var(--amber)">
+      <div class="kpi-num">43.1%</div>
+      <div class="kpi-label">Adult obesity (CDC PLACES 2024)</div>
+      <div class="kpi-delta up">▲ vs MI 36.7% · ▲ vs US 35.3%</div>
+    </div>
+    <div class="kpi" style="--accent:var(--red)">
+      <div style="display:flex;gap:16px;align-items:baseline">
+        <div>
+          <div class="kpi-num" style="font-size:20px">15,430</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:600">MI Planning</div>
+        </div>
+        <div style="color:#cbd5e1;font-size:18px">|</div>
+        <div>
+          <div class="kpi-num" style="font-size:20px">10,579</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:600">GBD Standard</div>
+        </div>
+      </div>
+      <div class="kpi-label">Estimated DALYs/year · YLL + YLD</div>
+      <div class="kpi-delta neu">±20% uncertainty</div>
+    </div>
+    <div class="kpi" style="--accent:var(--purple)">
+      <div class="kpi-num live-val" id="kpi-econ">$726M</div>
+      <div class="kpi-label">Economic burden <span id="kpi-econ-note" style="font-style:italic">(human capital)</span></div>
+      <div class="kpi-delta neu" id="kpi-econ-delta">Indirect productivity losses only</div>
+    </div>
+    <div class="kpi" style="--accent:var(--red)">
+      <div class="kpi-num" style="font-size:18px">176,938:1</div>
+      <div class="kpi-label">HRSA psychiatrist shortage ratio (HPSA) ‡</div>
+      <div class="kpi-delta up">18.9× worse than MI avg (9,371:1)</div>
+    </div>
+  </div>
+
+  <!-- Charts row 1 -->
+  <div class="g2" id="sec-charts">
+    <div class="card">
+      <h3>DALYs by Condition</h3>
+      <p class="sub">Disability-Adjusted Life Years · <span id="chart1-sub">Michigan LE 78.6 · sorted by burden</span></p>
+      <canvas id="dalyChart" height="270"></canvas>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">Interactive charts use Michigan LE planning standard. Hero stats reflect primary (frontier LE + remission-adj = 15,430 DALYs). Use MH prevalence toggle above to apply remission adjustment.</p>
+    </div>
+    <div class="card">
+      <h3>Disability Share by Condition</h3>
+      <p class="sub">% of total DALY burden from disability (YLD) · <span id="chart2-sub">Michigan LE 78.6</span></p>
+      <canvas id="stackChart" height="270"></canvas>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">Higher % = condition primarily debilitates (→ management/treatment focus). Lower % = condition primarily kills early (→ prevention/screening focus). Reactive to LE standard and MH remission toggles.</p>
+    </div>
+  </div>
+
+  <!-- Charts row 2 -->
+  <div class="g2">
+    <div class="card">
+      <h3>Mortality Rate Comparison</h3>
+      <p class="sub">Deaths per 100,000 · MDHHS 2020 pre-pandemic baseline</p>
+      <canvas id="mortChart" height="250"></canvas>
+    </div>
+    <div class="card">
+      <h3>Social Determinants vs Michigan Average</h3>
+      <p class="sub">% of population · Multiple sources 2020–2025</p>
+      <canvas id="sdohChart" height="250"></canvas>
+    </div>
+  </div>
+
+  <!-- Comparison chart: MI LE vs GBD side-by-side -->
+  <div class="card" style="margin-bottom:18px">
+    <h3>DALY Estimates by Standard — Side-by-Side Comparison</h3>
+    <p class="sub">Sensitivity (MI LE 78.6 yrs) vs Primary (Frontier LE 89.1 yrs + remission-adj) · no discounting</p>
+    <canvas id="compareChart" height="220"></canvas>
+    <p style="font-size:11px;color:var(--muted);margin-top:8px">Primary (frontier LE + remission-adj): Cancer #1 (4,057), CVD #2 (3,302) — higher YLL at late ages. MI LE sensitivity (bars in dark): MH #1 (2,713 DALYs without remission adj). Remission toggle affects MH bar height.</p>
+  </div>
+
+  <!-- Abbreviations -->
+  <div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:12px 18px;margin-bottom:18px;font-size:11.5px;color:var(--muted);line-height:1.9;">
+    <span style="font-weight:700;color:#374151;margin-right:8px;">Abbreviations:</span>
+    <strong>DALY</strong> Disability-Adjusted Life Year &nbsp;·&nbsp;
+    <strong>YLL</strong> Years of Life Lost (premature mortality) &nbsp;·&nbsp;
+    <strong>YLD</strong> Years Lived with Disability &nbsp;·&nbsp;
+    <strong>MH</strong> Mental Health Disorders (F30–F48) &nbsp;·&nbsp;
+    <strong>SUD</strong> Substance Use Disorders (F10–F19) &nbsp;·&nbsp;
+    <strong>CVD</strong> Cardiovascular Disease (I20–I51) &nbsp;·&nbsp;
+    <strong>IHD</strong> Ischemic Heart Disease &nbsp;·&nbsp;
+    <strong>COPD</strong> Chronic Obstructive Pulmonary Disease (J44) &nbsp;·&nbsp;
+    <strong>DM</strong> Diabetes Mellitus Type 2 (E11) &nbsp;·&nbsp;
+    <strong>DW</strong> Disability Weight (IHME GBD 2021) &nbsp;·&nbsp;
+    <strong>LE</strong> Life Expectancy &nbsp;·&nbsp;
+    <strong>UI</strong> Uncertainty Interval (Monte Carlo 2.5th–97.5th percentile) &nbsp;·&nbsp;
+    <strong>MRP</strong> Multilevel Regression and Poststratification (CDC PLACES method) &nbsp;·&nbsp;
+    <strong>HPSA</strong> Health Professional Shortage Area &nbsp;·&nbsp;
+    <strong>FPL</strong> Federal Poverty Level &nbsp;·&nbsp;
+    <strong>VSL</strong> Value of Statistical Life &nbsp;·&nbsp;
+    <strong>NAS</strong> Neonatal Abstinence Syndrome
+  </div>
+
+  <!-- Economic Burden -->
+  <div class="card" style="margin-bottom:18px" id="sec-econ">
+    <h3>Economic Burden of Disease</h3>
+    <p class="sub">Two methodological approaches - use controls above to switch</p>
+    <div class="econ-split">
+      <div class="econ-m">
+        <h4>Human Capital Approach</h4>
+        <div style="display:flex;gap:20px;align-items:baseline;flex-wrap:wrap">
+          <div>
+            <div class="econ-big" style="color:var(--navy)">$726M</div>
+            <div style="font-size:11px;color:var(--muted)">Primary (15,430 DALYs)</div>
+          </div>
+          <div style="color:#cbd5e1;font-size:24px">|</div>
+          <div>
+            <div class="econ-big" style="color:#1e40af">$1,027M</div>
+            <div style="font-size:11px;color:var(--muted)">Sensitivity (10,579 DALYs)</div>
+          </div>
+        </div>
+        <div class="econ-rng">Both × $62,000 (MI GDP per capita 2024). Range ±20%.</div>
+        <div class="econ-desc">Estimates foregone productivity due to premature death and disability. Standard in academic literature. <strong>Does not include direct medical costs.</strong></div>
+      </div>
+      <div class="econ-m">
+        <h4>Value of Statistical Life (HHS 2026)</h4>
+        <div class="econ-big" style="color:var(--purple)">~$4.9B</div>
+        <div class="econ-rng">Range: $2.3B – $7.5B (HHS 2026 low/high) · ~461 deaths × $10.5M</div>
+        <div class="econ-desc">Social willingness to pay to prevent deaths. HHS VSL $13.4M income-adjusted for Isabella County ($10.5M; elasticity 0.4). <strong>Method used by EPA, DOT, HHS for policy analysis.</strong></div>
+      </div>
+    </div>
+    <div class="econ-note">VSL does not change when you toggle the LE reference - it is based on deaths, not DALYs. Human Capital estimate updates live. Source: HHS ASPE Standard Values 2026; Michigan LE: MDHHS <a href="https://www.mdch.state.mi.us/osr/deaths/lifeUSMI.asp" target="_blank">lifeUSMI.asp</a></div>
+  </div>
+
+  <!-- DALY Table -->
+  <div class="card" style="margin-bottom:18px" id="sec-table">
+    <h3>Disease Burden Detail - Live Calculation</h3>
+    <p class="sub">Change controls above to recalculate · <span id="table-sub">Michigan LE 78.6 yrs · No discounting or age-weighting (standard DALY convention)</span></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Condition (ICD-10)</th>
+            <th>Prevalence</th>
+            <th>Mort. Rate</th>
+            <th>Deaths/yr</th>
+            <th>Remaining LE</th>
+            <th>YLL (MI)</th>
+            <th>YLL (GBD)</th>
+            <th>DW</th>
+            <th>YLD</th>
+            <th>DALYs</th>
+            <th>Data Quality</th>
+          </tr>
+        </thead>
+        <tbody id="daly-tbody"></tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px">† Poverty: MDHHS 2020 PCNA 26.5% below 100% FPL; Census ACS 5-yr 2024: 21.9%; QuickFacts 2020–24: 19.0% - different ACS products, years, and student-population treatment. Not directly comparable. &nbsp;‡ HRSA HPSA ratio is FTE-weighted for Central Michigan Service Area - not a simple county headcount against 64,565 residents. &nbsp;
+    <a href="isabella_methods.html" style="color:var(--blue)">Full methodology notes →</a>
+    <span id="remission-footnote" style="display:none"> &nbsp;* MH YLD uses active disease prevalence (14.9% = 29.8% × 0.50 remission factor) when remission-adjusted mode is selected.</span></p>
+  </div>
+
+  <!-- Methodology Version History -->
+  <div id="sec-methods" style="border:2px solid var(--navy);border-radius:12px;padding:22px 28px;margin-bottom:28px;background:linear-gradient(135deg,#0f1f3d 0%,#1e3a5f 100%);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:0;right:0;width:180px;height:180px;background:radial-gradient(circle,rgba(13,148,136,.18) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.45);margin-bottom:6px;">Methodology Evolution</div>
+    <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-.01em;">How the estimate changed — and why</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:20px;">Each refinement step added methodological rigor. Numbers are not contradictory — they answer different questions.</div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+
+      <!-- Step 1 -->
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <div style="width:24px;height:24px;border-radius:50%;background:#64748b;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);">Initial estimate · v1–v2</div>
+        </div>
+        <div style="font-size:26px;font-weight:800;color:#94a3b8;letter-spacing:-.02em;line-height:1;">11,710</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.5;">Michigan LE 78.6 yrs · Mean-age YLL · Raw CDC PLACES prevalence · No uncertainty bounds</div>
+        <div style="font-size:10.5px;color:#fbbf24;margin-top:6px;font-weight:600;">MH ranked #1 · DALYs/yr</div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.2);">→</div>
+
+      <!-- Step 2 -->
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <div style="width:24px;height:24px;border-radius:50%;background:#1a56db;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);">Frontier LE added · v3</div>
+        </div>
+        <div style="font-size:26px;font-weight:800;color:#60a5fa;letter-spacing:-.02em;line-height:1;">16,558</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.5;">WHO GHE frontier LE 89.1 yrs applied · Enables international GBD comparison · Raw prevalence still used</div>
+        <div style="font-size:10.5px;color:#fbbf24;margin-top:6px;font-weight:600;">Cancer moves to #1 under this standard</div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.2);">→</div>
+
+      <!-- Step 3 -->
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <div style="width:24px;height:24px;border-radius:50%;background:#7c3aed;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);">MH remission adj. · v5</div>
+        </div>
+        <div style="font-size:26px;font-weight:800;color:#a78bfa;letter-spacing:-.02em;line-height:1;">−1,128</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.55);margin-top:4px;line-height:1.5;">CDC PLACES reports lifetime-diagnosed prevalence · Active burden ×0.50 remission factor · 7,792 active cases</div>
+        <div style="font-size:10.5px;color:#fbbf24;margin-top:6px;font-weight:600;">MH drops from #1 → #4</div>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+          <button onclick="setRemission(false,document.getElementById('btn-raw'));document.getElementById('dalyChart').scrollIntoView({behavior:'smooth',block:'center'})" style="font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);cursor:pointer;font-weight:600;">▶ Without remission-adj.</button>
+          <button onclick="setRemission(true,document.getElementById('btn-remission'));document.getElementById('dalyChart').scrollIntoView({behavior:'smooth',block:'center'})" style="font-size:10px;padding:4px 10px;border-radius:5px;border:1px solid rgba(13,148,136,.6);background:rgba(13,148,136,.25);color:#34d399;cursor:pointer;font-weight:600;">▶ With remission-adj.</button>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.2);">→</div>
+
+      <!-- Step 4: Final -->
+      <div style="background:rgba(13,148,136,.18);border:1.5px solid rgba(13,148,136,.5);border-radius:8px;padding:14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <div style="width:24px;height:24px;border-radius:50%;background:#0d9488;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✓</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.55);">Final · v5 primary</div>
+        </div>
+        <div style="font-size:26px;font-weight:800;color:#34d399;letter-spacing:-.02em;line-height:1;">15,430</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.7);margin-top:4px;line-height:1.5;">Frontier LE + remission adj. · Monte Carlo n=10,000 · 95% UI 14,459–16,481 · Cancer #1</div>
+        <div style="font-size:10.5px;color:#34d399;margin-top:6px;font-weight:600;">Cancer #1 · CVD #2 · SUD #3 · MH #4</div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:rgba(255,255,255,.4);line-height:1.7;">
+      <strong style="color:rgba(255,255,255,.6);">Note:</strong>
+      11,710 (Michigan LE · no remission adjustment) remains valid as a local planning-grade sensitivity and for comparison with prior county documents.
+      The 16,558 figure reflects frontier LE before the remission correction.
+      15,430 is the methodologically preferred primary estimate for cross-county and cross-country GBD comparison.
+    </div>
+  </div>
+
+  <!-- Key Findings -->
+  <h2 id="sec-findings" style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--navy)">Key Findings</h2>
+  <div class="findings">
+    <div class="finding" style="--accent:var(--purple)">
+      <h4>🚨 Mental Health — <span id="finding-mh-rank">#3 (MI)</span> / #4 (Primary) · <span id="finding-mh-daly">1,733</span> DALYs</h4>
+      <p>CDC PLACES 29.8% adult prevalence (lifetime-diagnosed). Remission-adjusted active burden: 7,792 cases / 1,733 DALYs → #4 under primary standard. Under MI LE without remission adjustment, MH is #1 (2,713 DALYs). Under primary (frontier LE + remission-adj): Cancer #1, CVD #2, SUD #3. Mental health access crisis remains regardless: HRSA ratio 176,938:1 — 18.9× worse than state average. <a href="isabella_interventions.html#mental" style="color:var(--purple)">→ AI solutions</a></p>
+    </div>
+    <div class="finding" style="--accent:var(--blue)">
+      <h4>📊 GBD/WHO Standard Ranking</h4>
+      <p>Primary (frontier LE + MH remission-adj): Cancer #1 (4,057), CVD #2 (3,302), SUD #3 (2,904), MH #4 (1,733). Total primary burden: 15,430 DALYs (95% UI 14,459–16,481). Planning sensitivity (MI LE): 10,579 DALYs. Monte Carlo n=10,000 propagates uncertainty from mortality (Poisson), prevalence (beta), and disability weights (±15–25%).</p>
+    </div>
+    <div class="finding" style="--accent:var(--red)">
+      <h4>🚨 Cancer - #2 Burden (2,693 DALYs)</h4>
+      <p>130 deaths/year at mean age 67 (11.6 yrs remaining). 7.7% county prevalence. Both YLL (1,509) and YLD (1,184) components are substantial. Mortality rate 175.1/100k - 8.7% above Michigan. <a href="isabella_interventions.html" style="color:var(--red)">→ AI solutions</a></p>
+    </div>
+    <div class="finding" style="--accent:var(--amber)">
+      <h4>🚨 SUD - #3 Burden (2,516 DALYs)</h4>
+      <p>Kills at age ~44 (34.6 years remaining) - highest YLL per death of any condition. 37 deaths/year. NAS rate 583/100k births. Maternal tobacco 22% = 3.4× US avg. <a href="isabella_interventions.html#sud" style="color:var(--amber)">→ AI solutions</a></p>
+    </div>
+    <div class="finding" style="--accent:var(--red)">
+      <h4>🚨 Stroke Mortality 49% Above State</h4>
+      <p>59.4 vs Michigan 39.9/100k - largest relative gap. Associated with hypertension, poverty-related access barriers, limited neurology. Each prevented death: ~$10.5M societal cost (VSL). <a href="isabella_interventions.html#cvd" style="color:var(--red)">→ AI solutions</a></p>
+    </div>
+    <div class="finding" style="--accent:var(--amber)">
+      <h4>⚠ Poverty as Root Driver</h4>
+      <p>19–26% poverty by source. 45.5% below 200% FPL. Food insecurity 16.4% vs MI 13.7%. Obesity 43.1% vs MI 36.7%. Structural driver behind all elevated health indicators.</p>
+    </div>
+    <div class="finding" style="--accent:var(--green)">
+      <h4>✓ Relative Strengths</h4>
+      <p>HIV prevalence lower (65.2 vs 163.1/100k). Eviction rate 1.5% vs state 3.3%. Child blood lead lower (1.4% vs 3.1%). Annual checkup rate 77.6% reflects CMU student health access.</p>
+    </div>
+  </div>
+
+  <!-- Recommendations -->
+  <div class="card" id="sec-recs" style="margin-bottom:24px">
+    <h3 style="margin-bottom:4px">Evidence-Based Recommendations</h3>
+    <p class="sub" style="margin-bottom:16px">Prioritized by DALY impact · <a href="isabella_interventions.html" style="color:var(--blue)">See AI implementation roadmap →</a></p>
+    <div class="rec"><div class="rec-n">1</div><div class="rec-b"><h5>Telepsychiatry + collaborative care support in primary care</h5><p>Mental health, SUD · adults ≥18 with MH/SUD · evidence mixed for severe mental illness; use local evaluation before scaling</p></div><span class="rec-ev">Moderate / evaluate</span></div>
+    <div class="rec"><div class="rec-n">2</div><div class="rec-b"><h5>AI-assisted cancer screening + navigation</h5><p>Cancer · 7.7% prevalence · 130 deaths/yr · Stage-shift intervention at age ~67</p></div><span class="rec-ev">Strong</span></div>
+    <div class="rec"><div class="rec-n">3</div><div class="rec-b"><h5>MAT telehealth for opioid use disorder in prenatal care</h5><p>SUD, NAS · Pregnant women with OUD · NAS rate 583/100k births · 37 deaths/yr age 44</p></div><span class="rec-ev">Moderate–Strong</span></div>
+    <div class="rec"><div class="rec-n">4</div><div class="rec-b"><h5>Community health worker–led hypertension control</h5><p>IHD, stroke · Adults ≥40 with hypertension · 32.1% county hypertension prevalence · priority: below 200% FPL</p></div><span class="rec-ev">Strong</span></div>
+    <div class="rec" style="border:none"><div class="rec-n">5</div><div class="rec-b"><h5>Tobacco cessation: quitline + NRT via Medicaid</h5><p>COPD, CVD, cancer · Priority: pregnant women (22% tobacco rate) · 18.6% adult smoking rate</p></div><span class="rec-ev">Strong</span></div>
+  </div>
+
+  <!-- ══ HEALTH TRENDS 2017–2023 ══ -->
+  <h2 id="sec-trends" style="font-size:16px;font-weight:700;margin-bottom:4px;color:var(--navy)">Prevalence Trends 2017–2023</h2>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">Age-adjusted CDC PLACES estimates · All y-axes start at 0 · Gaps = no county-level estimate that year · Hover for 95% CI</p>
+
+  <div class="trend-grid">
+    <div class="tcrd">
+      <h4>Obesity</h4>
+      <div class="tsub"><span>Latest: <strong>43.1%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-obesity" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>High Blood Pressure</h4>
+      <div class="tsub"><span>Latest: <strong>35.5%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-bp" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Current Smoking</h4>
+      <div class="tsub"><span>Latest: <strong>18.6%</strong></span><span class="tbadge down">▼ Improving</span></div>
+      <canvas id="tr-smoke" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Binge Drinking</h4>
+      <div class="tsub"><span>Latest: <strong>17.5%</strong></span><span class="tbadge down">▼ Improving</span></div>
+      <canvas id="tr-binge" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Diabetes</h4>
+      <div class="tsub"><span>Latest: <strong>11.6%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-dm" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Mental Health Distress</h4>
+      <div class="tsub"><span>Latest: <strong>20.8%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-mh" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Asthma</h4>
+      <div class="tsub"><span>Latest: <strong>12.1%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-asthma" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Uninsured (18–64)</h4>
+      <div class="tsub"><span>Latest: <strong>10.3%</strong></span><span class="tbadge down">▼ Improving</span></div>
+      <canvas id="tr-unins" height="130"></canvas>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--muted);margin-bottom:24px;">Source: CDC PLACES 2020, 2022, 2023, 2025 releases (data years 2017–2023). BRFSS-based model estimates, FIPS 26073. <a href="isabella_trends.html" style="color:var(--blue);">View all 16 indicators →</a></p>
+
+</div><!-- end .page -->
+
+<footer>
+  <span>Isabella County Health Burden Dashboard · June 2026 · Data: CDC PLACES 2024, CDC WONDER 2020–22</span>
+  <span>Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University</span>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA - Updated 2025 (CDC PLACES 2024 + CDC WONDER 2020-22)
+// ═══════════════════════════════════════════
+const CONDITIONS = {
+  mh:     { name:'Mental Health',  short:'MH',     icd:'F30–F48', deaths:14,  age:46,  yld:2260, yld_active:1130, gbd_yll:603,  prev:'29.8% adults (7,792* active)',  dw:'0.145',        color:'#7c3aed', quality:['obs','mdl'], qLabel:['CDC PLACES 2024','IHME GBD 2021'] },
+  cancer: { name:'Cancer',         short:'Cancer', icd:'C00–C97', deaths:130, age:67,  yld:1184, gbd_yll:2873, prev:'7.7% total',    dw:'0.294',        color:'#dc2626', quality:['obs','mdl'], qLabel:['WONDER 2020-22','DW: composite'] },
+  sud:    { name:'Substance Use',  short:'SUD',    icd:'F10–F19', deaths:37,  age:44,  yld:1235, gbd_yll:1669, prev:'7.2% adults',   dw:'0.329',        color:'#d97706', quality:['obs','mdl'], qLabel:['WONDER × rural adj.','Derived'] },
+  cvd:    { name:'Cardiovascular', short:'CVD',    icd:'I20–I51', deaths:178, age:72,  yld:258,  gbd_yll:3044, prev:'7.1% adults',   dw:'0.070',        color:'#1a56db', quality:['obs','mdl'], qLabel:['WONDER 2020-22','Derived'] },
+  copd:   { name:'COPD',           short:'COPD',   icd:'J44',     deaths:44,  age:73,  yld:849,  gbd_yll:708,  prev:'8.2% adults',   dw:'0.198',        color:'#059669', quality:['obs','mdl'], qLabel:['WONDER 2020-22','CDC PLACES 2024'] },
+  stroke: { name:'Stroke',         short:'Stroke', icd:'I60–I69', deaths:34,  age:73,  yld:529,  gbd_yll:544,  prev:'3.2% adults',   dw:'0.316',        color:'#0d9488', quality:['obs','mdl'], qLabel:['WONDER 2020-22','CDC PLACES 2024'] },
+  dm:     { name:'Diabetes T2',    short:'DM',     icd:'E11',     deaths:25,  age:70,  yld:328,  gbd_yll:480,  prev:'11.6% total',   dw:'0.054',        color:'#64748b', quality:['obs'],       qLabel:['CDC PLACES 2024'] },
+};
+
+const MORT = {
+  labels: ['All Causes','IHD/HF','Cancer','COPD','Stroke','Diabetes'],
+  isabella:[819.9,198.6,175.1,60.6,59.4,31.1],
+  michigan:[783.1,194.9,161.1,44.2,39.9,21.9],
+  us:      [723.6,163.6,149.1,39.7,37.1,21.4],
+};
+const GDP_PC = 62000;
+const VSL = 10523799;   // HHS 2026 income-adjusted for Isabella County (median income $46k)
+const DEATHS_TOTAL = 461;
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+const state = {
+  le: 78.6,
+  econ: 'hc',
+  remission: true,
+  conditions: Object.fromEntries(Object.keys(CONDITIONS).map(k=>[k,true])),
+};
+
+function yll(k) {
+  const d = CONDITIONS[k];
+  if (!d.deaths || !d.age) return 0;
+  return Math.round(d.deaths * Math.max(0, state.le - d.age));
+}
+function mhYLD() {
+  return state.remission ? CONDITIONS.mh.yld_active : CONDITIONS.mh.yld;
+}
+function daly(k) {
+  const yld = k === 'mh' ? mhYLD() : CONDITIONS[k].yld;
+  return yll(k) + yld;
+}
+function active() { return Object.keys(state.conditions).filter(k=>state.conditions[k]); }
+function totalDALYs() { return active().reduce((s,k)=>s+daly(k),0); }
+function econVal() {
+  if (state.econ==='hc') return totalDALYs()*GDP_PC;
+  return DEATHS_TOTAL*VSL;
+}
+function fmtMoney(v) {
+  if (v>=1e9) return `~$${(v/1e9).toFixed(1)}B`;
+  return `~$${Math.round(v/1e6)}M`;
+}
+
+// ═══════════════════════════════════════════
+// CONTROL HANDLERS
+// ═══════════════════════════════════════════
+function setEcon(val, btn) {
+  state.econ = val;
+  btn.parentElement.querySelectorAll('.btn-toggle').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updateAll();
+}
+function setRemission(val, btn) {
+  state.remission = val;
+  document.getElementById('btn-raw').classList.toggle('active', !val);
+  document.getElementById('btn-remission').classList.toggle('active', val);
+  const info = document.getElementById('ctrl-info');
+  if (val) {
+    info.textContent = 'Remission-adjusted: CDC PLACES 29.8% is a lifetime-diagnosis measure. Applying remission factor 0.50 gives 14.9% active prevalence — consistent with NSDUH 2021 past-year MDE (~8–15%). Used in the academic paper. MI total drops to ~10,580 DALYs; MH falls to #3 under MI standard.';
+  } else {
+    info.textContent = 'PLACES 29.8%: CDC PLACES 2024 lifetime-diagnosed depressive disorder. Default planning estimate — consistent with prior county documents and dashboard. Under this standard, mental health ranks #1 under Michigan LE.';
+  }
+  updateAll();
+}
+function toggleCond(k) {
+  state.conditions[k] = !state.conditions[k];
+  document.getElementById('cc-'+k).classList.toggle('on', state.conditions[k]);
+  updateAll();
+}
+
+// ═══════════════════════════════════════════
+// BUILD CONDITION CHECKBOXES
+// ═══════════════════════════════════════════
+const ccContainer = document.getElementById('cond-checks');
+Object.entries(CONDITIONS).forEach(([k,d])=>{
+  const el = document.createElement('div');
+  el.className='cond-check on'; el.id='cc-'+k;
+  el.style.setProperty('--accent', d.color);
+  el.style.setProperty('--accent-rgb', hexToRgb(d.color));
+  el.innerHTML=`<span style="color:${d.color}">●</span> ${d.short}`;
+  el.addEventListener('click', (e)=>{ e.stopPropagation(); toggleCond(k); });
+  ccContainer.appendChild(el);
+});
+function hexToRgb(hex) {
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return `${r},${g},${b}`;
+}
+
+// ═══════════════════════════════════════════
+// UPDATE ALL DISPLAYS
+// ═══════════════════════════════════════════
+function updateAll() {
+  const td = totalDALYs();
+  const ev = econVal();
+  const leLabel = 'Michigan LE 78.6 yrs';
+  const econLabel = state.econ==='hc' ? 'human capital' : 'VSL central';
+
+  // Hero econ (LE-toggle removed; shows MI planning standard)
+  animVal('h-econ', fmtMoney(ev));
+  document.getElementById('h-econ-sub').textContent = econLabel === 'human capital' ? 'Human capital · Primary (frontier LE) 15,430 DALYs' : econLabel;
+
+  // KPIs
+  animVal('kpi-econ', fmtMoney(ev));
+  document.getElementById('kpi-econ-note').textContent = `(${econLabel})`;
+  document.getElementById('kpi-econ-delta').textContent = state.econ==='hc' ? 'Indirect productivity losses only' : '461 deaths × $10.5M (income-adjusted)';
+
+  // Chart subtitles
+  document.getElementById('chart1-sub').textContent = `${leLabel} · sorted by burden`;
+  document.getElementById('chart2-sub').textContent = leLabel;
+  document.getElementById('table-sub').textContent  = `${leLabel} · No discounting (WHO standard)`;
+
+  // Update GBD hero stat
+  const gbdMhYLD = state.remission ? 1130 : 2260;
+  const gbdYLD_other = 1184 + 1235 + 258 + 849 + 529 + 328; // all non-MH YLD = 4,383
+  const gbdYLL = 9915;
+  const gbdTotal = gbdYLL + gbdYLD_other + gbdMhYLD;
+  animVal('h-dalys-gbd', gbdTotal.toLocaleString());
+
+  // Update Key Findings MH card
+  const findingMH = document.getElementById('finding-mh-daly');
+  if (findingMH) findingMH.textContent = daly('mh').toLocaleString();
+  const findingMHRank = document.getElementById('finding-mh-rank');
+  if (findingMHRank) {
+    // Under MI LE, with remission=true, MH (453+1130=1583) drops below SUD (2516) and Cancer (2693): rank #3
+    // With remission=false, MH (453+2260=2713) is #1
+    findingMHRank.textContent = state.remission ? '#3 (MI)' : '#1 (MI)';
+  }
+
+  // Remission footnote visibility
+  const fn = document.getElementById('remission-footnote');
+  if (fn) fn.style.display = state.remission ? 'inline' : 'none';
+
+  // Update charts
+  updateCharts();
+  updateTable();
+  updateCompareChart();
+}
+function animVal(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('flash');
+  void el.offsetWidth;
+  el.classList.add('flash');
+  el.textContent = val;
+}
+
+// ═══════════════════════════════════════════
+// CHARTS
+// ═══════════════════════════════════════════
+let ch1, ch2, ch3, ch4, ch5;
+
+function getSorted() {
+  return active().map(k=>({k, d:CONDITIONS[k], yll:yll(k), yld:(k==='mh' ? mhYLD() : CONDITIONS[k].yld), total:daly(k)}))
+    .sort((a,b)=>b.total-a.total);
+}
+
+function initCharts() {
+  const ctx1 = document.getElementById('dalyChart').getContext('2d');
+  const ctx2 = document.getElementById('stackChart').getContext('2d');
+  const ctx3 = document.getElementById('mortChart').getContext('2d');
+  const ctx4 = document.getElementById('sdohChart').getContext('2d');
+
+  ch1 = new Chart(ctx1,{ type:'bar', data:{ labels:[], datasets:[
+    {label:'YLL',data:[],backgroundColor:'#dc2626',borderRadius:3},
+    {label:'YLD',data:[],backgroundColor:'#1a56db',borderRadius:3}
+  ]}, options:{ indexAxis:'y', responsive:true, plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}},tooltip:{callbacks:{footer:i=>`Total: ${i.reduce((s,x)=>s+x.raw,0).toLocaleString()} DALYs`}}}, scales:{x:{stacked:true,grid:{color:'#f1f5f9'},ticks:{font:{size:11}}},y:{stacked:true,ticks:{font:{size:11}}}}}});
+
+  ch2 = new Chart(ctx2,{ type:'bar', data:{ labels:[], datasets:[
+    {label:'% from disability (YLD)',data:[],backgroundColor:[],borderRadius:4}
+  ]}, options:{ indexAxis:'y', responsive:true,
+    plugins:{legend:{display:false},tooltip:{callbacks:{
+      label: ctx=>`${ctx.raw}% of DALYs from disability (YLD)`,
+      afterLabel: ctx=>`${100-ctx.raw}% from premature death (YLL)`
+    }}},
+    scales:{
+      x:{min:0,max:100,grid:{color:'#f1f5f9'},ticks:{font:{size:11},callback:v=>v+'%'},title:{display:true,text:'% of burden from disability',font:{size:11}}},
+      y:{ticks:{font:{size:11}}}
+    }
+  }});
+
+  ch3 = new Chart(ctx3,{ type:'bar', data:{ labels:MORT.labels, datasets:[
+    {label:'Isabella Co.',data:MORT.isabella,backgroundColor:'#dc2626',borderRadius:3},
+    {label:'Michigan',data:MORT.michigan,backgroundColor:'#1a56db',borderRadius:3},
+    {label:'United States',data:MORT.us,backgroundColor:'#059669',borderRadius:3}
+  ]}, options:{ responsive:true, plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}}}, scales:{x:{ticks:{font:{size:10}}},y:{grid:{color:'#f1f5f9'},title:{display:true,text:'per 100,000',font:{size:11}}}}}});
+
+  ch4 = new Chart(ctx4,{ type:'radar', data:{ labels:['Poverty\n<FPL','Food\nInsecurity','Uninsured\n(<65)','Obesity\n(2024)','Maternal\nTobacco','COPD\nMortality'], datasets:[
+    {label:'Isabella County',data:[26.5,16.4,7.9,43.1,22.0,60.6],backgroundColor:'rgba(220,38,38,.12)',borderColor:'#dc2626',borderWidth:2,pointRadius:4},
+    {label:'Michigan Avg',data:[15.0,13.7,6.1,36.7,14.3,44.2],backgroundColor:'rgba(26,86,219,.12)',borderColor:'#1a56db',borderWidth:2,pointRadius:4}
+  ]}, options:{ responsive:true, plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}}}, scales:{r:{ticks:{font:{size:9},backdropColor:'transparent'},grid:{color:'#e2e8f0'}}}}});
+
+  // Comparison chart: MI LE vs GBD side-by-side
+  const ctx5 = document.getElementById('compareChart').getContext('2d');
+  const cmpLabels = ['Cancer','CVD','SUD','MH','COPD','Stroke','Diabetes'];
+  const cmpMI  = [2693, 1432, 2516, 2713, 1093, 717, 545];
+  const cmpGBD = [4057, 3302, 2904, 1733, 1553, 1073, 808];
+  ch5 = new Chart(ctx5,{ type:'bar', data:{ labels:cmpLabels, datasets:[
+    {label:'Sensitivity – MI LE 78.6',  data:cmpMI,  backgroundColor:'#0f1f3d', borderRadius:3},
+    {label:'Primary – Frontier LE 89.1', data:cmpGBD, backgroundColor:'#3b82f6', borderRadius:3}
+  ]}, options:{ responsive:true, plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}},tooltip:{callbacks:{footer:items=>`Difference: +${(items[items.length-1]?.raw - items[0]?.raw)||0} DALYs`}}}, scales:{x:{ticks:{font:{size:11}}},y:{grid:{color:'#f1f5f9'},title:{display:true,text:'DALYs',font:{size:11}}}}}});
+
+  updateCharts();
+}
+
+function updateCharts() {
+  if (!ch1) return;
+  const sorted = getSorted();
+  const labels = sorted.map(x=>x.d.short);
+  const ylls   = sorted.map(x=>x.yll);
+  const ylds   = sorted.map(x=>x.yld);
+  const colors = sorted.map(x=>x.d.color);
+
+  ch1.data.labels = labels;
+  ch1.data.datasets[0].data = ylls;
+  ch1.data.datasets[0].backgroundColor = colors.map(c=>c+'cc');
+  ch1.data.datasets[1].data = ylds;
+  ch1.update('none');
+
+  const byYldPct = [...sorted].sort((a,b)=>(b.yld/b.total)-(a.yld/a.total));
+  ch2.data.labels = byYldPct.map(x=>x.d.short);
+  ch2.data.datasets[0].data = byYldPct.map(x=>Math.round((x.yld/x.total)*100));
+  ch2.data.datasets[0].backgroundColor = byYldPct.map(x=>x.d.color+'bb');
+  ch2.update('none');
+}
+
+function updateCompareChart() {
+  if (!ch5) return;
+  const mhMI  = state.remission ? (453 + 1130) : 2713;  // 453 = YLL(MI), 1130 or 2260 = YLD
+  const mhGBD = state.remission ? 1733 : 2861;
+  ch5.data.datasets[0].data = [2693, 1432, 2516, mhMI,  1093, 717, 545];
+  ch5.data.datasets[1].data = [4057, 3302, 2904, mhGBD, 1553, 1073, 808];
+  ch5.update('none');
+}
+
+// ═══════════════════════════════════════════
+// TABLE
+// ═══════════════════════════════════════════
+function updateTable() {
+  const tbody = document.getElementById('daly-tbody');
+  const sorted = getSorted();
+  let tYll=0, tYld=0, tDaly=0;
+
+  tbody.innerHTML = sorted.map(({k,d,yll:y,yld,total})=>{
+    tYll+=y; tYld+=yld; tDaly+=total;
+    const remLE = d.age ? Math.max(0, state.le - d.age).toFixed(1) : '-';
+    const qBadges = d.quality.map((q,i)=>`<span class="dc ${q}">${d.qLabel[i]}</span>`).join(' ');
+    const yldDisplay = k === 'mh'
+      ? (state.remission
+          ? `${mhYLD().toLocaleString()}<sup style="color:var(--teal);font-size:9px" title="Remission-adjusted: 29.8% × 0.50 = 14.9% active prevalence">*</sup>`
+          : yld.toLocaleString())
+      : yld.toLocaleString();
+    return `<tr>
+      <td><strong style="color:${d.color}">${d.name}</strong> <span style="font-size:11px;color:#94a3b8">${d.icd}</span></td>
+      <td>${d.prev}</td>
+      <td>-</td>
+      <td>${d.deaths||'-'}</td>
+      <td>${remLE} yrs</td>
+      <td><strong>${y.toLocaleString()}</strong></td>
+      <td><strong style="color:var(--muted)">${d.gbd_yll.toLocaleString()}</strong></td>
+      <td>${d.dw}</td>
+      <td>${yldDisplay}</td>
+      <td><strong>${total.toLocaleString()}</strong></td>
+      <td style="font-size:11px">${qBadges}</td>
+    </tr>`;
+  }).join('');
+
+  tbody.innerHTML += `<tr class="total">
+    <td>TOTAL (selected)</td><td>-</td><td>-</td><td>~${active().reduce((s,k)=>s+(CONDITIONS[k].deaths||0),0)}</td><td>-</td>
+    <td>${tYll.toLocaleString()}</td><td>9,915</td><td>-</td><td>${tYld.toLocaleString()}</td>
+    <td>${tDaly.toLocaleString()} <span style="font-weight:400;font-size:11px;color:#94a3b8">(±20%)</span></td><td>-</td>
+  </tr>`;
+}
+
+// ═══════════════════════════════════════════
+// TREND CHARTS — CDC PLACES 2017-2023
+// ═══════════════════════════════════════════
+const TYEARS = [2017, 2018, 2019, 2020, 2021, 2022, 2023];
+
+function makeTrend(canvasId, color, vals, ymax) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const pts = vals.map(v => v ? v[0] : null);
+  const lo  = vals.map((v,i) => v ? pts[i] - (pts[i] - v[1]) : null);
+  const hi  = vals.map((v,i) => v ? pts[i] + (v[2] - pts[i]) : null);
+  new Chart(el, {
+    type: 'line',
+    data: {
+      labels: TYEARS,
+      datasets: [
+        { data: pts, borderColor: color, backgroundColor: color+'18',
+          pointBackgroundColor: color,
+          pointRadius: pts.map(v => v !== null ? 4 : 0),
+          pointHoverRadius: 6, borderWidth: 2, tension: 0.3,
+          spanGaps: true, fill: false },
+        { data: hi, borderColor:'transparent', backgroundColor: color+'14',
+          pointRadius: 0, spanGaps: true, fill: '+1', tension: 0.3 },
+        { data: lo, borderColor:'transparent', pointRadius: 0,
+          spanGaps: true, tension: 0.3 },
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          filter: item => item.datasetIndex === 0 && item.raw !== null,
+          callbacks: {
+            label: ctx => {
+              const v = vals[ctx.dataIndex];
+              return v ? ` ${v[0]}%  (95% CI: ${v[1]}–${v[2]}%)` : null;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid:{color:'#f1f5f9'}, ticks:{font:{size:10},color:'#94a3b8'} },
+        y: { min:0, max:ymax, grid:{color:'#f1f5f9'},
+             ticks:{font:{size:10},color:'#94a3b8',callback:v=>v+'%'} }
+      }
+    }
+  });
+}
+
+function initTrends() {
+  // [value, lo_ci, hi_ci] or null per year 2017-2023
+  makeTrend('tr-obesity','#dc2626', [null,[37.9,36.0,39.9],[40.7,39.1,42.4],[37.0,35.2,38.8],null,null,[43.1,35.6,50.8]], 55);
+  makeTrend('tr-bp',     '#7c3aed', [[32.1,31.0,33.3],null,[32.9,31.7,34.1],[33.5,32.3,34.8],null,null,[35.5,31.5,39.6]], 50);
+  makeTrend('tr-smoke',  '#374151', [null,null,[22.3,19.4,25.2],[22.1,18.5,25.4],null,null,[18.6,15.1,22.6]], 35);
+  makeTrend('tr-binge',  '#1a56db', [null,[20.3,19.4,21.2],[19.7,18.8,20.6],[19.1,18.2,20.0],null,null,[17.5,14.5,20.8]], 30);
+  makeTrend('tr-dm',     '#d97706', [null,[10.8,10.0,11.6],[11.1,10.4,11.9],[10.9,10.0,11.7],null,null,[11.6,9.9,13.4]], 20);
+  makeTrend('tr-mh',     '#7c3aed', [null,null,null,[17.7,16.5,19.0],null,null,[20.8,18.1,23.5]], 30);
+  makeTrend('tr-asthma', '#06b6d4', [null,null,[11.2,10.6,11.8],[11.7,11.2,12.4],null,null,[12.1,10.7,13.7]], 20);
+  makeTrend('tr-unins',  '#059669', [null,[10.6,8.4,13.3],[13.5,11.4,16.1],[10.3,8.4,12.5],null,null,null], 25);
+}
+
+// INIT
+document.addEventListener('DOMContentLoaded', ()=>{
+  initCharts(); updateAll(); initTrends();
+
+  // ── Jump bar active section via IntersectionObserver ──
+  const sections = ['sec-kpi','sec-charts','sec-econ','sec-table','sec-methods','sec-findings','sec-recs','sec-trends'];
+  const jbLinks = {};
+  sections.forEach(id => {
+    jbLinks[id] = document.querySelector(`.jb-link[href="#${id}"]`);
+  });
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && jbLinks[e.target.id]) {
+        Object.values(jbLinks).forEach(l => l && l.classList.remove('active'));
+        jbLinks[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-96px 0px -55% 0px', threshold: 0 });
+  sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+});
+</script>
+</body>
+</html>
