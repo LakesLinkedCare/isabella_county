@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Isabella County Health Burden - Soshnikov</title>
+<title>Isabella County Health Burden Dashboard | Lakes Linked Care</title>
+<meta name="description" content="Isabella County, Michigan health burden analysis: 15,430 DALYs/year. Planning-grade DALY estimates using CDC PLACES 2024, CDC WONDER 2020–22, and IHME GBD 2021. Dr. Sergey Soshnikov, MD PhD.">
+<meta property="og:title" content="Isabella County Health Burden Dashboard | Lakes Linked Care">
+<meta property="og:description" content="15,430 DALYs/yr · Cancer #1, CVD #2, SUD #3. County-level disease burden analysis for grant applications and CHNA planning.">
+<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/home.html">
+<meta property="og:type" content="website">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root {
@@ -111,6 +116,41 @@ tbody td{padding:9px 11px;vertical-align:top;}
 @keyframes flash{0%,100%{opacity:1;}50%{opacity:.3;}}
 
 footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+/* ── COUNTY COMPARE BAR ── */
+.county-compare-bar{background:var(--surface);border-bottom:1px solid var(--border);}
+.ccb-inner{max-width:1200px;margin:0 auto;padding:0 28px;display:flex;align-items:stretch;overflow-x:auto;}
+.ccb-county{display:flex;flex-direction:column;padding:10px 20px 10px 0;margin-right:20px;border-right:1px solid var(--border);text-decoration:none;color:inherit;flex-shrink:0;border-bottom:3px solid transparent;transition:border-color .15s;cursor:pointer;}
+a.ccb-county:hover{border-bottom-color:var(--blue);}
+.ccb-county.active{border-bottom-color:var(--blue);}
+.ccb-county.disabled{opacity:.4;cursor:default;}
+.ccb-name{font-size:11.5px;font-weight:700;color:#0f172a;}
+.ccb-stat{font-size:13px;font-weight:800;color:var(--blue);margin-top:2px;}
+.ccb-county.active .ccb-stat{color:var(--blue);}
+.ccb-pop{font-size:10px;color:var(--muted);margin-top:1px;}
+.ccb-divider{width:1px;background:var(--border);margin:8px 0;}
+
+/* ── JUMP BAR ── */
+.jump-bar{background:#fff;border-bottom:1px solid var(--border);padding:7px 28px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;position:sticky;top:48px;z-index:90;}
+.jb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-right:4px;white-space:nowrap;}
+.jb-link{font-size:11.5px;font-weight:600;color:var(--slate);text-decoration:none;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:var(--bg);transition:all .15s;white-space:nowrap;}
+.jb-link:hover,.jb-link.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+/* ── COUNTY NAV PILL ── */
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+
+/* ── TRENDS ── */
+.trend-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:6px;}
+@media(max-width:1000px){.trend-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:540px){.trend-grid{grid-template-columns:1fr;}}
+.tcrd{background:var(--surface);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);}
+.tcrd h4{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.tcrd .tsub{font-size:10.5px;color:var(--muted);display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.tbadge{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:8px;}
+.tbadge.up{background:#fef2f2;color:#dc2626;}
+.tbadge.down{background:#f0fdf4;color:#16a34a;}
+.tbadge.flat{background:#f8fafc;color:#64748b;}
 </style>
 </head>
 <body>
@@ -119,13 +159,52 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
 <nav class="sitenav">
   <a class="brand" href="index.html">Lakes Linked Care</a>
   <div class="links">
-    <a class="navlink" href="index.html">🏠 Home</a>
-    <a class="navlink active" href="home.html">📊 Dashboard</a>
-    <a class="navlink" href="roi.html">💰 ROI</a>
-    <a class="navlink" href="Isabella_County_AI_Solutions.html">🤖 AI Solutions</a>
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink active" href="home.html">📊 Isabella</a>
+      <a class="navlink" href="clare.html">🚨 Clare</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="index.html">🏠 Portal</a>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="roi.html">💰 Economic Impact</a>
+    <a class="navlink" href="Isabella_County_AI_Solutions.html">🤖 Interventions</a>
     <a class="navlink" href="Isabella_County_Methods_Supplement.html">📋 Methods</a>
+    <a class="navlink" href="trends.html">📈 Trends</a>
   </div>
 </nav>
+
+<!-- County Compare Bar -->
+<div class="county-compare-bar">
+  <div class="ccb-inner">
+    <div class="ccb-county active">
+      <span class="ccb-name">📊 Isabella County</span>
+      <span class="ccb-stat">15,430 DALYs/yr</span>
+      <span class="ccb-pop">Pop. 64,565 · FIPS 26073</span>
+    </div>
+    <a class="ccb-county" href="clare.html">
+      <span class="ccb-name">🚨 Clare County</span>
+      <span class="ccb-stat" style="color:var(--red)">8,198 DALYs/yr</span>
+      <span class="ccb-pop">Pop. 30,013 · FIPS 26035</span>
+    </a>
+    <div class="ccb-county disabled">
+      <span class="ccb-name">🌾 Gratiot</span>
+      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q3 2026</span>
+    </div>
+    <div class="ccb-county disabled">
+      <span class="ccb-name">🏭 Midland</span>
+      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q3 2026</span>
+    </div>
+    <div class="ccb-county disabled">
+      <span class="ccb-name">🎓 Mecosta</span>
+      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q4 2026</span>
+    </div>
+    <div class="ccb-county disabled">
+      <span class="ccb-name">🏙️ Washtenaw</span>
+      <span class="ccb-stat" style="color:var(--muted);font-size:11px">Q4 2026</span>
+    </div>
+  </div>
+</div>
 
 <!-- Hero -->
 <div class="hero">
@@ -176,10 +255,23 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
   <div class="ctrl-info" id="ctrl-info">Primary standard: Frontier LE 89.1 yrs + MH remission adjustment = 15,430 DALYs. Sensitivity: Michigan LE 78.6 yrs = 10,579 DALYs. YLD varies with MH prevalence toggle (29.8% raw vs. 14.9% remission-adj).</div>
 </div>
 
+<!-- Jump Bar -->
+<div class="jump-bar">
+  <span class="jb-label">Jump to:</span>
+  <a class="jb-link" href="#sec-kpi">KPIs</a>
+  <a class="jb-link" href="#sec-charts">Charts</a>
+  <a class="jb-link" href="#sec-econ">Economic Burden</a>
+  <a class="jb-link" href="#sec-table">DALY Table</a>
+  <a class="jb-link" href="#sec-methods">Methodology</a>
+  <a class="jb-link" href="#sec-findings">Key Findings</a>
+  <a class="jb-link" href="#sec-recs">Recommendations</a>
+  <a class="jb-link" href="#sec-trends">Trends</a>
+</div>
+
 <div class="page">
 
   <!-- KPI Strip -->
-  <div class="kpi-strip">
+  <div class="kpi-strip" id="sec-kpi">
     <div class="kpi" style="--accent:var(--red)">
       <div class="kpi-num">819.9</div>
       <div class="kpi-label">Total mortality rate per 100k (MDHHS 2020)</div>
@@ -223,7 +315,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
   </div>
 
   <!-- Charts row 1 -->
-  <div class="g2">
+  <div class="g2" id="sec-charts">
     <div class="card">
       <h3>DALYs by Condition</h3>
       <p class="sub">Disability-Adjusted Life Years · <span id="chart1-sub">Michigan LE 78.6 · sorted by burden</span></p>
@@ -283,7 +375,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
   </div>
 
   <!-- Economic Burden -->
-  <div class="card" style="margin-bottom:18px">
+  <div class="card" style="margin-bottom:18px" id="sec-econ">
     <h3>Economic Burden of Disease</h3>
     <p class="sub">Two methodological approaches - use controls above to switch</p>
     <div class="econ-split">
@@ -314,7 +406,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
   </div>
 
   <!-- DALY Table -->
-  <div class="card" style="margin-bottom:18px">
+  <div class="card" style="margin-bottom:18px" id="sec-table">
     <h3>Disease Burden Detail - Live Calculation</h3>
     <p class="sub">Change controls above to recalculate · <span id="table-sub">Michigan LE 78.6 yrs · No discounting or age-weighting (standard DALY convention)</span></p>
     <div class="tbl-wrap">
@@ -343,7 +435,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
   </div>
 
   <!-- Methodology Version History -->
-  <div style="border:2px solid var(--navy);border-radius:12px;padding:22px 28px;margin-bottom:28px;background:linear-gradient(135deg,#0f1f3d 0%,#1e3a5f 100%);position:relative;overflow:hidden;">
+  <div id="sec-methods" style="border:2px solid var(--navy);border-radius:12px;padding:22px 28px;margin-bottom:28px;background:linear-gradient(135deg,#0f1f3d 0%,#1e3a5f 100%);position:relative;overflow:hidden;">
     <div style="position:absolute;top:0;right:0;width:180px;height:180px;background:radial-gradient(circle,rgba(13,148,136,.18) 0%,transparent 70%);pointer-events:none;"></div>
     <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.45);margin-bottom:6px;">Methodology Evolution</div>
     <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-.01em;">How the estimate changed — and why</div>
@@ -416,7 +508,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
   </div>
 
   <!-- Key Findings -->
-  <h2 style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--navy)">Key Findings</h2>
+  <h2 id="sec-findings" style="font-size:16px;font-weight:700;margin-bottom:14px;color:var(--navy)">Key Findings</h2>
   <div class="findings">
     <div class="finding" style="--accent:var(--purple)">
       <h4>🚨 Mental Health — <span id="finding-mh-rank">#3 (MI)</span> / #4 (Primary) · <span id="finding-mh-daly">1,733</span> DALYs</h4>
@@ -449,7 +541,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
   </div>
 
   <!-- Recommendations -->
-  <div class="card" style="margin-bottom:24px">
+  <div class="card" id="sec-recs" style="margin-bottom:24px">
     <h3 style="margin-bottom:4px">Evidence-Based Recommendations</h3>
     <p class="sub" style="margin-bottom:16px">Prioritized by DALY impact · <a href="Isabella_County_AI_Solutions.html" style="color:var(--blue)">See AI implementation roadmap →</a></p>
     <div class="rec"><div class="rec-n">1</div><div class="rec-b"><h5>Telepsychiatry + collaborative care support in primary care</h5><p>Mental health, SUD · adults ≥18 with MH/SUD · evidence mixed for severe mental illness; use local evaluation before scaling</p></div><span class="rec-ev">Moderate / evaluate</span></div>
@@ -458,6 +550,54 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
     <div class="rec"><div class="rec-n">4</div><div class="rec-b"><h5>Community health worker–led hypertension control</h5><p>IHD, stroke · Adults ≥40 with hypertension · 32.1% county hypertension prevalence · priority: below 200% FPL</p></div><span class="rec-ev">Strong</span></div>
     <div class="rec" style="border:none"><div class="rec-n">5</div><div class="rec-b"><h5>Tobacco cessation: quitline + NRT via Medicaid</h5><p>COPD, CVD, cancer · Priority: pregnant women (22% tobacco rate) · 18.6% adult smoking rate</p></div><span class="rec-ev">Strong</span></div>
   </div>
+
+  <!-- ══ HEALTH TRENDS 2017–2023 ══ -->
+  <h2 id="sec-trends" style="font-size:16px;font-weight:700;margin-bottom:4px;color:var(--navy)">Prevalence Trends 2017–2023</h2>
+  <p style="font-size:12px;color:var(--muted);margin-bottom:16px;">Age-adjusted CDC PLACES estimates · All y-axes start at 0 · Gaps = no county-level estimate that year · Hover for 95% CI</p>
+
+  <div class="trend-grid">
+    <div class="tcrd">
+      <h4>Obesity</h4>
+      <div class="tsub"><span>Latest: <strong>43.1%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-obesity" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>High Blood Pressure</h4>
+      <div class="tsub"><span>Latest: <strong>35.5%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-bp" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Current Smoking</h4>
+      <div class="tsub"><span>Latest: <strong>18.6%</strong></span><span class="tbadge down">▼ Improving</span></div>
+      <canvas id="tr-smoke" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Binge Drinking</h4>
+      <div class="tsub"><span>Latest: <strong>17.5%</strong></span><span class="tbadge down">▼ Improving</span></div>
+      <canvas id="tr-binge" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Diabetes</h4>
+      <div class="tsub"><span>Latest: <strong>11.6%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-dm" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Mental Health Distress</h4>
+      <div class="tsub"><span>Latest: <strong>20.8%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-mh" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Asthma</h4>
+      <div class="tsub"><span>Latest: <strong>12.1%</strong></span><span class="tbadge up">▲ Worsening</span></div>
+      <canvas id="tr-asthma" height="130"></canvas>
+    </div>
+    <div class="tcrd">
+      <h4>Uninsured (18–64)</h4>
+      <div class="tsub"><span>Latest: <strong>10.3%</strong></span><span class="tbadge down">▼ Improving</span></div>
+      <canvas id="tr-unins" height="130"></canvas>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--muted);margin-bottom:24px;">Source: CDC PLACES 2020, 2022, 2023, 2025 releases (data years 2017–2023). BRFSS-based model estimates, FIPS 26073. <a href="trends.html" style="color:var(--blue);">View all 16 indicators →</a></p>
 
 </div><!-- end .page -->
 
@@ -744,8 +884,88 @@ function updateTable() {
   </tr>`;
 }
 
+// ═══════════════════════════════════════════
+// TREND CHARTS — CDC PLACES 2017-2023
+// ═══════════════════════════════════════════
+const TYEARS = [2017, 2018, 2019, 2020, 2021, 2022, 2023];
+
+function makeTrend(canvasId, color, vals, ymax) {
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+  const pts = vals.map(v => v ? v[0] : null);
+  const lo  = vals.map((v,i) => v ? pts[i] - (pts[i] - v[1]) : null);
+  const hi  = vals.map((v,i) => v ? pts[i] + (v[2] - pts[i]) : null);
+  new Chart(el, {
+    type: 'line',
+    data: {
+      labels: TYEARS,
+      datasets: [
+        { data: pts, borderColor: color, backgroundColor: color+'18',
+          pointBackgroundColor: color,
+          pointRadius: pts.map(v => v !== null ? 4 : 0),
+          pointHoverRadius: 6, borderWidth: 2, tension: 0.3,
+          spanGaps: true, fill: false },
+        { data: hi, borderColor:'transparent', backgroundColor: color+'14',
+          pointRadius: 0, spanGaps: true, fill: '+1', tension: 0.3 },
+        { data: lo, borderColor:'transparent', pointRadius: 0,
+          spanGaps: true, tension: 0.3 },
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          filter: item => item.datasetIndex === 0 && item.raw !== null,
+          callbacks: {
+            label: ctx => {
+              const v = vals[ctx.dataIndex];
+              return v ? ` ${v[0]}%  (95% CI: ${v[1]}–${v[2]}%)` : null;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid:{color:'#f1f5f9'}, ticks:{font:{size:10},color:'#94a3b8'} },
+        y: { min:0, max:ymax, grid:{color:'#f1f5f9'},
+             ticks:{font:{size:10},color:'#94a3b8',callback:v=>v+'%'} }
+      }
+    }
+  });
+}
+
+function initTrends() {
+  // [value, lo_ci, hi_ci] or null per year 2017-2023
+  makeTrend('tr-obesity','#dc2626', [null,[37.9,36.0,39.9],[40.7,39.1,42.4],[37.0,35.2,38.8],null,null,[43.1,35.6,50.8]], 55);
+  makeTrend('tr-bp',     '#7c3aed', [[32.1,31.0,33.3],null,[32.9,31.7,34.1],[33.5,32.3,34.8],null,null,[35.5,31.5,39.6]], 50);
+  makeTrend('tr-smoke',  '#374151', [null,null,[22.3,19.4,25.2],[22.1,18.5,25.4],null,null,[18.6,15.1,22.6]], 35);
+  makeTrend('tr-binge',  '#1a56db', [null,[20.3,19.4,21.2],[19.7,18.8,20.6],[19.1,18.2,20.0],null,null,[17.5,14.5,20.8]], 30);
+  makeTrend('tr-dm',     '#d97706', [null,[10.8,10.0,11.6],[11.1,10.4,11.9],[10.9,10.0,11.7],null,null,[11.6,9.9,13.4]], 20);
+  makeTrend('tr-mh',     '#7c3aed', [null,null,null,[17.7,16.5,19.0],null,null,[20.8,18.1,23.5]], 30);
+  makeTrend('tr-asthma', '#06b6d4', [null,null,[11.2,10.6,11.8],[11.7,11.2,12.4],null,null,[12.1,10.7,13.7]], 20);
+  makeTrend('tr-unins',  '#059669', [null,[10.6,8.4,13.3],[13.5,11.4,16.1],[10.3,8.4,12.5],null,null,null], 25);
+}
+
 // INIT
-document.addEventListener('DOMContentLoaded', ()=>{ initCharts(); updateAll(); });
+document.addEventListener('DOMContentLoaded', ()=>{
+  initCharts(); updateAll(); initTrends();
+
+  // ── Jump bar active section via IntersectionObserver ──
+  const sections = ['sec-kpi','sec-charts','sec-econ','sec-table','sec-methods','sec-findings','sec-recs','sec-trends'];
+  const jbLinks = {};
+  sections.forEach(id => {
+    jbLinks[id] = document.querySelector(`.jb-link[href="#${id}"]`);
+  });
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && jbLinks[e.target.id]) {
+        Object.values(jbLinks).forEach(l => l && l.classList.remove('active'));
+        jbLinks[e.target.id].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-96px 0px -55% 0px', threshold: 0 });
+  sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+});
 </script>
 </body>
 </html>

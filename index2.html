@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lakes Linked Care - Clare County AI Health Analytics</title>
+<style>
+:root {
+  --navy:#0f1f3d; --blue:#1a56db; --teal:#0d9488; --red:#dc2626;
+  --amber:#d97706; --purple:#7c3aed; --green:#059669; --slate:#64748b;
+  --bg:#f8fafc; --surface:#fff; --border:#e2e8f0; --muted:#94a3b8;
+  --radius:14px; --shadow:0 2px 8px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#0f172a;min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── HEADER ── */
+header{background:var(--navy);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-logo{width:32px;height:32px;background:linear-gradient(135deg,var(--red),#7f1d1d);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.brand-name{color:#fff;font-size:15px;font-weight:700;letter-spacing:-.01em;}
+.brand-sub{color:rgba(255,255,255,.5);font-size:11.5px;font-weight:400;margin-top:1px;}
+.nav-links{display:flex;align-items:center;gap:8px;}
+.gh-link{color:rgba(255,255,255,.55);font-size:11.5px;text-decoration:none;border:1px solid rgba(255,255,255,.2);padding:5px 12px;border-radius:6px;transition:all .15s;}
+.gh-link:hover{background:rgba(255,255,255,.1);color:#fff;}
+.county-switch{color:rgba(255,255,255,.55);font-size:11.5px;text-decoration:none;padding:5px 12px;border-radius:6px;transition:all .15s;}
+.county-switch:hover{background:rgba(255,255,255,.08);color:#fff;}
+
+/* ── CRISIS BANNER ── */
+.crisis-banner{background:#7f1d1d;border-bottom:1px solid #991b1b;padding:9px 32px;font-size:12px;color:#fca5a5;display:flex;gap:8px;align-items:center;}
+.crisis-banner strong{color:#fecaca;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#1c0a0a 0%,#3b1515 45%,#1a2040 100%);padding:64px 32px 56px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(220,38,38,.15) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(124,58,237,.12) 0%,transparent 50%);pointer-events:none;}
+.hero-inner{max-width:700px;margin:auto;position:relative;}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(220,38,38,.4);border-radius:20px;padding:5px 14px;font-size:11.5px;color:rgba(255,255,255,.8);font-weight:600;letter-spacing:.03em;margin-bottom:22px;}
+.badge span{font-size:14px;}
+.hero p{color:rgba(255,255,255,.65);font-size:15px;line-height:1.65;max-width:560px;margin:0 auto 32px;}
+.hero-stats{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;}
+.hs{text-align:center;max-width:150px;}
+.hs .n{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.02em;}
+.hs .l{font-size:10.5px;color:rgba(255,255,255,.5);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-top:2px;}
+.hs-sub{font-size:11px;color:rgba(255,255,255,.38);margin-top:4px;line-height:1.4;font-style:italic;}
+
+/* ── CARDS ── */
+.section{max-width:1100px;margin:0 auto;padding:56px 24px 48px;flex:1;}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:20px;}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.cards{grid-template-columns:1fr;}}
+
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:18px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;transition:all .2s;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);border-radius:var(--radius) var(--radius) 0 0;}
+.card:hover{border-color:var(--accent);box-shadow:0 8px 32px rgba(0,0,0,.1);transform:translateY(-2px);}
+.card:hover .card-arrow{transform:translateX(4px);}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.card-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:color-mix(in srgb,var(--accent) 10%,transparent);}
+.card-badge{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);padding:2px 7px;border-radius:8px;white-space:nowrap;}
+.card h3{font-size:14px;font-weight:700;letter-spacing:-.01em;line-height:1.25;color:#0f172a;}
+.card p{font-size:11.5px;color:var(--slate);line-height:1.55;}
+.card-meta{display:flex;gap:5px;flex-wrap:wrap;}
+.chip{font-size:10px;font-weight:600;color:var(--slate);background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:2px 7px;}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:2px;padding-top:10px;border-top:1px solid var(--border);}
+.open-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--accent);}
+.card-arrow{transition:transform .2s;font-size:13px;}
+
+/* ── COMPARE TABLE ── */
+.compare-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px;}
+.compare-table th{background:var(--navy);color:rgba(255,255,255,.85);padding:9px 14px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.04em;}
+.compare-table td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.compare-table tr:hover td{background:var(--bg);}
+.compare-table .worse{color:var(--red);font-weight:700;}
+.compare-table .better{color:var(--green);font-weight:700;}
+.compare-table .same{color:var(--slate);}
+
+/* ── FOOTER ── */
+footer{background:var(--navy);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+footer span{font-size:11.5px;color:rgba(255,255,255,.4);}
+footer a{color:rgba(255,255,255,.5);text-decoration:none;font-size:11.5px;}
+footer a:hover{color:rgba(255,255,255,.8);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-logo">🚨</div>
+    <div>
+      <div class="brand-name">Lakes Linked Care</div>
+      <div class="brand-sub">Sergey Soshnikov · Public Health Analytics</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a class="county-switch" href="index.html">← Isabella County</a>
+    <a class="gh-link" href="https://github.com/lakeslinkedcare" target="_blank">GitHub →</a>
+  </div>
+</header>
+
+<div class="crisis-banner">
+  <span>🚨</span>
+  <span><strong>High-Priority County.</strong> Clare County is designated a Medically Underserved Area (MUA). Opioid overdose mortality ~47/100,000 — among Michigan's highest. All estimates are planning-grade; see methodology notes.</span>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="badge"><span>📍</span> Clare County, Michigan · 2026</div>
+    <p>Disease burden analysis based on open data — Clare County, Michigan.</p>
+    <div class="hero-stats">
+      <div class="hs">
+        <div class="n">8,198</div>
+        <div class="l">DALYs lost per year</div>
+        <div class="hs-sub">273 per 1,000 residents — 14% above Isabella</div>
+      </div>
+      <div class="hs">
+        <div class="n">~47</div>
+        <div class="l">Opioid deaths per 100k</div>
+        <div class="hs-sub">▲ Among Michigan's highest</div>
+      </div>
+      <div class="hs">
+        <div class="n">12.7%</div>
+        <div class="l">COPD prevalence</div>
+        <div class="hs-sub">vs. 8.8% Isabella · oldest rural pop</div>
+      </div>
+      <div class="hs">
+        <div class="n">46.8 yrs</div>
+        <div class="l">Median age</div>
+        <div class="hs-sub">vs. Michigan 40.0 — 7 years older</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Analytical Tools — Clare County</div>
+
+  <div class="cards">
+
+    <!-- Dashboard -->
+    <a class="card" href="clare.html" style="--accent:var(--red)">
+      <div class="card-head">
+        <div class="card-icon">📊</div>
+        <span class="card-badge">Core tool</span>
+      </div>
+      <div>
+        <h3>Disease Burden Dashboard</h3>
+        <p>Interactive DALY analysis across 7 condition groups. Toggle LE standard and MH remission adjustment.</p>
+      </div>
+      <div class="card-meta">
+        <span class="chip">7 conditions</span>
+        <span class="chip">Interactive</span>
+        <span class="chip">8,198 DALYs</span>
+      </div>
+      <div class="card-footer">
+        <span class="open-btn">Open <span class="card-arrow">→</span></span>
+      </div>
+    </a>
+
+    <!-- Compare with Isabella -->
+    <a class="card" href="home.html" style="--accent:var(--blue)">
+      <div class="card-head">
+        <div class="card-icon">⚖️</div>
+        <span class="card-badge">Compare</span>
+      </div>
+      <div>
+        <h3>Isabella County Dashboard</h3>
+        <p>Compare with Isabella County (pop. 64,565). Same methodology, different burden profile — less opioid, more urban services.</p>
+      </div>
+      <div class="card-meta">
+        <span class="chip">15,430 DALYs</span>
+        <span class="chip">Reference county</span>
+      </div>
+      <div class="card-footer">
+        <span class="open-btn">Open <span class="card-arrow">→</span></span>
+      </div>
+    </a>
+
+    <!-- Methods -->
+    <a class="card" href="Isabella_County_Methods_Supplement.html" style="--accent:var(--teal)">
+      <div class="card-head">
+        <div class="card-icon">📋</div>
+        <span class="card-badge">Supplement</span>
+      </div>
+      <div>
+        <h3>Methods Supplement</h3>
+        <p>DALY formulas, data sources, life expectancy standards, and limitations. Same methodology applies to Clare.</p>
+      </div>
+      <div class="card-meta">
+        <span class="chip">DALY formula</span>
+        <span class="chip">Audit trail</span>
+      </div>
+      <div class="card-footer">
+        <span class="open-btn">Open <span class="card-arrow">→</span></span>
+      </div>
+    </a>
+
+    <!-- AI Solutions -->
+    <a class="card" href="Isabella_County_AI_Solutions.html" style="--accent:var(--purple)">
+      <div class="card-head">
+        <div class="card-icon">🤖</div>
+        <span class="card-badge">Implementation</span>
+      </div>
+      <div>
+        <h3>AI Solutions Roadmap</h3>
+        <p>Telehealth MAT for opioids, remote BP monitoring, tobacco cessation — directly applicable to Clare's burden profile.</p>
+      </div>
+      <div class="card-meta">
+        <span class="chip">Telehealth MAT</span>
+        <span class="chip">Grant framing</span>
+      </div>
+      <div class="card-footer">
+        <span class="open-btn">Open <span class="card-arrow">→</span></span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Clare vs Isabella comparison -->
+  <div style="margin-top:36px;border:1.5px solid var(--border);border-radius:var(--radius);padding:28px 32px;background:var(--surface);box-shadow:var(--shadow);">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px;">County Comparison</div>
+    <h2 style="font-size:17px;font-weight:800;color:var(--navy);margin-bottom:16px;letter-spacing:-.01em;">Clare vs. Isabella — Key Indicators</h2>
+
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Indicator</th>
+            <th>Clare County</th>
+            <th>Isabella County</th>
+            <th>Michigan Avg</th>
+            <th>Clare Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Total DALYs/yr (primary)</strong></td>
+            <td>8,198</td>
+            <td>15,430</td>
+            <td>—</td>
+            <td class="worse">273/1k residents vs. 239/1k</td>
+          </tr>
+          <tr>
+            <td><strong>Population</strong></td>
+            <td>30,013</td>
+            <td>64,565</td>
+            <td>—</td>
+            <td class="same">Half the size</td>
+          </tr>
+          <tr>
+            <td><strong>Median age</strong></td>
+            <td>46.8 yrs</td>
+            <td>~38 yrs</td>
+            <td>40.0 yrs</td>
+            <td class="worse">7 yrs older than state avg</td>
+          </tr>
+          <tr>
+            <td><strong>COPD prevalence</strong></td>
+            <td>12.7%</td>
+            <td>8.8%</td>
+            <td>~7%</td>
+            <td class="worse">Highest in comparison set</td>
+          </tr>
+          <tr>
+            <td><strong>Diabetes prevalence</strong></td>
+            <td>15.4%</td>
+            <td>11.6%</td>
+            <td>~10%</td>
+            <td class="worse">▲ 33% above Isabella</td>
+          </tr>
+          <tr>
+            <td><strong>Opioid overdose mortality</strong></td>
+            <td>~47/100k</td>
+            <td>~30/100k</td>
+            <td>~25/100k</td>
+            <td class="worse">Among MI's highest</td>
+          </tr>
+          <tr>
+            <td><strong>Obesity</strong></td>
+            <td>~41%</td>
+            <td>43.1%</td>
+            <td>36.7%</td>
+            <td class="same">Similar, both elevated</td>
+          </tr>
+          <tr>
+            <td><strong>Uninsured rate</strong></td>
+            <td>~14%</td>
+            <td>10.3%</td>
+            <td>~8%</td>
+            <td class="worse">Higher uninsured burden</td>
+          </tr>
+          <tr>
+            <td><strong>Poverty rate</strong></td>
+            <td>17–25%</td>
+            <td>19–26%</td>
+            <td>~15%</td>
+            <td class="same">Both elevated — structural</td>
+          </tr>
+          <tr>
+            <td><strong>Psychiatrist shortage (HRSA)</strong></td>
+            <td>MUA-designated</td>
+            <td>176,938:1</td>
+            <td>9,371:1</td>
+            <td class="worse">Full MUA — no psychiatrists</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:12px;line-height:1.6;">All figures are planning-grade estimates. Clare mortality counts derived from Michigan state rates adjusted for rural burden; PLACES 2024 CDC data. Poverty range reflects source discrepancy (ACS 2022 vs. MDHHS estimates). <a href="Isabella_County_Methods_Supplement.html" style="color:var(--blue);">Full methodology →</a></p>
+  </div>
+
+  <!-- About Clare -->
+  <div style="margin-top:20px;border:1.5px solid #fecaca;border-radius:var(--radius);padding:24px 32px;background:#fff5f5;box-shadow:var(--shadow);">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9f1239;margin-bottom:10px;">Why Clare County</div>
+    <h2 style="font-size:17px;font-weight:800;color:#7f1d1d;margin-bottom:12px;letter-spacing:-.01em;">A county where the opioid crisis intersects with aging and poverty</h2>
+    <p style="font-size:13.5px;color:#334155;line-height:1.75;">
+      Clare County's burden profile differs from Isabella in a critical way: the population is 7 years older (median 46.8 vs. state 40.0), which amplifies every chronic disease burden and means premature deaths carry fewer remaining life-years lost — but the absolute per-capita DALY rate is still 14% higher than Isabella. The opioid overdose mortality at ~47/100,000 is more than double the national average. COPD at 12.7% is the highest in our comparison set and reflects decades of rural tobacco use in an aging cohort. Clare lacks the university health anchor that Isabella has through CMU — there is no single institutional partner to anchor a telehealth or integrated care program. This makes community health worker and MAT telehealth models the most feasible entry points.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  <span>Lakes Linked Care · Clare County, Michigan · Soshnikov · 2026 · Data: CDC PLACES 2024 · CHR 2024 · CMS Medicare 2022</span>
+  <a href="index.html">← Isabella County</a>
+</footer>
+
+</body>
+</html>

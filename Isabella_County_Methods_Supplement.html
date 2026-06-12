@@ -17,8 +17,10 @@ body{font-family:var(--sans);background:#fff;color:#111;font-size:13.5px;line-he
 .sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
 .sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
 .sitenav .links{display:flex;gap:4px;}
-.sitenav a.nl{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
-.sitenav a.nl:hover,.sitenav a.nl.active{background:rgba(255,255,255,.12);color:#fff;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
 
 /* ── DOCUMENT ── */
 .doc{max-width:820px;margin:0 auto;padding:44px 56px 80px;}
@@ -94,15 +96,29 @@ tbody td{padding:7px 10px;vertical-align:top;}
 <nav class="sitenav">
   <a class="brand" href="index.html">Lakes Linked Care</a>
   <div class="links">
-    <a class="nl" href="index.html">🏠 Home</a>
-    <a class="nl" href="home.html">📊 Dashboard</a>
-    <a class="nl" href="roi.html">💰 ROI</a>
-    <a class="nl" href="Isabella_County_AI_Solutions.html">🤖 AI Solutions</a>
-    <a class="nl active" href="Isabella_County_Methods_Supplement.html">📋 Methods</a>
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink" href="home.html">📊 Isabella</a>
+      <a class="navlink" href="clare.html">🚨 Clare</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="index.html">🏠 Portal</a>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="roi.html">💰 Economic Impact</a>
+    <a class="navlink" href="Isabella_County_AI_Solutions.html">🤖 Interventions</a>
+    <a class="navlink active" href="Isabella_County_Methods_Supplement.html">📋 Methods</a>
   </div>
 </nav>
 
 <div class="doc">
+
+<!-- Shared framework callout -->
+<div style="background:#f0f7ff;border:1.5px solid #bfdbfe;border-left:5px solid #1a56db;border-radius:0 8px 8px 0;padding:14px 20px;margin-bottom:24px;font-size:13px;color:#1e3a5f;">
+  <strong>📋 This document is a county-specific supplement.</strong>
+  The DALY equations, Python pipeline architecture, data source descriptions, Monte Carlo uncertainty model, and GitHub code availability are documented in the
+  <a href="shared_methods.html" style="color:#1a56db;font-weight:700;text-decoration:none;">→ Shared Methodology Framework</a>
+  (shared across all county analyses). This supplement covers Isabella County-specific data quality, FIPS-level inputs, and county analytic considerations.
+</div>
 
 <!-- Title block -->
 <div class="title-block">

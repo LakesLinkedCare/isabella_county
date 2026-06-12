@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clare County — AI & Digital Health Intervention Roadmap | Lakes Linked Care</title>
+<meta name="description" content="AI-assisted intervention roadmap for Clare County: SUD/opioids, COPD, cancer, CVD. Evidence-based technology solutions for rural Michigan health. Dr. Sergey Soshnikov, MD PhD.">
+<meta property="og:title" content="Clare County — AI & Digital Health Intervention Roadmap | Lakes Linked Care">
+<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/clare_ai_solutions.html">
+<meta property="og:type" content="website">
+<style>
+:root {
+  --navy: #0f1f3d;
+  --blue: #1a56db;
+  --teal: #0d9488;
+  --purple: #7c3aed;
+  --amber: #d97706;
+  --red: #dc2626;
+  --green: #059669;
+  --border: #e2e8f0;
+  --bg: #f8fafc;
+  --muted: #64748b;
+  --serif: Georgia, 'Times New Roman', serif;
+  --sans: -apple-system, 'Helvetica Neue', Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); background: #fff; color: #111; font-size: 13.5px; line-height: 1.75; }
+
+/* Running header */
+.running-hd { border-bottom: 2px solid var(--navy); padding: 10px 72px; display: flex; justify-content: space-between; font-size: 11px; color: #555; font-style: italic; position: sticky; top: 48px; background: #fff; z-index: 9; }
+
+/* Layout */
+.doc { max-width: 820px; margin: 0 auto; padding: 48px 60px 80px; }
+@media(max-width:680px){ .doc { padding: 28px 18px; } }
+
+/* Title block */
+.title-block { border-bottom: 3px double var(--navy); padding-bottom: 24px; margin-bottom: 28px; }
+.title-block .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .12em; color: #666; font-weight: 700; margin-bottom: 10px; }
+.title-block h1 { font-family: var(--serif); font-size: 22px; font-weight: 700; line-height: 1.35; color: var(--navy); margin-bottom: 8px; }
+.title-block .subtitle { font-size: 13.5px; color: #444; margin-bottom: 14px; }
+.authors { font-size: 12px; margin-bottom: 5px; }
+.affil { font-size: 11px; color: #666; font-style: italic; margin-bottom: 10px; }
+.meta-line { font-size: 11px; color: #888; border-top: 1px solid var(--border); margin-top: 10px; padding-top: 10px; }
+
+/* Abstract */
+.abstract { background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid var(--red); padding: 16px 20px; margin-bottom: 28px; border-radius: 0 4px 4px 0; }
+.abstract h2 { font-size: 10.5px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; color: var(--red); margin-bottom: 8px; }
+.abstract p { font-size: 13px; line-height: 1.65; }
+
+/* Section headings */
+h2.sec { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--navy); border-top: 2px solid var(--navy); padding-top: 14px; margin-top: 36px; margin-bottom: 12px; }
+h3.sub { font-size: 13.5px; font-weight: 700; color: #1e3a5f; margin-top: 22px; margin-bottom: 8px; }
+p { margin-bottom: 10px; }
+
+/* Problem-Solution cards */
+.ps-grid { display: grid; gap: 20px; margin: 20px 0; }
+.ps-card { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.ps-head { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 14px 18px; }
+.ps-icon { font-size: 22px; flex-shrink: 0; }
+.ps-title h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+.ps-title p  { font-size: 11.5px; color: var(--muted); }
+.ps-burden { text-align: right; }
+.ps-burden .daly { font-size: 18px; font-weight: 800; color: var(--navy); }
+.ps-burden .lbl  { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.ps-body { padding: 0 18px 16px; }
+.ai-items { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+@media(max-width:580px){ .ai-items { grid-template-columns: 1fr; } }
+.ai-item { background: var(--bg); border-radius: 6px; padding: 12px; }
+.ai-item .ai-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
+.ai-item h5 { font-size: 12.5px; font-weight: 700; margin-bottom: 4px; }
+.ai-item p  { font-size: 12px; color: #374151; line-height: 1.5; margin: 0; }
+.ev { display: inline-block; font-size: 10px; font-weight: 700; border-radius: 10px; padding: 1px 7px; margin-top: 5px; }
+.ev.strong { background: #dcfce7; color: #166534; }
+.ev.mod    { background: #fef9c3; color: #854d0e; }
+.ev.emrg   { background: #e0f2fe; color: #075985; }
+
+/* Color themes per condition */
+.ps-card.sud .ps-head { background: #fef2f2; border-bottom: 1px solid #fecaca; }
+.ps-card.sud .ps-burden .daly { color: var(--red); }
+.ps-card.copd .ps-head { background: #fff7ed; border-bottom: 1px solid #fed7aa; }
+.ps-card.copd .ps-burden .daly { color: var(--amber); }
+.ps-card.cancer .ps-head { background: #faf5ff; border-bottom: 1px solid #e9d5ff; }
+.ps-card.cancer .ps-burden .daly { color: var(--purple); }
+.ps-card.cvd .ps-head { background: #eff6ff; border-bottom: 1px solid #bfdbfe; }
+.ps-card.cvd .ps-burden .daly { color: var(--blue); }
+.ps-card.mental .ps-head { background: #f0fdfa; border-bottom: 1px solid #99f6e4; }
+.ps-card.mental .ps-burden .daly { color: var(--teal); }
+.ps-card.sdoh .ps-head { background: #f0fdf4; border-bottom: 1px solid #bbf7d0; }
+.ps-card.sdoh .ps-burden .daly { color: var(--green); }
+
+/* Priority badge */
+.priority-badge { display: inline-block; background: var(--red); color: #fff; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 8px; border-radius: 10px; margin-bottom: 4px; }
+
+/* Implementation table */
+.impl-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+.impl-table th { background: var(--navy); color: #fff; padding: 8px 10px; text-align: left; font-size: 11px; }
+.impl-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.impl-table tr:nth-child(even) td { background: var(--bg); }
+.phase { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10.5px; font-weight: 700; }
+.phase.now  { background: #dcfce7; color: #166534; }
+.phase.yr1  { background: #fef9c3; color: #854d0e; }
+.phase.yr2  { background: #e0f2fe; color: #075985; }
+
+/* Spotlight box */
+.spotlight { background: linear-gradient(135deg, #3b1515 0%, #1a2040 100%); color: #fff; border-radius: 8px; padding: 20px 24px; margin: 24px 0; }
+.spotlight h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.spotlight p  { font-size: 13px; color: rgba(255,255,255,.85); line-height: 1.65; margin: 0; }
+.spotlight .stat { font-size: 28px; font-weight: 800; color: #f87171; }
+
+/* Challenge box */
+.challenge-box { background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid var(--amber); border-radius: 0 6px 6px 0; padding: 14px 18px; margin: 20px 0; font-size: 12.5px; color: #78350f; line-height: 1.7; }
+.challenge-box strong { color: #92400e; }
+
+/* Note box */
+.note { background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 12px 16px; font-size: 12.5px; color: #1e40af; margin: 16px 0; }
+
+/* References */
+.refs { font-size: 12px; line-height: 1.7; }
+.refs li { margin-bottom: 5px; padding-left: 6px; }
+.refs a { color: var(--blue); }
+
+footer-doc { display: block; margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 11px; color: #888; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+<nav style="background:#0f1f3d;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;">
+  <a href="index.html" style="color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9">Lakes Linked Care</a>
+  <div style="display:flex;gap:4px;align-items:center;">
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div style="display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;">
+      <a href="home.html" style="color:rgba(255,255,255,.8);font-size:12px;font-weight:600;padding:4px 11px;border-radius:5px;text-decoration:none">📊 Isabella</a>
+      <a href="clare.html" style="color:rgba(255,255,255,.8);font-size:12px;font-weight:600;padding:4px 11px;border-radius:5px;text-decoration:none">🚨 Clare</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a href="index.html" style="color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none">🏠 Portal</a>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a href="clare_roi.html" style="color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none">💰 Economic Impact</a>
+    <a href="clare_ai_solutions.html" style="background:rgba(255,255,255,.12);color:#fff;font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none">🤖 Interventions</a>
+    <a href="clare_methods.html" style="color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none">📋 Methods</a>
+  </div>
+</nav>
+
+<div class="running-hd">
+  <span>Soshnikov · Clare County · AI &amp; Digital Health Applications · 2026</span>
+  <span>Primary burden: 8,198 DALYs (frontier LE) · Sensitivity (MI LE): 5,943 DALYs/yr · MUA-designated county</span>
+</div>
+
+<div class="doc">
+
+<div class="title-block">
+  <div class="label">Supplement 2 - Technology &amp; Innovation · Clare County · v1.0 (2026)</div>
+  <h1>Artificial Intelligence and Digital Health Technologies for Community Disease Burden Reduction in Clare County, Michigan</h1>
+  <div class="subtitle">A problem-solution framework aligned with local burden estimates, 2026 — Opioid crisis priority edition</div>
+  <div class="authors">Sergey Soshnikov</div>
+  <div class="meta-line">Companion document to: Disease Burden Analysis, Clare County, Michigan (v1.0) · June 2026 · Data: CDC PLACES 2024 · Michigan CDC WONDER rates × rural adj. · MUA designation · Pop. 30,013</div>
+</div>
+
+<div class="abstract">
+  <h2>Summary — Clare County Priority Frame</h2>
+  <p>This supplement maps the disease burden priorities identified in the Clare County health analysis (8,198 primary DALYs/year, frontier LE; 5,943 DALYs MI LE planning standard) to AI and digital health interventions supported by current evidence. Clare County differs fundamentally from Isabella County in its priority profile: the opioid/SUD crisis is the highest-priority acute intervention target (~47/100k overdose mortality, among Michigan's highest), followed by COPD remote monitoring (12.7% prevalence — the standout Clare condition), cancer screening navigation, and combined diabetes/hypertension telehealth. Mental health burden is compounded by whole-county MUA designation and absence of any university psychiatry pipeline. The county's older population (median 46.8 yrs), absence of an institutional health anchor, and rural isolation create distinct implementation barriers that digital health must work within — not around. All estimates are planning-grade; not peer-reviewed.</p>
+</div>
+
+<!-- Spotlight -->
+<div class="spotlight">
+  <h3>Why Clare's AI strategy must lead with opioids and COPD — not mental health</h3>
+  <p>In Isabella County, mental health access (176,938:1 psychiatrist ratio) is the dominant structural gap. In Clare, the defining acute crisis is opioid overdose mortality: <span class="stat">~47/100k</span> — nearly double the Michigan average. This is not a care navigation problem; it is a MAT (medication-assisted treatment) access problem. Telehealth buprenorphine prescribing is the most evidence-backed, scalable, and immediate intervention available. Simultaneously, Clare's 12.7% COPD prevalence — highest in the mid-Michigan comparison set, driven by tobacco and aging — demands a dedicated remote monitoring program not needed in Isabella. AI for Clare means MAT telehealth first, COPD monitoring second.</p>
+</div>
+
+<div class="challenge-box">
+  <strong>Rural implementation challenges specific to Clare County:</strong>
+  <ul style="margin-top:6px;margin-left:18px;line-height:2;">
+    <li><strong>No CMU-equivalent anchor:</strong> All programs must route through FQHC networks, county health department, or regional hospital systems (McLaren Central Michigan, MidMichigan Health). No university health services delivery channel.</li>
+    <li><strong>Older population digital literacy:</strong> Median age 46.8 years. A substantial proportion of the highest-need patients (COPD, CVD, diabetes) are in the 60–75 age group with lower smartphone literacy. Technology adoption pathways must include phone-based (non-smartphone) interfaces, in-person training through senior centers, and family caregiver support.</li>
+    <li><strong>Smaller patient base:</strong> 30,013 total residents — approximately half Isabella's population. Per-program economies of scale are lower; vendor contracts and platform fees have higher per-patient cost at smaller volume. Shared-service models with adjacent counties (Osceola, Isabella) should be explored.</li>
+    <li><strong>MUA whole-county designation:</strong> Medicaid reimbursement incentives and HRSA rural health program eligibility are strong — Clare qualifies for a broader set of federal programs than Isabella, including the whole-county MUA track for community health center expansion and telehealth reimbursement waivers.</li>
+    <li><strong>Internet access gaps:</strong> Rural broadband coverage in Clare County is below state average. Any telehealth solution must include cellular (LTE) fallback options and offline-capable apps for patients in low-connectivity areas.</li>
+  </ul>
+</div>
+
+<!-- Section 1 -->
+<h2 class="sec">1. AI Applications by Condition Priority — Clare County</h2>
+<p>The following cards are ordered by Clare County's intervention priority — which differs from the DALY rank order because some conditions have stronger acute crisis signals and more immediately actionable AI solutions. For each condition, interventions are rated: <span class="ev strong">Strong</span> = RCT/meta-analysis evidence; <span class="ev mod">Moderate</span> = mixed, indirect, or implementation evidence; <span class="ev emrg">Emerging</span> = promising early-stage. Clare population base: 30,013 total / ~24,310 adults.</p>
+
+<div class="ps-grid">
+
+  <!-- SUD / OPIOIDS — PRIORITY #1 -->
+  <div class="ps-card sud">
+    <div class="ps-head">
+      <span class="ps-icon">💊</span>
+      <div class="ps-title">
+        <span class="priority-badge">Priority #1 — Opioid Crisis</span>
+        <h4>Substance Use Disorders / Opioid Use Disorder (F10–F19)</h4>
+        <p>#2 DALY burden (1,247 DALYs) · ~17 deaths/yr at age 44 · ~47/100k overdose mortality · Highest-priority acute intervention</p>
+      </div>
+      <div class="ps-burden"><div class="daly">1,247</div><div class="lbl">DALYs/yr · #2</div></div>
+    </div>
+    <div class="ps-body">
+      <div class="ai-items">
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#dc2626">MAT Telehealth</div>
+          <h5>Buprenorphine prescribing via telehealth (Priority #1)</h5>
+          <p>Platforms like Bicycle Health, Workit Health, and CHESS Health provide AI-supported buprenorphine initiation and maintenance via telehealth. Perry 2025 (Cochrane CD013672) confirmed primary care OAT is equivalent to specialty care for retention and abstinence outcomes — validating the telehealth delivery model. SAMHSA data show telehealth MAT doubled rural patient access 2020–2022. Clare has no dedicated MAT specialist; telehealth is not an alternative — it is the only scalable option.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#dc2626">PDMP Integration</div>
+          <h5>AI-enhanced Prescription Drug Monitoring Program alerts</h5>
+          <p>Michigan's MAPS (Michigan Automated Prescription System) now supports API integration. AI models that process PDMP data alongside EHR records can identify polypharmacy opioid risk patterns, flag concurrent benzodiazepine + opioid prescriptions, and stratify patients for proactive outreach. Particularly relevant in Clare where opioid mortality signals are among the state's highest — early identification before overdose is the highest-value use case.</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#dc2626">Recovery Support</div>
+          <h5>AI-augmented peer recovery coach networks</h5>
+          <p>Digital platforms (e.g., KIOS, WEconnect Health) enable peer recovery coaches to manage larger caseloads, automate check-in prompts, detect risk signals in self-reported data, and coordinate with clinical teams. Clare County's peer recovery network is the primary community resource for OUD — AI augmentation multiplies the capacity of each trained coach without requiring additional clinical hires.</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#dc2626">Maternal SUD</div>
+          <h5>Prenatal OUD screening and SBIRT automation</h5>
+          <p>Automated SBIRT (Screening, Brief Intervention, Referral to Treatment) integrated into prenatal visits targets maternal SUD, which drives Neonatal Abstinence Syndrome (NAS) rates. Clare's opioid profile suggests elevated NAS risk. SBIRT automation via tablet-based validated tools (AUDIT-C, DAST-10) can be deployed in OB offices and FQHC prenatal visits at near-zero marginal cost after initial setup.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COPD — PRIORITY #2 (Clare-specific) -->
+  <div class="ps-card copd">
+    <div class="ps-head">
+      <span class="ps-icon">🫁</span>
+      <div class="ps-title">
+        <span class="priority-badge" style="background:var(--amber)">Priority #2 — Clare-Specific Standout</span>
+        <h4>COPD &amp; Respiratory Disease (J44)</h4>
+        <p>#3 DALY burden (868 DALYs) · 12.7% adult prevalence — highest in mid-Michigan · Driven by tobacco + aging · Standout Clare condition</p>
+      </div>
+      <div class="ps-burden"><div class="daly" style="color:var(--amber)">868</div><div class="lbl">DALYs/yr · #3</div></div>
+    </div>
+    <div class="ps-body">
+      <div class="ai-items">
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#d97706">Remote Monitoring</div>
+          <h5>Remote pulse oximetry + early exacerbation warning</h5>
+          <p>Connected pulse oximeters transmit daily SpO2 readings to an AI platform that flags early-warning exacerbation signals before the patient deteriorates to ER-level severity. Cochrane evidence (Walker 2018) demonstrates 30–40% reduction in COPD hospitalization rates with structured telehealth monitoring for moderate-to-severe patients. Clare's 12.7% COPD rate (vs. ~7% statewide) means this intervention addresses the county's single largest avoidable-cost driver on a per-hospitalization basis (~$15–20K per acute COPD admission).</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#d97706">Tobacco Cessation</div>
+          <h5>AI-guided quitline + NRT for COPD patients</h5>
+          <p>Tobacco is the primary modifiable COPD driver. Whittaker 2019 (Cochrane CD006611) confirms automated SMS cessation RR 1.54 (95% CI 1.19–2.00) vs minimal support. For Clare, tobacco cessation programs have triple impact: reduce COPD progression, reduce cardiovascular events, and reduce cancer incidence. SmokefreeMI (MDHHS partnership) is deployable at near-zero cost with state-level support. NRT provision through FQHC adds marginally to cost but substantially to quit rates (Cochrane RR ~1.8 vs placebo).</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#d97706">Telehealth Follow-up</div>
+          <h5>Pulmonology telehealth visits via regional system partnership</h5>
+          <p>Clare County residents currently travel to McLaren Central Michigan or MidMichigan Health Midland for pulmonology consultation. Telehealth pulmonology follow-up — particularly for post-exacerbation medication adjustment and spirometry-guided titration — reduces access barriers. AI clinical decision support tools can assist primary care providers in Clare in managing moderate COPD without requiring every patient to travel 30–45 miles to a specialist.</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#d97706">Spirometry Screening</div>
+          <h5>AI-assisted portable spirometry in primary care</h5>
+          <p>Approximately 50% of COPD in rural populations remains undiagnosed. Portable spirometers (e.g., ERT SpiroSmart, MIR Spiro) enable COPD screening in primary care offices without sending patients to pulmonology. AI interpretation of spirometry patterns identifies obstruction severity with high accuracy. In a county with 12.7% CDC PLACES prevalence, earlier diagnosis enables earlier inhaler optimization and pulmonary rehabilitation referral.</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CANCER — PRIORITY #3 -->
+  <div class="ps-card cancer">
+    <div class="ps-head">
+      <span class="ps-icon">🔬</span>
+      <div class="ps-title">
+        <h4>Cancer — All Sites (C00–C97)</h4>
+        <p>#1 DALY burden (1,372 DALYs) · ~60 deaths/yr at age 67 · 7.6% prevalence · Rural access gap for screening and navigation</p>
+      </div>
+      <div class="ps-burden"><div class="daly" style="color:var(--purple)">1,372</div><div class="lbl">DALYs/yr · #1</div></div>
+    </div>
+    <div class="ps-body">
+      <div class="ai-items">
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#7c3aed">Navigation</div>
+          <h5>AI care navigation for rural cancer patients</h5>
+          <p>Clare County patients typically travel 40–60 miles for oncology appointments. Automated navigation tools coordinate transport, appointment reminders, telehealth symptom check-ins between infusion visits, and coordination between the county FQHC and regional cancer centers. Treatment abandonment and delayed diagnosis are the primary avoidable harms in rural cancer — navigation technology directly addresses both without requiring a clinical hire.</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#7c3aed">AI Screening</div>
+          <h5>AI-assisted radiology for lung and breast cancer</h5>
+          <p>FDA-cleared AI tools (Seno.ai, Veye Chest) flag suspicious nodules in CT/mammography, increasing radiologist throughput 2–3×. Most useful in the closest Clare-area facilities (McLaren Clare Hospital, MidMichigan Health Clare). Lung cancer screening with low-dose CT is particularly important given Clare's smoking prevalence (~18–22% adults) and COPD comorbidity, which substantially elevates lung cancer risk.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#7c3aed">Risk Stratification</div>
+          <h5>Population-level cancer risk scoring in primary care EHR</h5>
+          <p>ML models using EHR data (smoking history, BMI, age, comorbidities) identify high-risk patients for proactive screening outreach. Deployable within the EMR systems used by Clare County's FQHC and primary care practices. Priority: lung cancer (USPSTF LDCT criteria for 50+ yr with ≥20 pack-year history — a large fraction of Clare's aging tobacco-using population qualifies).</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#7c3aed">Tobacco + Cancer</div>
+          <h5>Cessation outreach within cancer screening workflow</h5>
+          <p>Integrating tobacco cessation counseling directly into the lung CT screening workflow (LDCT + cessation = "teachable moment" model validated in NLST and implementation studies) amplifies impact of both interventions simultaneously. Clare's high smoking rate means a large fraction of cancer screening-eligible patients are active smokers, making this the highest-yield integration point.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CVD + DIABETES — PRIORITY #4 -->
+  <div class="ps-card cvd">
+    <div class="ps-head">
+      <span class="ps-icon">❤️</span>
+      <div class="ps-title">
+        <h4>Cardiovascular Disease, Stroke, and Diabetes T2 (I20–I69; E11)</h4>
+        <p>CVD #5 (710 DALYs) · Stroke #6 (571 DALYs) · Diabetes #7 (351 DALYs) · Diabetes 15.4% — 33% above Isabella · Combined 1,632 DALYs</p>
+      </div>
+      <div class="ps-burden"><div class="daly" style="color:var(--blue)">1,632</div><div class="lbl">Combined DALYs/yr · CVD+DM+Stroke</div></div>
+    </div>
+    <div class="ps-body">
+      <div class="ai-items">
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#1a56db">BP Monitoring</div>
+          <h5>AI-supported remote BP monitoring (CHW-led)</h5>
+          <p>Home BP cuffs transmit readings to an AI platform that automatically adjusts medication titration recommendations within a protocol and alerts CHWs to uncontrolled values. In Clare, CHWs — rather than primary care physicians — are the scalable front-line resource. The Agarwal 2025 (Cochrane CD014652) data support CV event reduction (OR 0.58 for tracking + CDSS + targeted communication). ~40% hypertension prevalence in Clare adults produces a large addressable population.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#1a56db">Diabetes Telehealth</div>
+          <h5>Remote glucose monitoring + AI coaching (Clare 15.4% diabetes)</h5>
+          <p>Clare's 15.4% diabetes prevalence (vs. 11.6% Isabella) reflects the older age structure — the highest-risk patients are in the 60–75 age cohort most prone to complications. Jiang 2026 (PMID 41707176): HbA1c MD −0.38% across 58 RCTs, high heterogeneity. Telehealth follow-up for medication adjustment is critical given limited endocrinology access. Phone-based (not smartphone) remote monitoring options should be prioritized for older patients.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#1a56db">AFib Detection</div>
+          <h5>Wearable AFib screening in senior centers and pharmacies</h5>
+          <p>FDA-cleared wearable ECG devices (AliveCor KardiaMobile: 98% sensitivity for AF; Apple Watch Series 4: 84% PPV) can be deployed in community settings where Clare's older population concentrates — senior centers, the Clare County YMCA, and local pharmacies. Community AFib screening has detected undiagnosed AF in 3–5% of adults over 65, enabling anticoagulation that directly reduces stroke risk. Clare's older population makes this high-yield.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#1a56db">Telestroke</div>
+          <h5>AI-assisted telestroke network for McLaren Clare Hospital</h5>
+          <p>Telestroke networks with AI-assisted CT reading (e.g., RapidAI) enable rural ED physicians to receive real-time neurologist guidance within minutes. McLaren Clare Hospital — the county's primary acute care facility — would benefit from RapidAI or equivalent integration to reduce door-to-needle time for ischemic stroke patients, directly addressing Clare's elevated stroke burden. Implementation via McLaren's existing telemedicine infrastructure is feasible within 12 months.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENTAL HEALTH — PRIORITY #5 -->
+  <div class="ps-card mental">
+    <div class="ps-head">
+      <span class="ps-icon">🧠</span>
+      <div class="ps-title">
+        <h4>Mental Health Disorders (F30–F48)</h4>
+        <p>#4 burden (823 DALYs, remission-adj; 1,433 under MI LE/raw prevalence) · 14.1% adult prevalence (CDC PLACES) · Whole-county MUA = even less psychiatric access than Isabella</p>
+      </div>
+      <div class="ps-burden"><div class="daly" style="color:var(--teal)">823</div><div class="lbl">DALYs/yr · #4 (remission-adj)</div></div>
+    </div>
+    <div class="ps-body">
+      <div class="ai-items">
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#0d9488">Telepsychiatry</div>
+          <h5>Collaborative care + telepsychiatry via FQHC</h5>
+          <p>Clare has no resident psychiatrist and no university mental health service infrastructure comparable to CMU Health in Isabella. The only scalable MH delivery model is collaborative care embedded within the FQHC and primary care setting, with telepsychiatry consultation via regional academic centers (CMU's psychiatric residency program or U-M). AI-assisted caseload prioritization helps the behavioral health care manager triage which patients need psychiatry consultation vs. protocol-based management. Evidence for collaborative care in rural settings: Unützer 2002 IMPACT RCT remains foundational.</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#0d9488">Digital Therapeutics</div>
+          <h5>FDA-cleared digital CBT tools (no smartphone required)</h5>
+          <p>Prescription digital therapeutics (Rejoyn for MDD — FDA Breakthrough Device; Freespira for PTSD/anxiety) deliver CBT protocols via smartphone app with clinician dashboard. For Clare's older population, phone-based and simplified interface versions must be prioritized. Older adults show equivalent CBT digital outcomes when training support is provided (Lichtenstein 2020: RCT evidence for older adult digital CBT adherence with phone support). Available 24/7 with no wait time — critical given complete absence of local psychiatric services.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#0d9488">SUD-MH Comorbidity</div>
+          <h5>Integrated SUD-mental health screening in MAT programs</h5>
+          <p>OUD and depression/anxiety have high comorbidity rates (40–50% co-occurrence). Telehealth MAT platforms that integrate mental health screening (PHQ-9, GAD-7) at intake and during follow-up visits enable dual-condition management without requiring a separate referral pathway. Given that MAT telehealth is Clare's #1 priority intervention, integrating MH screening into that pathway creates the most resource-efficient access point for mental health care in the county.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#0d9488">Crisis Response</div>
+          <h5>988 Lifeline integration + NLP-based risk flagging</h5>
+          <p>Michigan's 988 Suicide and Crisis Lifeline (launched 2022) provides immediate crisis response. NLP-based tools that flag crisis language in EHR notes, telehealth chat sessions, and peer recovery coach interactions can proactively route high-risk patients to crisis services. Clare's mental health access deficit (whole-county MUA, no resident psychiatrist) makes crisis prevention — rather than post-crisis response — the only viable population-level strategy.</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SDOH -->
+  <div class="ps-card sdoh">
+    <div class="ps-head">
+      <span class="ps-icon">🏘️</span>
+      <div class="ps-title">
+        <h4>Social Determinants of Health — Root Cause Interventions</h4>
+        <p>Poverty 17–25% · No food bank in northern townships · Aging-in-place isolation · MUA access barriers · Structural drivers of all conditions above</p>
+      </div>
+      <div class="ps-burden"><div class="daly" style="font-size:14px;color:var(--green)">All conditions</div><div class="lbl">Root driver</div></div>
+    </div>
+    <div class="ps-body">
+      <div class="ai-items">
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#059669">Food &amp; Housing</div>
+          <h5>AI-powered SDOH screening + community resource navigation</h5>
+          <p>Tools like Findhelp.org (formerly Aunt Bertha) and Unite Us connect patients with food, housing, and transportation resources at the point of care. Particularly critical in Clare where geographic isolation means many patients face multi-barrier access (no car + rural road + no public transit + low income). EHR-integrated SDOH screening with closed-loop referral tracking. Free to use via Michigan's 211 network partnership.</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#059669">CHW Optimization</div>
+          <h5>AI-assisted community health worker caseload management</h5>
+          <p>Clare County's CHW network is the primary scalable frontline resource for chronic disease management, given the absence of specialist infrastructure. Decision-support tools help CHWs prioritize home visits, track outcome metrics, and coordinate with FQHC clinical teams. Research in similar rural Michigan counties shows CHW programs augmented by AI tools reduce preventable hospitalization rates by 15–25% while serving 30–40% more patients per CHW.</p>
+          <span class="ev mod">Moderate evidence</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#059669">Transport Access</div>
+          <h5>Telehealth transport optimization for rural care access</h5>
+          <p>Transportation is the #1 reported barrier to care in Clare County (MDHHS community health needs assessments). AI-optimized ride-sharing coordination for medical appointments (e.g., integrating with Lyft Health, NMT brokerages) can reduce no-show rates for cancer screening, MAT, and specialist visits. The Clare County transit system serves limited routes — a technology-assisted volunteer driver coordination model is the most feasible near-term option.</p>
+          <span class="ev emrg">Emerging</span>
+        </div>
+        <div class="ai-item">
+          <div class="ai-tag" style="color:#059669">Equity Mapping</div>
+          <h5>Census-tract health gap mapping for Clare County</h5>
+          <p>CDC PLACES + Census + MDHHS data can be mapped at census-tract level to identify micro-geographies within Clare County where cancer screening uptake, MAT enrollment, or hypertension control is lowest — enabling precise resource targeting within a small county. Given Clare's 30,013 population across a 572 sq. mile area, geographic dispersion of need is high. CMU School of Public Health has existing analytical capacity for this type of project as a multi-county collaboration.</p>
+          <span class="ev strong">Strong evidence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end ps-grid -->
+
+<!-- Section 2 - Implementation Roadmap -->
+<h2 class="sec">2. Phased Implementation Roadmap — Clare County</h2>
+<p>Given Clare County's resource constraints (no CMU anchor, smaller population, MUA designation limiting specialist recruitment), the following phased approach prioritizes high-impact, low-infrastructure interventions first. All Year 1+ interventions should be built on FQHC and county health department infrastructure, not greenfield systems.</p>
+
+<table class="impl-table">
+  <thead>
+    <tr><th>Phase</th><th>Intervention</th><th>Condition target</th><th>Lead / partner</th><th>Est. cost</th><th>DALY impact</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="phase now">Now (0–3 mo)</span></td>
+      <td>Telehealth MAT (buprenorphine via Bicycle Health or Workit Health) — insurance reimbursed, zero infrastructure cost</td>
+      <td>SUD/OUD (#2, 1,247 DALYs)</td>
+      <td>Clare County FQHC / Gratiot Clare Isabella CMH</td>
+      <td>$0 (Medicaid reimbursed)</td>
+      <td>High — highest per-DALY acute impact</td>
+    </tr>
+    <tr>
+      <td><span class="phase now">Now (0–3 mo)</span></td>
+      <td>AI-assisted tobacco cessation via SMS quitline (SmokefreeMI + NRT provision through FQHC)</td>
+      <td>COPD (#3, 868 DALYs) + Cancer, CVD</td>
+      <td>County Health Dept / MDHHS SmokefreeMI</td>
+      <td>&lt;$10K/yr</td>
+      <td>High — triple impact across COPD/cancer/CVD</td>
+    </tr>
+    <tr>
+      <td><span class="phase now">Now (0–3 mo)</span></td>
+      <td>SDOH screening + Findhelp.org navigation in FQHC and primary care visits</td>
+      <td>All conditions</td>
+      <td>FQHC primary care practices</td>
+      <td>Free–$15K/yr</td>
+      <td>Moderate — structural access improvement</td>
+    </tr>
+    <tr>
+      <td><span class="phase yr1">Year 1</span></td>
+      <td>Remote COPD monitoring — connected pulse oximetry + AI exacerbation alert (Clare-specific program)</td>
+      <td>COPD (#3, 868 DALYs)</td>
+      <td>McLaren Clare / MidMichigan Health Clare / County CHW</td>
+      <td>~$60K (devices + platform)</td>
+      <td>High — reduces costly COPD hospitalizations</td>
+    </tr>
+    <tr>
+      <td><span class="phase yr1">Year 1</span></td>
+      <td>CHW-led remote BP monitoring + AI titration alerts (hypertension control program)</td>
+      <td>CVD, Stroke</td>
+      <td>Clare County CHW program / McLaren</td>
+      <td>~$40K (devices + platform)</td>
+      <td>High</td>
+    </tr>
+    <tr>
+      <td><span class="phase yr1">Year 1</span></td>
+      <td>PDMP AI integration for overdose risk scoring in primary care EHR</td>
+      <td>SUD/OUD — ongoing management</td>
+      <td>FQHC / Michigan MAPS API</td>
+      <td>~$15K integration</td>
+      <td>Moderate — overdose prevention</td>
+    </tr>
+    <tr>
+      <td><span class="phase yr2">Year 2</span></td>
+      <td>AI-assisted cancer navigation + lung CT screening risk stratification</td>
+      <td>Cancer (#1, 1,372 DALYs)</td>
+      <td>McLaren Clare / MidMichigan / CMU MPH collaborative</td>
+      <td>~$20K integration</td>
+      <td>Moderate</td>
+    </tr>
+    <tr>
+      <td><span class="phase yr2">Year 2</span></td>
+      <td>Telehealth diabetes management + remote glucose monitoring for 60+ population</td>
+      <td>Diabetes T2 (15.4% prevalence)</td>
+      <td>FQHC / McLaren endocrinology telehealth</td>
+      <td>~$50K (devices + platform)</td>
+      <td>Moderate</td>
+    </tr>
+    <tr>
+      <td><span class="phase yr2">Year 2</span></td>
+      <td>Telestroke AI (RapidAI or equivalent) at McLaren Clare Hospital ED</td>
+      <td>Stroke (#6)</td>
+      <td>McLaren Health / Michigan Stroke Network</td>
+      <td>~$25K/yr SaaS</td>
+      <td>Moderate — direct stroke mortality reduction</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Section 3 - Strategic Position -->
+<h3 class="sub">3.1 Grant development: MUA + opioid crisis framing</h3>
+<p>Clare County's dual advantage for federal grant applications is its MUA whole-county designation combined with documented opioid crisis severity. SAMHSA's State Opioid Response (SOR) grants, HRSA's Telehealth Resource Center programs, and HHS rural community opioid response programs all have explicit MUA preference tracks. The Clare County disease burden analysis (this document series) provides the quantitative justification needed for the Significance and Innovation sections. A joint application with Gratiot or Isabella counties for a multi-county rural MAT telehealth program would likely score higher than a single-county application, given shared infrastructure.</p>
+
+<h3 class="sub">3.2 Regional consortium model</h3>
+<p>Clare's smaller population (30,013) creates economies-of-scale challenges for vendor contracts, platform fees, and clinical oversight. The most cost-effective implementation model is a multi-county consortium: Clare + Gratiot + Osceola counties sharing a single COPD monitoring platform, CHW training program, and telehealth MAT vendor contract. This lowers per-patient cost toward the viability threshold for technology vendors while maintaining county-specific care navigation.</p>
+
+<div class="note">
+  <strong>Next step for Clare County:</strong> The most immediate actionable opportunity is contacting <a href="https://www.mphi.org/" style="color:inherit">Michigan Public Health Institute (MPHI)</a> and the <a href="https://www.michigan.gov/mdhhs" style="color:inherit">MDHHS Opioid Response Unit</a> to discuss this analysis as preliminary data for a SAMHSA SOR grant application targeting telehealth MAT expansion in Clare County. The Clare opioid burden data (~47/100k overdose mortality, 1,247 DALYs/yr estimated, MUA designation) meets the threshold for Tier 1 priority funding consideration. The ROI analysis (<a href="clare_roi.html" style="color:inherit">clare_roi.html</a>) provides the budget justification framework.
+</div>
+
+<!-- References -->
+<h2 class="sec">4. Selected References</h2>
+<ol class="refs">
+  <li>Perry CE, et al. Opioid agonist treatment in primary care compared to specialist settings for opioid dependence. Cochrane Database Syst Rev. 2025;(3):CD013672. PMID 40919724.</li>
+  <li>Whittaker R, et al. Mobile phone text messaging and app-based interventions for smoking cessation. Cochrane Database Syst Rev. 2019;(10):CD006611. PMID 31638271.</li>
+  <li>Agarwal A, et al. Digital health technologies for cardiovascular disease management: systematic review and meta-analysis. Cochrane Database Syst Rev. 2025. CD014652.</li>
+  <li>Jiang X, et al. Digital health interventions for type 2 diabetes: systematic review and meta-analysis. JMIR. 2026. PMID 41707176.</li>
+  <li>Walker PP, et al. Home telemonitoring in COPD: a systematic review and meta-analysis. Cochrane Database Syst Rev. 2018. CD013040.</li>
+  <li>Freeman K, et al. Use of artificial intelligence for image analysis in breast cancer screening: systematic review of test accuracy. BMJ. 2021;374:n1872. PMID 34470740.</li>
+  <li>Unützer J, et al. Collaborative care management of late-life depression in primary care. JAMA. 2002;288(22):2836–2845.</li>
+  <li>HRSA. Health Professional Shortage Areas (HPSAs). <a href="https://data.hrsa.gov">data.hrsa.gov</a></li>
+  <li>SAMHSA. State Opioid Response (SOR) Grant Program. <a href="https://www.samhsa.gov/grants/grant-announcements/ti-22-015">samhsa.gov</a></li>
+  <li>Michigan MDHHS. Opioid Data by County. <a href="https://www.michigan.gov/mdhhs/adult-child-serv/substance-use-disorder/adult-serv/opioids">michigan.gov/mdhhs</a></li>
+  <li>CDC PLACES: Local Data for Better Health, 2024 release. <a href="https://www.cdc.gov/places">cdc.gov/places</a></li>
+  <li>CDC WONDER. Underlying Cause of Death, Michigan 2020–2022. <a href="https://wonder.cdc.gov">wonder.cdc.gov</a></li>
+</ol>
+
+<footer-doc>
+  <strong>Document status:</strong> Version 1.0 — Clare County AI Solutions. Companion to Clare County Disease Burden Analysis v1.0. Not peer-reviewed. For community planning, grant development, and county health board presentation.<br>
+  <strong>Data sources:</strong> CDC PLACES 2024 · Michigan CDC WONDER (state rates × rural adj.) · IHME GBD 2021 · ACS 2022<br>
+  <strong>Author:</strong> Sergey Soshnikov<br>
+  © 2026 Soshnikov
+</footer-doc>
+
+</div><!-- end .doc -->
+</body>
+</html>

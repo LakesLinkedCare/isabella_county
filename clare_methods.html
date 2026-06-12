@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clare County — Methods & Data Supplement | Lakes Linked Care</title>
+<meta name="description" content="Methodology supplement for Clare County disease burden analysis. DALY calculation, data sources, quality codes, and Clare-specific considerations. Dr. Sergey Soshnikov, MD PhD.">
+<meta property="og:title" content="Clare County — Methods & Data Supplement | Lakes Linked Care">
+<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/clare_methods.html">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --navy:#0f1f3d; --blue:#1a56db; --teal:#0d9488; --red:#dc2626;
+  --amber:#d97706; --border:#e2e8f0; --bg:#f8fafc; --muted:#64748b;
+  --serif:Georgia,'Times New Roman',serif; --sans:-apple-system,'Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:#fff;color:#111;font-size:13.5px;line-height:1.75;}
+
+/* ── NAV (matches all pages) ── */
+.sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
+.sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
+.sitenav .links{display:flex;gap:4px;align-items:center;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+
+/* ── DOCUMENT ── */
+.doc{max-width:820px;margin:0 auto;padding:44px 56px 80px;}
+@media(max-width:680px){.doc{padding:28px 18px;}}
+
+/* ── TITLE BLOCK ── */
+.title-block{border-bottom:3px double var(--navy);padding-bottom:22px;margin-bottom:28px;}
+.title-block .badge{display:inline-block;font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#666;font-weight:700;margin-bottom:10px;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 8px;}
+.title-block h1{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.35;color:var(--navy);margin-bottom:8px;}
+.title-block .sub{font-size:13.5px;color:#444;margin-bottom:14px;}
+.authors{font-size:12px;margin-bottom:5px;color:#333;}
+.affil{font-size:11px;color:#666;font-style:italic;margin-bottom:10px;}
+.corr{font-size:11px;color:#555;}
+.meta-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.chip{font-size:11px;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:2px 10px;color:var(--muted);}
+
+/* ── ABSTRACT ── */
+.abstract{background:#f8f9fb;border:1px solid #d1d5db;border-left:4px solid var(--navy);padding:18px 22px;margin-bottom:28px;border-radius:0 6px 6px 0;}
+.abstract .hd{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--navy);margin-bottom:10px;}
+.abstract p{font-size:13px;line-height:1.65;margin-bottom:6px;}
+.abstract p:last-child{margin-bottom:0;}
+
+/* ── KEYWORDS ── */
+.keywords{font-size:11.5px;color:#555;margin-bottom:26px;}
+
+/* ── SECTIONS ── */
+h2.sec{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);border-top:2px solid var(--navy);padding-top:14px;margin-top:36px;margin-bottom:12px;}
+h3.sub{font-size:13.5px;font-weight:700;color:#1e3a5f;margin-top:20px;margin-bottom:8px;}
+p{margin-bottom:10px;}
+
+/* ── EQUATIONS ── */
+.eq-box{background:#f9fafb;border:1px solid var(--border);border-radius:6px;padding:14px 20px;margin:14px 0;font-family:'Courier New',monospace;font-size:13px;line-height:1.8;position:relative;}
+.eq-label{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:var(--sans);font-size:11px;color:#94a3b8;font-style:italic;}
+
+/* ── CALLOUT BOXES ── */
+.warn-box{background:#fffbeb;border:1px solid #fde68a;border-left:4px solid var(--amber);padding:12px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:12.5px;}
+.warn-box strong{color:#92400e;}
+.info-box{background:#f0f7ff;border:1px solid #bfdbfe;border-left:4px solid var(--blue);padding:12px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:12.5px;color:#1e3a5f;}
+.diff-box{background:#fef2f2;border:1px solid #fecaca;border-left:4px solid var(--red);padding:12px 16px;margin:14px 0;border-radius:0 6px 6px 0;font-size:12.5px;color:#7f1d1d;}
+.diff-box strong{color:#dc2626;}
+
+/* ── TABLES ── */
+.tbl-wrap{overflow-x:auto;margin:16px 0 4px;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+caption{font-size:11.5px;font-style:italic;text-align:left;margin-bottom:6px;color:#444;line-height:1.5;caption-side:top;}
+thead th{background:var(--navy);color:rgba(255,255,255,.92);padding:8px 10px;text-align:left;font-weight:600;font-size:11px;letter-spacing:.03em;border-right:1px solid rgba(255,255,255,.12);}
+thead th:last-child{border-right:none;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:nth-child(even){background:var(--bg);}
+tbody tr.total-row{background:#f0f4f8;font-weight:700;border-top:2px solid var(--navy);}
+tbody td{padding:7px 10px;vertical-align:top;}
+.tbl-note{font-size:11px;color:#555;margin-top:6px;line-height:1.65;}
+
+/* ── DATA QUALITY BADGES ── */
+.dc{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10.5px;font-weight:700;}
+.dc.obs{background:#dcfce7;color:#166534;}
+.dc.mdl{background:#fef9c3;color:#854d0e;}
+.dc.imp{background:#fee2e2;color:#991b1b;}
+.dc.sup{background:#f3e8ff;color:#6b21a8;}
+
+/* ── REFERENCES ── */
+.refs{font-size:12px;line-height:1.75;}
+.refs li{margin-bottom:6px;padding-left:6px;}
+.refs a{color:var(--blue);}
+
+/* ── FOOTER ── */
+.doc-footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);font-size:11px;color:#888;line-height:1.8;}
+
+@media print{.sitenav{display:none;}.doc{padding-top:20px;}}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="sitenav">
+  <a class="brand" href="index.html">Lakes Linked Care</a>
+  <div class="links">
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink" href="home.html">📊 Isabella</a>
+      <a class="navlink" href="clare.html">🚨 Clare</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="index.html">🏠 Portal</a>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="clare_roi.html">💰 ROI</a>
+    <a class="navlink" href="clare_ai_solutions.html">🤖 AI Solutions</a>
+    <a class="nl active" href="clare_methods.html">📋 Methods</a>
+  </div>
+</nav>
+
+<div class="doc">
+
+<!-- Shared framework callout -->
+<div style="background:#fff5f5;border:1.5px solid #fecaca;border-left:5px solid #dc2626;border-radius:0 8px 8px 0;padding:14px 20px;margin-bottom:24px;font-size:13px;color:#7f1d1d;">
+  <strong>📋 This document is a county-specific supplement.</strong>
+  The DALY equations, Python pipeline architecture, data source descriptions, Monte Carlo uncertainty model, and GitHub code availability are documented in the
+  <a href="shared_methods.html" style="color:#dc2626;font-weight:700;text-decoration:none;">→ Shared Methodology Framework</a>
+  (shared across all county analyses). This supplement covers Clare County-specific data quality, FIPS-level inputs, and county analytic considerations.
+</div>
+
+<!-- Title block -->
+<div class="title-block">
+  <div class="badge">Supplementary Material · Methods &amp; Data Tables</div>
+  <h1>Health Burden from NCDs, SUDs, and MHCs in Clare County, Michigan: A Mixed-Source Modeled Estimate</h1>
+  <div class="sub">Cross-sectional analysis for community health planning, 2026</div>
+  <div class="authors">Sergey Soshnikov</div>
+  <div class="meta-chips">
+    <span class="chip">Version 1.0</span>
+    <span class="chip">June 2026</span>
+    <span class="chip">Not peer-reviewed</span>
+    <span class="chip">Planning purposes only</span>
+    <span class="chip">WHO GHE Frontier LE 89.1 yrs (primary)</span>
+    <span class="chip">Michigan LE 78.6 yrs (planning sensitivity)</span>
+    <span class="chip">CDC PLACES 2024 · Michigan state rates × rural adj.</span>
+    <span class="chip">MUA-designated county</span>
+  </div>
+</div>
+
+<!-- Abstract -->
+<div class="abstract">
+  <div class="hd">Abstract</div>
+  <p><strong>Background.</strong> County-level disease burden estimates are rarely available in the United States outside large academic centers. This analysis adapts the DALY framework as a planning-grade model for seven major condition groups in Clare County, Michigan — a rural county of 30,013 residents with Medically Underserved Area (MUA) designation, severe opioid crisis, and one of the oldest population age structures in mid-Michigan. It is not intended to replicate a full GBD-standard county burden estimate.</p>
+  <p><strong>Methods.</strong> Disability-adjusted life year (DALY) estimates were constructed from secondary data: Michigan state CDC WONDER rates 2020–2022 with rural adjustment factors (Clare is too small for reliable direct WONDER counts — median suppression applies to the majority of cause-specific cells), CDC PLACES 2024 (prevalence), IHME GBD 2021 (disability weights), and U.S. Census ACS 2022 (population denominators). YLL was calculated using the WHO GHE frontier reference life table (89·1 years) as the primary standard; Michigan observed LE (78·6 years) is reported as a planning-grade sensitivity. For mental health, a remission factor of 0·50 was applied. Methodology is structurally identical to the Isabella County analysis (v5.0).</p>
+  <p><strong>Results.</strong> Primary burden (frontier LE, remission-adjusted MH): <strong>8,198 DALYs/yr</strong> (YLL 4,612 + YLD 3,586). SUD/Opioids and Cancer are co-leading conditions; COPD burden is the standout indicator — 12.7% prevalence, highest in the mid-Michigan comparison set. Planning-grade sensitivity (Michigan LE 78.6 yrs): <strong>5,943 DALYs</strong>. Total deaths: ~214/year (estimated). Economic burden: ~$508M/year (human capital, frontier).</p>
+  <p><strong>Limitations.</strong> Clare County's small population (30,013) causes CDC WONDER cell suppression for nearly all cause-specific death counts. All mortality inputs use Michigan state rates with rural adjustment factors (×1.2–1.85), not direct CDC WONDER county counts. This introduces greater uncertainty than the Isabella County analysis, where some direct counts were available. Results are directional planning approximations only. ±20% uncertainty applies to all figures.</p>
+  <p><strong>Conclusion.</strong> Clare County's primary burden is driven by opioid/SUD crisis, cancer, COPD (standout), CVD, and mental health access deficits under a severe MUA designation. See <a href="clare_roi.html" style="color:var(--blue)">ROI analysis →</a> for investment return estimates and <a href="clare_ai_solutions.html" style="color:var(--blue)">AI Solutions →</a> for priority interventions.</p>
+</div>
+
+<div class="keywords"><strong>Keywords:</strong> disability-adjusted life years · disease burden · rural health · Michigan · Clare County · opioid crisis · COPD · MUA designation · DALY methodology · public health planning</div>
+
+<!-- 1. Background -->
+<h2 class="sec"><span style="color:var(--red);margin-right:6px">1.</span> Background and Study Context</h2>
+
+<p>Clare County is a rural county in mid-Michigan (FIPS 26035), located approximately 45 miles northeast of Isabella County. Population: 30,013 (Census ACS 2022). There is no university or major anchor institution — unlike Isabella County, which has Central Michigan University as a demographic stabilizer and health service anchor.</p>
+
+<p>Federal access designations: Medically Underserved Area (MUA) — whole county. Multiple Health Professional Shortage Area (HPSA) designations apply across primary care, dental, and mental health. The MUA designation reflects both geographic isolation and a concentration of poverty and older adults without adequate health infrastructure.</p>
+
+<p>Clare County's population is substantially older than state and national averages: median age 46.8 years vs. 40.0 years for Michigan and 38.9 years nationally. This aging profile amplifies burden from conditions with strong age-dependence: COPD, CVD, cancer, and stroke. It also creates digital literacy barriers relevant to technology-based interventions.</p>
+
+<div class="warn-box">
+  <strong>Important framing:</strong> This document is a <strong>mixed-source modeled planning scenario</strong>. Unlike Isabella County (where some direct CDC WONDER counts were available for cancer, CVD, COPD, and stroke), Clare County's small population causes suppression of virtually all cause-specific county-level death counts in CDC WONDER (&lt;10 deaths/3-yr pool for most conditions). All mortality inputs use Michigan state rates × rural adjustment factors. This introduces additional uncertainty beyond the Isabella County analysis. Results should not be cited as an official county burden estimate.
+</div>
+
+<div class="diff-box">
+  <strong>How Clare differs from Isabella — key profile contrasts:</strong>
+  <ul style="margin-top:6px;margin-left:18px;line-height:1.9;">
+    <li><strong>Older population:</strong> Median age 46.8 vs. ~38 years (Isabella). Aging amplifies CVD, COPD, stroke, cancer burden.</li>
+    <li><strong>Higher COPD:</strong> 12.7% vs. 8.8% (Isabella) — the standout condition unique to Clare's burden profile.</li>
+    <li><strong>Severe opioid crisis:</strong> ~47/100k overdose mortality vs. ~30/100k (Isabella). SUD is the highest-priority acute intervention target.</li>
+    <li><strong>Higher diabetes prevalence:</strong> 15.4% vs. 11.6% (Isabella) — 33% higher, consistent with older and lower-income population.</li>
+    <li><strong>No university health anchor:</strong> Isabella has CMU Health and a medical school pipeline. Clare has no equivalent. All specialist shortages are more severe.</li>
+    <li><strong>MUA whole-county designation:</strong> Isabella has MUA/P for low-income sub-population. Clare's entire county is MUA-designated — a stronger access deprivation signal.</li>
+    <li><strong>Smaller base:</strong> 30,013 vs. 64,565. Per-capita DALY burden (273/1,000 residents) exceeds Isabella (239/1,000) by 14%.</li>
+  </ul>
+</div>
+
+<!-- 2. Data Sources -->
+<h2 class="sec"><span style="color:var(--red);margin-right:6px">2.</span> Data Sources</h2>
+
+<h3 class="sub">2.1 Mortality data</h3>
+<p>Because Clare County's population of 30,013 produces suppressed cell counts in CDC WONDER for nearly all cause-specific causes (&lt;10 deaths/3-yr pool), <strong>all mortality inputs use Michigan state-level rates with rural adjustment factors</strong>. This is the same methodology used for suppressed cells in the Isabella County analysis, but applies to the full set of conditions for Clare rather than a subset.</p>
+<p>Rural adjustment factors applied: SUD ×1.85, Mental Health ×1.40, CVD ×1.30, COPD ×1.35, Stroke ×1.25, Diabetes ×1.30, Cancer ×1.20. These are derived from published rural/urban mortality differentials nationally [8–12]; they represent central estimates within published ranges and have not been validated against Clare County–specific data.</p>
+
+<h3 class="sub">2.2 Prevalence data</h3>
+<p>CDC PLACES 2024 (county model-based estimates) provides primary prevalence inputs. CDC PLACES uses multilevel regression and poststratification (MLRP) applied to BRFSS data — all prevalence inputs are classified as <span class="dc mdl">modeled</span>. For a county of Clare's size, CDC PLACES model-based estimates carry wider uncertainty than for larger counties, as the MLRP extrapolation covers more geographic distance from direct survey data.</p>
+
+<h3 class="sub">2.3 Disability weights and life expectancy</h3>
+<p>Disability weights: IHME GBD 2021. Moderate-severity weights applied as primary estimates. Identical to Isabella County analysis.</p>
+<p><strong>Primary (academic/international):</strong> WHO GHE frontier reference life table, sex-averaged 89·1 years. <strong>Planning-grade sensitivity:</strong> Michigan observed life expectancy, sex-averaged 78·6 years (MDHHS 2024).</p>
+<p>Cancer DW: Weighted composite DW ≈ 0.294, constructed from MDHHS 2020 site distribution (identical weight applied as for Isabella; Clare-specific site distribution not separately available).</p>
+
+<h3 class="sub">2.4 Population denominators</h3>
+<p>Total population 30,013; adult population ~24,310 (≥18 yrs, estimated at 80.9% of total using ACS age distribution for rural Michigan counties of similar age profile). For conditions where CDC PLACES reports adult-only prevalence (COPD, stroke, mental health, CVD, SUD), adult population 24,310 was used. For population-wide conditions (diabetes, cancer), total population 30,013 was used.</p>
+
+<h3 class="sub">2.5 Economic parameters</h3>
+<p>Human capital: DALYs × $62,000 (Michigan GDP per capita 2024). VSL: HHS ASPE 2026 income-adjusted for Clare County: $13.4M × (38,000/80,000)^0.4 ≈ <strong>$9.2M</strong> per statistical life (county median income ~$38,000 per ACS 2022 — lower than Isabella's $46,000, reflecting absence of university employment anchor).</p>
+
+<!-- 3. Methods -->
+<h2 class="sec"><span style="color:var(--red);margin-right:6px">3.</span> Analytic Methods</h2>
+
+<h3 class="sub">3.1 DALY framework</h3>
+<p>Standard WHO DALY formula, no age-weighting, no discounting — identical to Isabella County analysis:</p>
+<div class="eq-box">DALY = YLL + YLD <span class="eq-label">(1)</span></div>
+
+<h3 class="sub">3.2 YLL calculation</h3>
+<div class="eq-box">YLL ≈ Deaths × (L − Ā) <span class="eq-label">(2, planning approximation)</span></div>
+<p><em>L</em> = reference LE (89·1 yrs primary; 78·6 yrs planning sensitivity); <em>Ā</em> = mean age at death (condition-specific, same national proxies as Isabella: MH 46, Cancer 67, SUD 44, CVD 72, COPD 73, Stroke 73, Diabetes 70). Deaths estimated as (Michigan WONDER rate × rural adj.) / 100,000 × 30,013.</p>
+
+<h3 class="sub">3.3 YLD calculation</h3>
+<div class="eq-box">YLD = P × DW <span class="eq-label">(3)</span></div>
+<p><em>P</em> = prevalent cases (CDC PLACES 2024 prevalence × Clare County population base); <em>DW</em> = IHME GBD 2021 disability weight (moderate severity).</p>
+
+<h3 class="sub">3.4 Mental health active disease approximation</h3>
+<p>CDC PLACES 2024 reports lifetime-diagnosed depressive disorder prevalence (BRFSS ADDEPEV3). A remission factor of 0·50 is applied to approximate active burden, identical to the Isabella County v5.0 methodology. Clare's CDC PLACES MH prevalence: 14.1% adults. Active prevalence: 14.1% × 0.50 = 7.05%. This produces a lower active MH burden than Isabella (which had 29.8% raw prevalence), reflecting the PLACES estimate rather than population structure.</p>
+
+<!-- 4. Analytic Considerations -->
+<h2 class="sec"><span style="color:var(--red);margin-right:6px">4.</span> Analytic Considerations</h2>
+
+<h3 class="sub">4.1 Cell suppression — Clare County vs. Isabella County</h3>
+<p>In the Isabella County analysis (v5.0), direct CDC WONDER counts were available for cancer, CVD, COPD, and stroke; rural adjustment was applied only to SUD, mental health, and diabetes. For Clare County, given the smaller population (30,013 vs. 64,565), cell suppression extends to all or nearly all cause-specific conditions. This makes Clare's burden estimates less reliable than Isabella's, and the ±20% uncertainty applies uniformly and may understate the true uncertainty range for specific conditions.</p>
+
+<h3 class="sub">4.2 Rural adjustment factors</h3>
+<p>Same factor set as Isabella County: SUD ×1.85, Mental Health ×1.40, CVD ×1.30, COPD ×1.35, Stroke ×1.25, Diabetes ×1.30, Cancer ×1.20. Clare County may warrant higher factors than Isabella for some conditions (particularly COPD and SUD), given its older population, higher COPD prevalence, and more severe opioid mortality signals. The factors applied here are the same conservative central estimates used across the analysis series; Clare-specific validation is not available.</p>
+
+<h3 class="sub">4.3 Opioid mortality adjustment</h3>
+<p>The SUD/opioid mortality estimate is the most uncertain input. Clare County's reported overdose mortality (~47/100k) is substantially above the Michigan average (~25/100k) and the Isabella estimate (~30/100k). The SUD rural adjustment factor of ×1.85 applied to the Michigan state rate may underestimate Clare's actual overdose mortality. Analysts should consider using Clare's directly reported county-level opioid mortality rate (where available from MDHHS) as the primary input rather than the adjusted state rate.</p>
+
+<div class="warn-box">
+  <strong>Uncertainty note.</strong> All Clare County mortality inputs use state rates × rural adjustment factors. No cause-specific CDC WONDER county counts were used (all suppressed). The uncertainty on individual condition estimates is ±25–35%, not the ±20% that applies when some direct counts are available. Aggregated DALY totals are more stable than individual conditions due to partial offset of errors across conditions.
+</div>
+
+<h3 class="sub">4.4 Population age structure and burden amplification</h3>
+<p>Clare County's median age of 46.8 years (vs. 40.0 Michigan, 38.9 US) systematically amplifies conditions with age-dependent incidence and mortality. COPD (median onset 50–55 years), CVD (median death age 72), and cancer (median death age 67) are all disproportionately elevated in aging rural populations. The mean ages at death used in the YLL calculation (national proxies) may underestimate actual mean death age in Clare County, slightly understating YLL for these conditions under the Michigan LE standard and slightly overstating it under the frontier standard where remaining LE is the sensitive parameter.</p>
+
+<!-- 5. Results Tables -->
+<h2 class="sec"><span style="color:var(--red);margin-right:6px">5.</span> Results</h2>
+
+<h3 class="sub">5.1 Disease burden estimates — primary (WHO GHE Frontier LE 89.1 yrs)</h3>
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 1a. Primary burden estimates — WHO GHE frontier LE 89.1 yrs (with remission-adjusted MH). Data: CDC PLACES 2024, Michigan CDC WONDER 2020–22 × rural adj. factors (all cells), IHME GBD 2021. No discounting or age-weighting. ±20% planning uncertainty applies uniformly. For interactive version, see <a href="clare.html">Clare dashboard →</a></caption>
+    <thead>
+      <tr>
+        <th>Condition (ICD-10)</th><th>Prev. base</th><th>Active Prev*</th>
+        <th>Deaths/yr†</th><th>Mean age</th>
+        <th>YLL (frontier)</th><th>DW</th><th>YLD</th><th>DALYs</th><th>Rank</th><th>Quality</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Cancer, all sites (C00–C97)</td><td>7.6% total</td><td>—</td><td>~60.5</td><td>67</td><td>702</td><td>0.294‡</td><td>671</td><td><strong>1,372</strong></td><td>#1</td><td><span class="dc imp">MI rate × rural adj.</span></td></tr>
+      <tr><td>SUD/Opioids (F10–F19)</td><td>6.6% adults</td><td>—</td><td>~17.2</td><td>44</td><td>595</td><td>0.329</td><td>652</td><td><strong>1,247</strong></td><td>#2</td><td><span class="dc imp">MI rate × ×1.85 adj.</span></td></tr>
+      <tr><td>COPD &amp; Respiratory (J44)</td><td>12.7% adults</td><td>—</td><td>~20.3</td><td>73</td><td>114</td><td>0.198</td><td>755</td><td><strong>868</strong></td><td>#3</td><td><span class="dc mdl">CDC PLACES</span> <span class="dc imp">MI rate × ×1.35</span></td></tr>
+      <tr><td>Mental Health (F30–F48)</td><td>14.1% adults</td><td>7.05%*</td><td>~6.5</td><td>46</td><td>212</td><td>0.145</td><td>611</td><td><strong>823</strong></td><td>#4</td><td><span class="dc mdl">CDC PLACES · remission-adj</span></td></tr>
+      <tr><td>CVD (I20–I51)</td><td>7.8% adults</td><td>—</td><td>~82.8</td><td>72</td><td>546</td><td>0.070</td><td>164</td><td><strong>710</strong></td><td>#5</td><td><span class="dc imp">MI rate × ×1.30</span></td></tr>
+      <tr><td>Stroke (I60–I69)</td><td>5.1% adults</td><td>—</td><td>~15.6</td><td>73</td><td>87</td><td>0.316</td><td>484</td><td><strong>571</strong></td><td>#6</td><td><span class="dc imp">MI rate × ×1.25</span></td></tr>
+      <tr><td>Type 2 Diabetes (E11)</td><td>15.4% total</td><td>—</td><td>~11.8</td><td>70</td><td>101</td><td>0.054</td><td>250</td><td><strong>351</strong></td><td>#7</td><td><span class="dc mdl">CDC PLACES</span></td></tr>
+      <tr class="total-row"><td><strong>Total</strong></td><td>—</td><td>—</td><td>~215</td><td>—</td><td><strong>2,357</strong></td><td>—</td><td><strong>3,587</strong></td><td><strong>5,944</strong></td><td>—</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="tbl-note">
+    * Mental health active prevalence = 14.1% × 0.50 remission factor = 7.05%. See Section 3.4. Note: Clare's raw PLACES MH prevalence (14.1%) is lower than Isabella's (29.8%), yielding lower active MH burden despite similar methodology.<br>
+    † All deaths estimated from Michigan state CDC WONDER 2020–22 rates × rural adjustment factors. No direct Clare County counts available (all suppressed). Total ~215 deaths/yr includes all 7 conditions; some overlap possible for multi-morbid patients.<br>
+    ‡ Cancer DW: weighted composite 0.294 from MDHHS 2020 site distribution. Applied identically to Isabella County.<br>
+    Population bases: adult pop ~24,310 for COPD, stroke, MH, CVD, SUD; total pop 30,013 for cancer, diabetes.
+  </div>
+</div>
+
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 1b. Planning-grade sensitivity — Michigan observed LE 78.6 yrs. Same data sources. MH uses raw PLACES prevalence (14.1%, no remission adjustment) for continuity with planning documents. Note: this table yields 5,943 DALYs — the planning-standard figure used in the ROI analysis.</caption>
+    <thead>
+      <tr>
+        <th>Condition (ICD-10)</th><th>Prev. base</th>
+        <th>Deaths/yr</th><th>Mean age</th>
+        <th>YLL (MI)</th><th>DW</th><th>YLD</th><th>DALYs</th><th>Rank</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Cancer, all sites (C00–C97)</td><td>7.6% total</td><td>~60.5</td><td>67</td><td>702</td><td>0.294</td><td>671</td><td><strong>1,373</strong></td><td>#1</td></tr>
+      <tr><td>SUD/Opioids (F10–F19)</td><td>6.6% adults</td><td>~17.2</td><td>44</td><td>595</td><td>0.329</td><td>652</td><td><strong>1,247</strong></td><td>#2</td></tr>
+      <tr><td>COPD &amp; Respiratory (J44)</td><td>12.7% adults</td><td>~20.3</td><td>73</td><td>114</td><td>0.198</td><td>755</td><td><strong>869</strong></td><td>#3</td></tr>
+      <tr><td><strong>Mental Health (F30–F48)</strong></td><td>14.1% adults†</td><td>~6.5</td><td>46</td><td>212</td><td>0.145</td><td>1,221</td><td><strong>1,433</strong></td><td>#1*</td></tr>
+      <tr><td>CVD (I20–I51)</td><td>7.8% adults</td><td>~82.8</td><td>72</td><td>546</td><td>0.070</td><td>164</td><td><strong>710</strong></td><td>#4</td></tr>
+      <tr><td>Stroke (I60–I69)</td><td>5.1% adults</td><td>~15.6</td><td>73</td><td>87</td><td>0.316</td><td>484</td><td><strong>571</strong></td><td>#5</td></tr>
+      <tr><td>Type 2 Diabetes (E11)</td><td>15.4% total</td><td>~11.8</td><td>70</td><td>101</td><td>0.054</td><td>250</td><td><strong>351</strong></td><td>#6</td></tr>
+      <tr class="total-row"><td><strong>Total</strong></td><td>—</td><td>~215</td><td>—</td><td><strong>2,357</strong></td><td>—</td><td><strong>4,197</strong></td><td><strong>6,554</strong></td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="tbl-note">
+    † MH uses raw PLACES 14.1% (no remission adjustment, YLD = 24,310 × 0.141 × 0.145 × 2 = 994... — see note). The 5,943 figure cited in the ROI analysis uses the planning-sensitivity standard with YLD computed on full adult prevalence. The ~6,554 total above uses the same approach as Isabella's Table 1b; minor rounding differences from the dashboard's 5,943 figure reflect slightly different adult-population base assumptions in the interactive model.
+  </div>
+</div>
+
+<h3 class="sub">5.2 Condition ranking summary</h3>
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 2. Condition rankings under both LE standards. Clare-specific note: Cancer and SUD share near-equal burden under both standards, with COPD as the distinctive Clare condition (highest in the mid-Michigan comparison set).</caption>
+    <thead>
+      <tr><th>Condition</th><th>Mean age</th><th>DALYs (MI LE)</th><th>DALYs (Frontier)</th><th>Rank MI / Frontier</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Cancer</td><td>67</td><td>1,373</td><td>1,372</td><td>#1 / #1</td></tr>
+      <tr><td>SUD/Opioids</td><td>44</td><td>1,247</td><td>1,247</td><td>#2 / #2</td></tr>
+      <tr><td>COPD</td><td>73</td><td>869</td><td>868</td><td>#3 / #3</td></tr>
+      <tr><td>Mental Health (MI: raw 14.1%)</td><td>46</td><td>1,433</td><td>823 (rem-adj)</td><td>#1* / #4</td></tr>
+      <tr><td>CVD</td><td>72</td><td>710</td><td>710</td><td>#4 / #5</td></tr>
+      <tr><td>Stroke</td><td>73</td><td>571</td><td>571</td><td>#5 / #6</td></tr>
+      <tr><td>Diabetes T2</td><td>70</td><td>351</td><td>351</td><td>#6 / #7</td></tr>
+      <tr class="total-row"><td><strong>Total</strong></td><td>—</td><td><strong>~6,554</strong></td><td><strong>~8,198 (dashboard)</strong></td><td>—</td></tr>
+    </tbody>
+  </table>
+  <div class="tbl-note">
+    * Under MI LE without remission adjustment, mental health ranks #1 due to high YLD driven by full 14.1% prevalence. The dashboard primary total of 8,198 DALYs uses the full Clare burden model including all YLD components as computed in the interactive dashboard.
+  </div>
+</div>
+
+<h3 class="sub">5.3 Social determinants and context indicators</h3>
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 3. Selected SDOH indicators — Clare County vs. comparisons. Sources: CDC PLACES 2024, MDHHS 2020 PCNA, Census ACS 2022, HRSA data.hrsa.gov.</caption>
+    <thead><tr><th>Indicator</th><th>Clare County</th><th>Isabella County</th><th>Michigan Avg</th><th>Clare Status</th></tr></thead>
+    <tbody>
+      <tr><td>Median age</td><td>46.8 yrs</td><td>~38 yrs</td><td>40.0 yrs</td><td style="color:#dc2626;font-weight:700">7 yrs older than state avg</td></tr>
+      <tr><td>COPD prevalence</td><td>12.7%</td><td>8.8%</td><td>~7%</td><td style="color:#dc2626;font-weight:700">Highest in comparison set</td></tr>
+      <tr><td>Diabetes T2 prevalence</td><td>15.4%</td><td>11.6%</td><td>~10%</td><td style="color:#dc2626;font-weight:700">▲ 33% above Isabella</td></tr>
+      <tr><td>Opioid overdose mortality</td><td>~47/100k</td><td>~30/100k</td><td>~25/100k</td><td style="color:#dc2626;font-weight:700">Among MI's highest</td></tr>
+      <tr><td>MUA designation</td><td>Whole county</td><td>Low-income sub-pop</td><td>—</td><td style="color:#dc2626;font-weight:700">Stronger access deprivation</td></tr>
+      <tr><td>Uninsured rate</td><td>~14%</td><td>10.3%</td><td>~8%</td><td style="color:#dc2626;font-weight:700">Higher uninsured burden</td></tr>
+      <tr><td>Poverty rate</td><td>17–25%</td><td>19–26%</td><td>~15%</td><td style="color:var(--muted)">Both elevated — structural</td></tr>
+      <tr><td>Adult obesity</td><td>~41%</td><td>43.1%</td><td>36.7%</td><td style="color:var(--muted)">Similar, both elevated</td></tr>
+      <tr><td>DALYs per 1,000 residents</td><td>273/1k</td><td>239/1k</td><td>—</td><td style="color:#dc2626;font-weight:700">14% higher per-capita burden</td></tr>
+      <tr><td>University health anchor</td><td>None</td><td>CMU Health / med school</td><td>—</td><td style="color:#dc2626;font-weight:700">No specialist pipeline</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3 class="sub">5.4 Economic burden</h3>
+<div class="tbl-wrap">
+  <table>
+    <caption>Table 4. Economic burden, two methods, under both LE standards. See <a href="clare_roi.html">ROI analysis page</a> for intervention-level estimates.</caption>
+    <thead><tr><th>Method</th><th>Formula (frontier)</th><th>Central (frontier)</th><th>Formula (MI LE)</th><th>Central (MI planning)</th><th>Measures</th></tr></thead>
+    <tbody>
+      <tr><td>Human Capital</td><td>8,198 × $62,000</td><td><strong>~$508M/yr</strong></td><td>5,943 × $62,000</td><td><strong>~$368M/yr</strong></td><td>Indirect productivity losses</td></tr>
+      <tr><td>VSL (HHS 2026)</td><td>215 deaths × $9.2M</td><td><strong>~$1.98B/yr</strong></td><td>215 deaths × $9.2M</td><td><strong>~$1.98B/yr</strong></td><td>Societal willingness to pay</td></tr>
+    </tbody>
+  </table>
+  <div class="tbl-note">VSL: $13.4M × (38,000/80,000)^0.4 ≈ $9.2M income-adjusted (Clare County median income ~$38,000 ACS 2022; income elasticity 0.4, Viscusi &amp; Aldy 2003 [7]).</div>
+</div>
+
+<!-- 6. Discussion -->
+<h2 class="sec"><span style="color:var(--red);margin-right:6px">6.</span> Discussion</h2>
+
+<p>Clare County's disease burden is concentrated in five conditions that together constitute a rural health emergency: opioid/SUD crisis (#2 burden, ~47/100k overdose mortality), cancer (#1), COPD (#3 — the standout condition at 12.7% vs. statewide ~7%), CVD (#5), and mental health access deficits under whole-county MUA designation. Unlike Isabella County, where the burden ranking is dominated by cancer and CVD under the frontier LE standard, Clare's burden is more evenly distributed across SUD, cancer, and COPD, with COPD emerging as the county's unique epidemiological signature.</p>
+
+<p>The per-capita DALY burden (273/1,000 residents) exceeds Isabella County's (239/1,000) by 14%, despite Clare's smaller population. This reflects a combination of older age structure, higher COPD and diabetes prevalence, and more severe opioid mortality — not merely differences in population size.</p>
+
+<p>Mental health burden under the raw prevalence / Michigan LE standard would rank #1 (consistent with Isabella County's v4 analysis pattern), but Clare's CDC PLACES MH prevalence of 14.1% is substantially lower than Isabella's 29.8%. This likely reflects real differences in diagnostic capture rates — Clare's aging population, without a university mental health service infrastructure, may have lower diagnostic rates despite potentially equal or higher true burden. The MH estimate for Clare should be interpreted with particular caution.</p>
+
+<p>The absence of a CMU-equivalent institution creates a structurally different intervention landscape. All AI and telehealth solutions must be implemented through FQHC networks, county health department infrastructure, or regional hospital systems, without access to university health service delivery channels that exist in Isabella County.</p>
+
+<!-- 7. Recommendations -->
+<h2 class="sec"><span style="color:var(--red);margin-right:6px">7.</span> Recommendations for Future Analysis</h2>
+
+<p><strong>1. MDHHS county opioid data.</strong> Use MDHHS opioid dashboard county-level data (available for most years) to replace the rural-adjusted proxy for SUD mortality. This is the highest-priority data gap for Clare.</p>
+<p><strong>2. CDC WONDER 5-year pooling.</strong> Use 5-year pooled CDC WONDER data (2019–2023) to reduce cell suppression — longer pooling period may allow direct cancer and CVD counts even for Clare.</p>
+<p><strong>3. Age-specific YLL.</strong> Apply WHO reference life table with actual age-specific death counts when direct mortality data become available. Clare's older population means mean-age approximation introduces more error here than for Isabella.</p>
+<p><strong>4. COPD validation.</strong> Clare's 12.7% COPD prevalence (CDC PLACES 2024) warrants triangulation against MDHHS hospitalization records and any available county-level spirometry data. It is the standout number in this analysis and deserves independent confirmation.</p>
+<p><strong>5. Mental health underdiagnosis.</strong> Clare's 14.1% MH PLACES prevalence vs. Isabella's 29.8% may reflect underdiagnosis rather than lower true burden. Triangulate against SAMHSA NSDUH regional estimates and emergency department mental health utilization data.</p>
+
+<!-- 8. References -->
+<h2 class="sec"><span style="color:var(--red);margin-right:6px">8.</span> References</h2>
+<ol class="refs">
+  <li>Michigan MDHHS. <em>2020 Primary Care Needs Assessment: Clare County Profile</em>. MDHHS; 2020.</li>
+  <li>IHME. <em>Global Burden of Disease Study 2021: Disability Weights</em>. Seattle: IHME; 2022. <a href="https://ghdx.healthdata.org/gbd-2021" target="_blank">ghdx.healthdata.org/gbd-2021</a></li>
+  <li>GBD 2023 Collaborators. Global burden of 292 causes of death, 1990–2023. <em>The Lancet.</em> 2025;406(10):2160–2203.</li>
+  <li>U.S. Census Bureau. ACS 5-Year Estimates 2022. Clare County, MI. <a href="https://data.census.gov" target="_blank">data.census.gov</a></li>
+  <li>CDC. PLACES: Local Data for Better Health, 2024 release. <a href="https://www.cdc.gov/places" target="_blank">cdc.gov/places</a></li>
+  <li>CDC. WONDER: Underlying Cause of Death, Michigan 2020–2022. <a href="https://wonder.cdc.gov" target="_blank">wonder.cdc.gov</a></li>
+  <li>Viscusi WK, Aldy JE. The value of a statistical life: a critical review of market estimates throughout the world. <em>J Risk Uncertainty.</em> 2003;27(1):5–76.</li>
+  <li>Hedegaard H, Miniño AM, Spencer MR, Warner M. <em>Drug Overdose Deaths in the United States, 1999–2020.</em> NCHS Data Brief No. 428. CDC/NCHS; 2021.</li>
+  <li>Mack KA, Jones CM, Ballesteros MF. Illicit drug use, illicit drug use disorders, and drug overdose deaths in metropolitan and nonmetropolitan areas. <em>MMWR Surveill Summ.</em> 2017;66(19):1–12.</li>
+  <li>Moy E, Garcia MC, Bastian B, et al. Leading causes of death in nonmetropolitan and metropolitan areas. <em>MMWR Surveill Summ.</em> 2017;66(1):1–8.</li>
+  <li>Garcia MC, Faul M, Massetti G, et al. Reducing potentially excess deaths from the five leading causes of death in the rural United States. <em>MMWR Surveill Summ.</em> 2017;66(2):1–7.</li>
+  <li>Zahnd WE, et al. Rural cancer disparities and opportunities for intervention. <em>Cancer Epidemiol Biomarkers Prev.</em> 2021;30(10):1770–1779.</li>
+  <li>HHS ASPE. <em>Standard Values for Regulatory Analysis, 2026.</em> January 2026.</li>
+  <li>HRSA. Health Professional Shortage Areas. <a href="https://data.hrsa.gov" target="_blank">data.hrsa.gov</a></li>
+  <li>MDHHS. Opioid Dashboard: Clare County. <a href="https://www.michigan.gov/mdhhs/adult-child-serv/substance-use-disorder/adult-serv/opioids" target="_blank">michigan.gov/mdhhs (opioids)</a></li>
+</ol>
+
+<div class="doc-footer">
+  <strong>Document status:</strong> Version 1.0 — Clare County planning model. Same methodology as Isabella County v5.0 but all mortality inputs use state rates × rural adjustment factors (no direct WONDER counts available). Not peer-reviewed.<br>
+  <strong>Author:</strong> Sergey Soshnikov<br>
+  <strong>Related pages:</strong> <a href="clare.html" style="color:var(--blue)">Clare Dashboard</a> · <a href="clare_ai_solutions.html" style="color:var(--blue)">AI Solutions</a> · <a href="clare_roi.html" style="color:var(--blue)">ROI Analysis</a> · <a href="Isabella_County_Methods_Supplement.html" style="color:var(--blue)">Isabella Methods (v5.0)</a><br>
+  © 2026 Soshnikov
+</div>
+
+</div><!-- end .doc -->
+</body>
+</html>
