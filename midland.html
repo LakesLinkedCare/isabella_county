@@ -311,7 +311,7 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
     </div>
   </div>
 
-  <!-- Charts row 1: DALY bar + YLL/YLD stacked -->
+  <!-- Charts row 1: DALY bar + comorbidity heatmap -->
   <div class="g2" id="sec-charts">
     <div class="card">
       <h3>DALYs by Condition</h3>
@@ -320,10 +320,10 @@ a.ccb-county:hover{border-bottom-color:var(--blue);}
       <p style="font-size:11px;color:var(--muted);margin-top:8px">Interactive — use LE standard and MH prevalence toggles above to recalculate.</p>
     </div>
     <div class="card">
-      <h3>Disability Share by Condition</h3>
-      <p class="sub">% of total DALY burden from disability (YLD) · <span id="chart2-sub">Michigan LE 78.6</span></p>
-      <canvas id="stackChart" height="270"></canvas>
-      <p style="font-size:11px;color:var(--muted);margin-top:8px">Higher % = condition primarily debilitates (→ management/treatment). Lower % = condition primarily kills early (→ prevention/screening). Reactive to LE standard toggle.</p>
+      <h3>Comorbidity Co-occurrence — Expected Counts</h3>
+      <p class="sub">Expected cases with both conditions simultaneously · independence model · Midland County n=82,884 · hover cell for DW product &amp; DALY correction</p>
+      <canvas id="heatmapChart" style="width:100%;display:block;margin:0 auto"></canvas>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">DM+Cancer highest pair (364 expected co-occurring cases). Independence-model planning estimate (prevalence × prevalence × adult population), consistent with the Isabella methodology. Largest DALY-correction pairs: SUD+Cancer (−29.6), SUD+MH (−25.8), Cancer+MH (−24.3).</p>
     </div>
   </div>
 
@@ -645,7 +645,6 @@ function updateAll() {
   const leLabel = state.le === MI_LE ? 'Michigan LE 78.6 yrs' : 'Frontier LE 89.1 yrs';
 
   document.getElementById('chart1-sub').textContent = `${leLabel} · ranked by burden`;
-  document.getElementById('chart2-sub').textContent = leLabel;
   document.getElementById('table-sub').textContent  = `${leLabel} · No discounting (WHO standard) · Population 82,884`;
 
   const fn = document.getElementById('remission-footnote');
@@ -659,7 +658,7 @@ function updateAll() {
 // ═══════════════════════════════════════════
 // CHARTS
 // ═══════════════════════════════════════════
-let ch1, ch2, ch3, ch4;
+let ch1, ch3, ch4;
 
 function getSorted() {
   return active()
@@ -685,30 +684,6 @@ function initCharts() {
       scales: {
         x: { stacked:true, grid:{color:'#f1f5f9'}, ticks:{font:{size:11}}},
         y: { stacked:true, ticks:{font:{size:11}}}
-      }
-    }
-  });
-
-  // Chart 2: YLD % stacked (disability share)
-  const ctx2 = document.getElementById('stackChart').getContext('2d');
-  ch2 = new Chart(ctx2, {
-    type: 'bar',
-    data: { labels:[], datasets:[
-      { label:'% from disability (YLD)', data:[], backgroundColor:[], borderRadius:4 }
-    ]},
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      plugins: {
-        legend: { display:false },
-        tooltip: { callbacks: {
-          label: ctx=>`${ctx.raw}% of DALYs from disability (YLD)`,
-          afterLabel: ctx=>`${100-ctx.raw}% from premature death (YLL)`
-        }}
-      },
-      scales: {
-        x: { min:0, max:100, grid:{color:'#f1f5f9'}, ticks:{font:{size:11}, callback:v=>v+'%'}, title:{display:true, text:'% of burden from disability', font:{size:11}}},
-        y: { ticks:{font:{size:11}}}
       }
     }
   });
@@ -765,6 +740,66 @@ function initCharts() {
     }
   });
 
+  // Comorbidity heatmap (independence model · computed from CDC PLACES prevalence × adult population)
+  (function(){
+    const HL = ['MH','Cancer','SUD','CVD','COPD','Stroke','DM'];
+    const HM = [
+      [0,   0,   0,   0,   0,   0,   0],
+      [285, 0,   0,   0,   0,   0,   0],
+      [270, 306, 0,   0,   0,   0,   0],
+      [248, 281, 266, 0,   0,   0,   0],
+      [233, 264, 250, 230, 0,   0,   0],
+      [100, 113, 107, 98,  92,  0,   0],
+      [322, 364, 345, 317, 298, 128, 0]
+    ];
+    const PM = {'1-0':{dw:0.0853,c:24.3}, '2-0':{dw:0.0954,c:25.76}, '2-1':{dw:0.0967,c:29.6}, '3-0':{dw:0.0203,c:5.03}, '3-1':{dw:0.0206,c:5.78}, '3-2':{dw:0.023,c:6.13}, '4-0':{dw:0.0574,c:13.38}, '4-1':{dw:0.0582,c:15.37}, '4-2':{dw:0.0651,c:16.29}, '4-3':{dw:0.0139,c:3.19}, '5-0':{dw:0.0916,c:9.16}, '5-1':{dw:0.0929,c:10.5}, '5-2':{dw:0.104,c:11.12}, '5-3':{dw:0.0221,c:2.17}, '5-4':{dw:0.0626,c:5.76}, '6-0':{dw:0.0157,c:5.04}, '6-1':{dw:0.0159,c:5.78}, '6-2':{dw:0.0178,c:6.13}, '6-3':{dw:0.0038,c:1.2}, '6-4':{dw:0.0107,c:3.19}, '6-5':{dw:0.0171,c:2.18}};
+    const N=7, cv=document.getElementById('heatmapChart');
+    function clr(v){
+      if(!v) return null;
+      const t=Math.max(0,Math.min(1,(v-90)/320));
+      return `rgb(${Math.round(254+(127-254)*t)},${Math.round(226+(29-226)*t)},${Math.round(226+(29-226)*t)})`;
+    }
+    function draw(){
+      const W=cv.offsetWidth||480, ML=52, MT=20, MR=18, MB=44;
+      const cw=(W-ML-MR)/N, H=MT+cw*N+MB;
+      cv.width=Math.round(W*devicePixelRatio); cv.height=Math.round(H*devicePixelRatio);
+      cv.style.height=H+'px';
+      const ctx=cv.getContext('2d'); ctx.scale(devicePixelRatio,devicePixelRatio);
+      ctx.clearRect(0,0,W,H);
+      for(let r=0;r<N;r++) for(let c=0;c<N;c++){
+        const v=HM[r][c]; if(!v) continue;
+        const x=ML+c*cw, y=MT+r*cw;
+        ctx.fillStyle=clr(v); ctx.fillRect(x,y,cw-1,cw-1);
+        ctx.fillStyle=v>290?'#fff':'#1f2937';
+        ctx.font=`bold ${Math.max(9,Math.round(cw*0.22))}px Inter,sans-serif`;
+        ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText(Math.round(v),x+cw/2,y+cw/2);
+      }
+      ctx.fillStyle='#374151'; ctx.font=`${Math.max(9,Math.round(cw*0.22))}px Inter,sans-serif`;
+      ctx.textAlign='center'; ctx.textBaseline='top';
+      for(let c=0;c<N;c++) ctx.fillText(HL[c],ML+c*cw+cw/2,MT+N*cw+6);
+      ctx.textAlign='right'; ctx.textBaseline='middle';
+      for(let r=0;r<N;r++) ctx.fillText(HL[r],ML-5,MT+r*cw+cw/2);
+    }
+    const tip=document.createElement('div');
+    Object.assign(tip.style,{position:'fixed',background:'#1e293b',color:'#f1f5f9',fontSize:'11px',
+      padding:'6px 10px',borderRadius:'6px',pointerEvents:'none',display:'none',zIndex:'999',
+      lineHeight:'1.6',maxWidth:'220px',boxShadow:'0 4px 12px rgba(0,0,0,.3)'});
+    document.body.appendChild(tip);
+    cv.addEventListener('mousemove',e=>{
+      const rect=cv.getBoundingClientRect(), ML=52, MT=20, cw=(cv.offsetWidth-70)/N;
+      const col=Math.floor((e.clientX-rect.left-ML)/cw), row=Math.floor((e.clientY-rect.top-MT)/cw);
+      if(row>0&&row<N&&col>=0&&col<N&&row>col&&HM[row][col]>0){
+        const v=HM[row][col], m=PM[`${row}-${col}`];
+        tip.innerHTML=`<strong>${HL[row]} + ${HL[col]}</strong><br>${Math.round(v)} expected co-occurring cases`+(m?`<br>DW product: ${m.dw}<br>DALY correction: −${m.c}`:'');
+        tip.style.display='block'; tip.style.left=(e.clientX+12)+'px'; tip.style.top=(e.clientY-10)+'px';
+        cv.style.cursor='crosshair';
+      } else { tip.style.display='none'; cv.style.cursor='default'; }
+    });
+    cv.addEventListener('mouseleave',()=>{tip.style.display='none';});
+    window.addEventListener('resize',draw); draw();
+  })();
+
   updateCharts();
 }
 
@@ -782,12 +817,6 @@ function updateCharts() {
   ch1.data.datasets[1].data = ylds;
   ch1.data.datasets[1].backgroundColor = colors.map(c=>c+'88');
   ch1.update('none');
-
-  const byYldPct = [...sorted].sort((a,b)=>(b.yld/b.total)-(a.yld/a.total));
-  ch2.data.labels = byYldPct.map(x=>x.d.short);
-  ch2.data.datasets[0].data = byYldPct.map(x=>Math.round((x.yld/x.total)*100));
-  ch2.data.datasets[0].backgroundColor = byYldPct.map(x=>x.d.color+'bb');
-  ch2.update('none');
 }
 
 // ═══════════════════════════════════════════
