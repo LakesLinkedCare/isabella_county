@@ -198,6 +198,14 @@ header{
 }
 
 
+/* ── DATA SOURCE STATUS TAGS ── */
+.ds-status{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
+.ds-tag{font-size:9px;font-weight:700;padding:1px 7px;border-radius:8px;letter-spacing:.02em;white-space:nowrap;}
+.ds-tag.dl{background:#dcfce7;color:#166534;}
+.ds-tag.pend{background:#f1f5f9;color:#64748b;}
+.ds-tag.on{background:#dbeafe;color:#1e40af;}
+.ds-tag.off{background:#f8fafc;color:#94a3b8;border:1px solid #e2e8f0;}
+
 /* ── DATA SOURCES STRIP ── */
 .ds-strip{
   background:#f1f5f9;
@@ -689,34 +697,72 @@ footer{background:var(--navy);padding:22px 32px;}
       <div class="ds-item">
         <div class="ds-name">CDC PLACES 2023</div>
         <div class="ds-desc">Prevalence · 12 conditions</div>
+        <div class="ds-status"><span class="ds-tag dl">Downloaded</span><span class="ds-tag on">Access on</span></div>
       </div>
       <div class="ds-item">
         <div class="ds-name">CDC WONDER 2020–22</div>
         <div class="ds-desc">Mortality · cause-of-death</div>
+        <div class="ds-status"><span class="ds-tag dl">Downloaded</span><span class="ds-tag on">Access on</span></div>
       </div>
       <div class="ds-item">
         <div class="ds-name">IHME GBD 2021</div>
         <div class="ds-desc">Disability weights · DW</div>
+        <div class="ds-status"><span class="ds-tag dl">Downloaded</span><span class="ds-tag on">Access on</span></div>
       </div>
       <div class="ds-item">
         <div class="ds-name">US Census ACS 2022</div>
         <div class="ds-desc">Demographics · SDOH</div>
+        <div class="ds-status"><span class="ds-tag dl">Downloaded</span><span class="ds-tag on">Access on</span></div>
       </div>
       <div class="ds-item">
         <div class="ds-name">County Health Rankings</div>
         <div class="ds-desc">500+ health indicators</div>
+        <div class="ds-status"><span class="ds-tag dl">Downloaded</span><span class="ds-tag on">Access on</span></div>
       </div>
       <div class="ds-item">
         <div class="ds-name">Michigan DHHS</div>
         <div class="ds-desc">Vital stats · YPLL · mortality</div>
+        <div class="ds-status"><span class="ds-tag dl">Downloaded</span><span class="ds-tag on">Access on</span></div>
       </div>
       <div class="ds-item">
         <div class="ds-name">MyMichigan CHNA</div>
         <div class="ds-desc">Community health needs</div>
+        <div class="ds-status"><span class="ds-tag pend">Pending</span><span class="ds-tag off">Access off</span></div>
       </div>
       <div class="ds-item">
         <div class="ds-name">IRS 990 Schedule H</div>
         <div class="ds-desc">Hospital community benefit</div>
+        <div class="ds-status"><span class="ds-tag pend">Pending</span><span class="ds-tag off">Access off</span></div>
+      </div>
+      <div class="ds-item">
+        <div class="ds-name">HRSA Data Warehouse</div>
+        <div class="ds-desc">HPSA / MUA · provider shortage</div>
+        <div class="ds-status"><span class="ds-tag dl">Downloaded</span><span class="ds-tag on">Access on</span></div>
+      </div>
+      <div class="ds-item">
+        <div class="ds-name">HHS ASPE 2026</div>
+        <div class="ds-desc">Value of Statistical Life · VSL</div>
+        <div class="ds-status"><span class="ds-tag dl">Downloaded</span><span class="ds-tag on">Access on</span></div>
+      </div>
+      <div class="ds-item">
+        <div class="ds-name">SAMHSA NSDUH</div>
+        <div class="ds-desc">Substance use · behavioral health</div>
+        <div class="ds-status"><span class="ds-tag dl">Downloaded</span><span class="ds-tag on">Access on</span></div>
+      </div>
+      <div class="ds-item">
+        <div class="ds-name">CDC/ATSDR SVI 2022</div>
+        <div class="ds-desc">Social Vulnerability Index</div>
+        <div class="ds-status"><span class="ds-tag pend">Pending</span><span class="ds-tag off">Access off</span></div>
+      </div>
+      <div class="ds-item">
+        <div class="ds-name">USDA Food Atlas</div>
+        <div class="ds-desc">Food insecurity · access</div>
+        <div class="ds-status"><span class="ds-tag pend">Pending</span><span class="ds-tag off">Access off</span></div>
+      </div>
+      <div class="ds-item">
+        <div class="ds-name">Census SAIPE / SAHIE</div>
+        <div class="ds-desc">Income, poverty &amp; insurance</div>
+        <div class="ds-status"><span class="ds-tag pend">Pending</span><span class="ds-tag off">Access off</span></div>
       </div>
     </div>
   </div>
@@ -762,7 +808,7 @@ footer{background:var(--navy);padding:22px 32px;}
             <div class="sl">Population</div>
           </div>
           <div class="cc-stat">
-            <div class="sv" style="color:var(--red)">Cancer #1</div>
+            <div class="sv" style="color:var(--navy)">Cancer #1</div>
             <div class="sl">Top condition</div>
           </div>
         </div>
@@ -788,7 +834,7 @@ footer{background:var(--navy);padding:22px 32px;}
     </div>
 
     <!-- Clare County -->
-    <div class="county-card" onclick="window.location='clare.html'" style="--accent:var(--red);cursor:pointer">
+    <div class="county-card" onclick="window.location='clare.html'" style="--accent:#1e40af;cursor:pointer">
       <div class="county-card-top"></div>
       <div class="cc-head">
         <div>
@@ -798,9 +844,9 @@ footer{background:var(--navy);padding:22px 32px;}
           <div class="version-tag">v1.0</div>
         </div>
         <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="flex-shrink:0;opacity:.18;">
-          <rect width="36" height="36" rx="8" fill="var(--red)"/>
-          <path d="M18 8 L18 20 M14 14 L22 14" stroke="var(--red)" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="18" cy="26" r="2" fill="var(--red)"/>
+          <rect width="36" height="36" rx="8" fill="#1e40af"/>
+          <path d="M18 8 L18 20 M14 14 L22 14" stroke="#1e40af" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="18" cy="26" r="2" fill="#1e40af"/>
         </svg>
       </div>
       <div class="cc-body">
@@ -808,7 +854,7 @@ footer{background:var(--navy);padding:22px 32px;}
         <div class="cc-desc">Population 30,013 &middot; MUA-designated &middot; 8,198 DALYs/yr (primary). Severe opioid crisis, aging population (median age 46.8 yrs), highest COPD in comparison set.</div>
         <div class="cc-stats">
           <div class="cc-stat">
-            <div class="sv" style="color:var(--red)">8,198</div>
+            <div class="sv" style="color:#1e40af">8,198</div>
             <div class="sl">DALYs/yr</div>
           </div>
           <div class="cc-stat">
@@ -816,7 +862,7 @@ footer{background:var(--navy);padding:22px 32px;}
             <div class="sl">Population</div>
           </div>
           <div class="cc-stat">
-            <div class="sv" style="color:var(--amber)">Opioids #1</div>
+            <div class="sv" style="color:var(--navy)">Opioids #1</div>
             <div class="sl">Crisis priority</div>
           </div>
         </div>
@@ -840,7 +886,7 @@ footer{background:var(--navy);padding:22px 32px;}
     </div>
 
     <!-- Midland County -->
-    <div class="county-card" onclick="window.location='midland.html'" style="--accent:var(--green);cursor:pointer">
+    <div class="county-card" onclick="window.location='midland.html'" style="--accent:#3b82f6;cursor:pointer">
       <div class="county-card-top"></div>
       <div class="cc-head">
         <div>
@@ -850,10 +896,10 @@ footer{background:var(--navy);padding:22px 32px;}
           <div class="version-tag">v1.0</div>
         </div>
         <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="flex-shrink:0;opacity:.18;">
-          <rect width="36" height="36" rx="8" fill="var(--green)"/>
-          <rect x="10" y="18" width="5" height="10" rx="1" fill="var(--green)"/>
-          <rect x="16" y="13" width="5" height="15" rx="1" fill="var(--green)"/>
-          <rect x="22" y="8" width="5" height="20" rx="1" fill="var(--green)"/>
+          <rect width="36" height="36" rx="8" fill="#3b82f6"/>
+          <rect x="10" y="18" width="5" height="10" rx="1" fill="#3b82f6"/>
+          <rect x="16" y="13" width="5" height="15" rx="1" fill="#3b82f6"/>
+          <rect x="22" y="8" width="5" height="20" rx="1" fill="#3b82f6"/>
         </svg>
       </div>
       <div class="cc-body">
@@ -861,7 +907,7 @@ footer{background:var(--navy);padding:22px 32px;}
         <div class="cc-desc">Population 82,884 &middot; Dow Chemical HQ &middot; 14,335 DALYs/yr (planning-grade). Cancer #1, SUD #2. Higher income profile; CDC PLACES 2023 observed county-level data.</div>
         <div class="cc-stats">
           <div class="cc-stat">
-            <div class="sv" style="color:var(--green)">14,335</div>
+            <div class="sv" style="color:#3b82f6">14,335</div>
             <div class="sl">DALYs/yr</div>
           </div>
           <div class="cc-stat">
@@ -869,7 +915,7 @@ footer{background:var(--navy);padding:22px 32px;}
             <div class="sl">Population</div>
           </div>
           <div class="cc-stat">
-            <div class="sv" style="color:var(--red)">Cancer #1</div>
+            <div class="sv" style="color:var(--navy)">Cancer #1</div>
             <div class="sl">Top condition</div>
           </div>
         </div>
