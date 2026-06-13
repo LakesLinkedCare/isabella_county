@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>Supplementary Methods: County-Level Disease Burden Modelling and Human-in-the-Loop Verification Workflow</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.45;color:#111;margin:48px;}
+h1{font-size:20pt;line-height:1.2;margin-bottom:6px;}
+h2{font-size:14pt;margin-top:24px;border-bottom:1px solid #cccccc;padding-bottom:4px;}
+p{margin:0 0 10px 0;}
+table{border-collapse:collapse;width:100%;font-size:9.5pt;margin:8px 0 18px 0;}
+th,td{border:1px solid #bfbfbf;padding:6px;vertical-align:top;}
+th{background:#eef2f5;font-weight:bold;}
+.meta{color:#444;margin-bottom:18px;}
+</style>
+</head>
+<body>
+<h1>Supplementary Methods: County-Level Disease Burden Modelling and Human-in-the-Loop Verification Workflow</h1>
+<p class='meta'><strong>Isabella County, Michigan DALY planning study</strong><br><strong>Author:</strong> Sergey Soshnikov<br><strong>Document status:</strong> Methods supplement for a planning-grade county DALY manuscript.</p>
+<h2>Summary</h2>
+<p>This supplement describes the modelling steps, data hierarchy, scenario structure, comorbidity sensitivity analysis, uncertainty propagation, economic translation, and human-in-the-loop verification workflow used in the Isabella County DALY planning study. The design follows the logic of transparent burden-of-disease appendices, but the analysis is explicitly complementary to WHO and GBD methods rather than a substitute for them.</p>
+<h2>S1. Purpose and analytic position</h2>
+<p>This supplement documents the analytic workflow used to estimate the burden of selected chronic and behavioral health condition groups in Isabella County, Michigan. The purpose is to make the calculation pathway explicit enough for review, replication, and future correction.</p>
+<p>The study uses the disability-adjusted life year (DALY) identity as a transparent planning framework. It is not presented as a formal WHO or GBD small-area estimate. Formal GBD analyses use age-sex-cause-sequela modelling, reference life tables, internally coherent comorbidity correction, cause hierarchy constraints, and statistical borrowing across geographies. The present analysis is complementary. It translates publicly available county and state data into a planning-grade estimate that can support local prioritization, grant development, and service-design decisions.</p>
+<p>The central methodological principle is traceability. Each number in the manuscript should be recoverable from a named source, a local configuration file, or an explicitly documented modelling assumption. Where local data are unavailable, the substitution is labelled rather than hidden.</p>
+<h2>S2. Study area, population, and scope</h2>
+<p>The geographic unit is Isabella County, Michigan. Population denominators were drawn from US Census and ACS sources used in the county configuration file. Adult denominators were used for CDC PLACES adult prevalence measures. Total population denominators were used for mortality rates and crude DALY rates.</p>
+<p>Seven broad condition groups were included: cancer, cardiovascular disease, substance use disorders, mental health disorders, chronic obstructive pulmonary disease, stroke, and diabetes. These groups were selected because they combine high local burden, public data availability, and direct relevance to county planning. The grouping is broader than the sequela-level structure used in GBD and is therefore treated as a planning approximation.</p>
+<h2>S3. Data hierarchy and source preference</h2>
+<p>The workflow follows a source hierarchy. Direct county observations are preferred when available. Modelled county estimates are used for prevalence when no direct county surveillance exists. State rates or published rural adjustment factors are used only when county mortality cells are suppressed or unstable.</p>
+<p>Primary data sources were CDC WONDER 2020-2022 mortality files, CDC PLACES 2024 modelled prevalence estimates, IHME GBD 2021 disability weights, US Census ACS demographic indicators, MDHHS life expectancy estimates, and selected peer-reviewed literature for remission, comorbidity, and sensitivity assumptions.</p>
+<p>All extracted inputs are stored in county configuration files. Public-facing outputs, including dashboards, manuscripts, and methods pages, are checked against those files before release.</p>
+<h2>S4. Data acquisition workflow</h2>
+<p>The data acquisition protocol first retrieves structured public data: CDC PLACES prevalence, Census and ACS denominators, County Health Rankings indicators, and CDC WONDER mortality. It then searches semi-structured sources, including county health assessments, state health reports, hospital community health needs assessments, and peer-reviewed literature.</p>
+<p>The harvester protocol records source type, year, geography, numerator, denominator, and whether the value is observed, modelled, estimated, imputed, or proxy-derived. This metadata is used later by the fact-checker to identify weak links in the calculation chain.</p>
+<p>The output of the acquisition phase is a county harvest file. The output of the calculation phase is a county configuration file containing final analytic inputs, assumptions, derived estimates, uncertainty parameters, and source notes.</p>
+<h2>S5. Mortality and YLL estimation</h2>
+<p>Years of life lost (YLL) were calculated as a mean-age planning approximation: YLL = N x (L - A), where N is annual deaths, L is the selected reference life expectancy, and A is mean age at death for the condition group. This approximation is deliberately disclosed because standard WHO and GBD YLL methods use remaining reference life expectancy at the age of death from a reference life table, not simply life expectancy at birth minus mean age at death.</p>
+<p>The primary scenario uses a WHO Global Health Estimates frontier-reference value of approximately 90 years at birth, operationalised in the manuscript as 89.1 years sex-averaged. A sensitivity scenario uses Michigan observed life expectancy of 78.6 years as a local planning approximation. The Michigan value is not a normative burden-of-disease reference standard; it is included to make results interpretable for state and county planning audiences.</p>
+<p>When county death counts were suppressed or unstable, state-level rates and rural adjustment factors were used as labelled proxy inputs. These substitutions increase uncertainty and are therefore propagated in sensitivity analysis.</p>
+<h2>S6. Prevalence, remission, and YLD estimation</h2>
+<p>Years lived with disability (YLD) were estimated as prevalence multiplied by a disability weight: uncorrected YLD = prevalent cases x disability weight. Disability weights were selected from IHME GBD 2021 health-state weights at a moderate or planning-relevant severity level. Because the condition groups are aggregated, YLD estimates should not be interpreted as sequela-specific GBD estimates.</p>
+<p>Mental health prevalence required an additional adjustment. CDC PLACES reports lifetime-diagnosed depressive disorder. A lifetime diagnosis measure overstates active current morbidity for YLD calculation. The analysis therefore applies a 0.50 remission factor, with sensitivity range 0.40 to 0.60, to approximate active mental health burden. The raw PLACES prevalence is retained only as an upper-bound and legacy planning scenario.</p>
+<p>Corrected YLD applies the comorbidity correction described in Section S7. The manuscript reports both the main burden estimate and sensitivity scenarios so readers can see how much the ranking changes when remission and life-expectancy assumptions change.</p>
+<h2>S7. Comorbidity correction</h2>
+<p>Simple addition of condition-specific YLD can overcount disability because one person can experience more than one condition. The analysis used the GBD multiplicative disability-weight convention as a transparent correction rule: combined disability weight = 1 - product(1 - disability weight_i).</p>
+<p>The technical core of the study is a DALY estimate for seven selected chronic and behavioral health condition groups, with comorbidity correction handled explicitly rather than left as an implicit limitation. The comorbidity module uses a Gaussian copula: Cholesky decomposition of a 7 by 7 correlation matrix, latent multivariate normal draws, and probit-thresholding to binary condition membership across a 500,000-person synthetic population.</p>
+<p>A microsimulation was used to estimate the population-level correction factor, defined as corrected YLD divided by summed uncorrected YLD. Scenario A assumes independent condition assignment. Scenario B uses assumed latent-normal correlations informed by published comorbidity associations through a Gaussian copula. A 7 by 7 correlation matrix is decomposed using Cholesky factorisation; latent multivariate normal draws are mapped to binary condition membership by probit thresholding at condition-specific prevalence values. Scenario C uses a uniform upper-bound off-diagonal correlation of r = 0.30.</p>
+<p>Scenario B is used as the primary correction because positive comorbidity between chronic disease, mental health, and substance use is epidemiologically plausible. It produced a correction factor of 0.949, equivalent to a 5.1% YLD reduction. Independence and upper-bound scenarios define sensitivity bounds. No individual-level Isabella County comorbidity data were available, so this procedure is a guardrail against overcounting rather than a claim of local individual-level comorbidity modelling.</p>
+<h2>S8. Uncertainty propagation</h2>
+<p>Uncertainty was propagated by Monte Carlo simulation. The manuscript version uses 10,000 iterations for final uncertainty intervals. Mortality counts were sampled using Poisson distributions. Prevalence values were sampled from Beta distributions parameterised to match CDC PLACES central estimates and confidence intervals. Disability weights were sampled across plausible severity ranges. Rural adjustment factors and remission factors were sampled from bounded uniform distributions.</p>
+<p>During method development, 2,000-iteration Monte Carlo runs were used to test stability and propagate uncertainty through four simultaneous distribution families: Poisson for deaths, Beta distributions for prevalence, Beta distributions for disability weights, and Uniform distributions for bounded adjustment parameters. Final manuscript estimates were then rerun with 10,000 iterations for publication reporting.</p>
+<p>Comorbidity scenarios were evaluated using 500,000 synthetic observations to stabilise correction factors. These scenario-level correction factors were then carried into the Monte Carlo workflow. Reported intervals are uncertainty intervals, not formal confidence intervals from a single sampling design.</p>
+<p>The largest uncertainty sources are proxy mortality estimates, modelled prevalence inputs, remission assumptions for mental health, and absence of age-sex-specific local mortality counts.</p>
+<h2>S9. Economic translation</h2>
+<p>Economic estimates are secondary translations of DALYs and deaths. The human capital estimate multiplies total DALYs by Michigan GDP per capita, approximately $62,000. This frames burden as lost productive capacity and is used for local planning and grant narratives.</p>
+<p>A separate mortality-risk valuation multiplies annual deaths by an income-adjusted value of statistical life. This should be described as a social valuation of mortality risk reduction, not literal willingness by individual residents to pay and not a fiscal cost. It is conceptually different from the human capital estimate and should not be added to it.</p>
+<p>Return-on-investment estimates, where reported, use intervention-specific target population, reach, cost, and effect-size assumptions. These are decision-support scenarios rather than observed programme outcomes.</p>
+<h2>S10. Scenario hierarchy</h2>
+<p>The manuscript distinguishes three scenario families. The primary scenario uses the WHO GHE frontier-reference planning value with remission-adjusted mental health prevalence and comorbidity correction. The Michigan observed life-expectancy scenario uses 78.6 years to support local planning comparison. The legacy no-remission scenario preserves earlier public-facing county estimates based on raw PLACES lifetime mental health prevalence.</p>
+<p>Scenario comparisons are not presented as competing truths. They show which assumptions drive the ranking. In the current analysis, cancer, cardiovascular disease, substance use disorders, and mental health remain central planning priorities, but their rank order changes when life expectancy and mental health remission assumptions change.</p>
+<h2>S11. Human-in-the-loop agent workflow</h2>
+<p>The project uses a set of workflow agents. In this context, an agent is a documented role, script, checklist, or prompt-governed workflow module. The agents do not autonomously learn from tasks in the way a statistical model learns from training data. They improve only when their protocols, scripts, reference files, or checklists are deliberately edited and versioned by the analyst.</p>
+<p>The practical value of the agents is reproducibility and quality control. They separate data acquisition, calculation, scientific writing, peer review, fact-checking, GBD-aware editing, and dashboard production so that each step can be inspected independently.</p>
+<p>The final authority remains human. The analyst reviews source substitutions, methodological boundaries, and wording that could overstate the analysis relative to formal GBD methods.</p>
+<h2>S12. Validation and publication gatekeeping</h2>
+<p>The fact-checking protocol verifies arithmetic, internal consistency, source alignment, stale numbers, unsupported claims, life-expectancy language, ROI claims, and GBD framing. It flags high, medium, and low issues. High issues block publication. Medium issues block publication when they affect the central interpretation.</p>
+<p>The reviewer protocol reads the manuscript as a scientific peer reviewer. It checks whether methods and claims are proportional to available data. It also checks whether the manuscript distinguishes formal GBD estimation from county-level planning analysis.</p>
+<p>A document is considered release-ready only when central totals match across abstract, tables, figures, dashboards, and methods files; the fact-checker reports no high issues; and the text contains clear planning-grade and non-GBD-standard caveats.</p>
+<h2>S13. Reproducibility assets</h2>
+<p>The reproducibility package includes county harvest files, county configuration files, calculation scripts, comorbidity simulation scripts, figure generation scripts, validation reports, manuscript generators, dashboard HTML, and methods supplements. Public source datasets remain available from their original agencies. Derived files and working code are maintained locally and can be shared on reasonable request depending on project and journal requirements.</p>
+<p>The most important reproducibility principle is that the county configuration file acts as the analytic ledger. It contains the values that should appear in manuscripts and dashboards. Public-facing documents are downstream products, not sources of truth.</p>
+<h2>S14. Boundary conditions and limitations</h2>
+<p>This method is intentionally narrower than formal GBD estimation. It does not include age-sex-cause-sequela modelling, Bayesian disease modelling, full cause hierarchy constraints, risk-factor attribution, formal excess mortality decomposition, or individual-level county comorbidity observations.</p>
+<p>The approach is strongest when used for local planning, grant development, transparent prioritisation, and hypothesis generation. It is weakest when interpreted as a directly comparable GBD subnational estimate. The supplement therefore documents both the calculation path and the boundaries around interpretation.</p>
+<h2>Table S1. Main data sources and their role in the workflow</h2>
+<table>
+<tr><th>Source</th><th>Use</th><th>Level</th><th>Main limitation</th></tr>
+<tr><td>CDC WONDER 2020-2022</td><td>Mortality counts and rates</td><td>County or state</td><td>County cells may be suppressed for small counts</td></tr>
+<tr><td>CDC PLACES 2024</td><td>Modelled adult prevalence</td><td>County</td><td>Model-based estimates; not direct local survey counts</td></tr>
+<tr><td>IHME GBD 2021</td><td>Disability weights</td><td>Health-state level</td><td>Applied to broad condition groups rather than sequelae</td></tr>
+<tr><td>US Census ACS</td><td>Population and socioeconomic denominators</td><td>County</td><td>Year alignment may differ from health datasets</td></tr>
+<tr><td>MDHHS</td><td>Michigan observed life expectancy</td><td>State</td><td>Planning comparator, not normative reference table</td></tr>
+<tr><td>Peer-reviewed literature</td><td>Remission, comorbidity, rural adjustment support</td><td>External</td><td>Not county-specific unless explicitly stated</td></tr>
+</table>
+<h2>Table S2. Agent and protocol modules</h2>
+<table>
+<tr><th>Module</th><th>Function</th><th>Learns from tasks?</th><th>Output</th></tr>
+<tr><td>Harvester</td><td>Collects structured and semi-structured public data</td><td>No. Protocol improves only by edited source rules.</td><td>County harvest JSON and source notes</td></tr>
+<tr><td>DALY calculator</td><td>Computes YLL, YLD, DALYs, burden ranks, economic translations</td><td>No. Formula-based script.</td><td>County configuration JSON</td></tr>
+<tr><td>Comorbidity simulator</td><td>Estimates correction factors under overlap scenarios</td><td>No. Stochastic simulation with fixed assumptions.</td><td>Correction factors, figures, CSV outputs</td></tr>
+<tr><td>Scientific writer</td><td>Drafts narrative text from verified inputs</td><td>No autonomous learning. Style rules are versioned.</td><td>Manuscript and dashboard text</td></tr>
+<tr><td>Scientific reviewer</td><td>Critiques methods, wording, and claims</td><td>No. Checklist-based review role.</td><td>Review memo</td></tr>
+<tr><td>Fact checker</td><td>Verifies numbers and cross-file consistency</td><td>No. Rule-based and script-assisted checks.</td><td>Markdown and JSON validation reports</td></tr>
+<tr><td>GBD-aware editor</td><td>Reduces overclaiming and aligns wording with GBD boundaries</td><td>No. Applies explicit editorial rules.</td><td>Revised manuscript</td></tr>
+<tr><td>Dashboard builder</td><td>Creates public-facing HTML summaries</td><td>No. Template-based generation.</td><td>Dashboard and methods pages</td></tr>
+</table>
+<h2>Table S3. Comorbidity sensitivity scenarios</h2>
+<table>
+<tr><th>Scenario</th><th>Assumption</th><th>Correction factor</th><th>Interpretation</th></tr>
+<tr><td>A</td><td>Independent condition assignment</td><td>0.966</td><td>Lower-overlap benchmark; 3.4% YLD reduction</td></tr>
+<tr><td>B</td><td>Latent-normal correlations informed by published comorbidity associations</td><td>0.949</td><td>Primary planning scenario; 5.1% YLD reduction</td></tr>
+<tr><td>C</td><td>Uniform upper-bound off-diagonal correlation r = 0.30</td><td>0.915</td><td>High-overlap sensitivity; 8.5% YLD reduction</td></tr>
+</table>
+<h2>Table S4. Publication gate checklist</h2>
+<table>
+<tr><th>Check</th><th>Release rule</th></tr>
+<tr><td>Arithmetic</td><td>YLL + YLD must equal DALY in every table row</td></tr>
+<tr><td>Cross-file consistency</td><td>Abstract, body text, tables, figures, dashboards, and methods pages must use the same current values</td></tr>
+<tr><td>Life expectancy wording</td><td>Text must distinguish Michigan observed life expectancy from WHO GHE frontier-reference life tables</td></tr>
+<tr><td>GBD boundary</td><td>Text must say the estimate is planning-grade and not a formal GBD-standard small-area estimate</td></tr>
+<tr><td>Evidence strength</td><td>Intervention and ROI claims must not exceed what cited meta-analyses support</td></tr>
+<tr><td>Stale values</td><td>Old estimates and old ROI claims must be removed or labelled as legacy scenarios</td></tr>
+</table>
+<h2>References</h2>
+<p>1. World Health Organization. WHO methods and data sources for global burden of disease estimates.</p>
+<p>2. Murray CJL, Aravkin AY, Zheng P, et al. Global burden of 87 risk factors in 204 countries and territories, 1990-2019: a systematic analysis for the Global Burden of Disease Study 2019. Lancet. 2020.</p>
+<p>3. GBD 2021 Diseases and Injuries Collaborators. Global incidence, prevalence, years lived with disability, years of life lost, and disability-adjusted life-years for 371 diseases and injuries and healthy life expectancy for 204 countries and territories, 1990-2021: a systematic analysis for the Global Burden of Disease Study 2021. Lancet. 2024.</p>
+<p>4. Salomon JA, Haagsma JA, Davis A, et al. Disability weights for the Global Burden of Disease 2013 study. Lancet Glob Health. 2015.</p>
+<p>5. CDC. CDC PLACES: Local Data for Better Health, 2024 release.</p>
+<p>6. CDC WONDER. Multiple Cause of Death, 2020-2022.</p>
+<p>7. Michigan Department of Health and Human Services. Michigan vital statistics and life expectancy tables.</p>
+<p>8. Nelsen RB. An Introduction to Copulas. 2nd ed. Springer; 2006.</p>
+<p>9. Einarson TR, Acs A, Ludwig C, Panton UH. Prevalence of cardiovascular disease in type 2 diabetes: a systematic literature review. Cardiovasc Diabetol. 2018;17:83.</p>
+<p>10. Hedegaard H, Minino AM, Spencer MR, Warner M. Drug Overdose Deaths in the United States, 1999-2020. NCHS Data Brief No. 428. 2021.</p>
+<p>11. Mack KA, Jones CM, Ballesteros MF. Illicit drug use, illicit drug use disorders, and drug overdose deaths in metropolitan and nonmetropolitan areas. MMWR Surveill Summ. 2017.</p>
+<p>12. Moy E, Garcia MC, Bastian B, et al. Leading causes of death in nonmetropolitan and metropolitan areas, United States, 1999-2014. MMWR Surveill Summ. 2017.</p>
+</body></html>

@@ -13,33 +13,35 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:#0f172a;}
-header{background:var(--navy);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;}
-header h1{color:#fff;font-size:16px;font-weight:700;}
-header span{color:rgba(255,255,255,.5);font-size:12px;}
 .page{max-width:1200px;margin:0 auto;padding:40px 24px;}
 .intro{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:32px;}
+.county-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;background:rgba(26,86,219,.08);border:1px solid rgba(26,86,219,.22);color:#1a56db;font-size:11.5px;font-weight:700;letter-spacing:.02em;margin-bottom:10px;}
+.county-chip svg{width:13px;height:13px;fill:none;stroke:#1a56db;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;}
 .intro h2{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;}
 .intro p{font-size:13px;color:var(--slate);line-height:1.6;}
-.note{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:3px 10px;margin-top:8px;}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.note{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:3px 10px;margin-top:10px;}
+.methods-link{display:block;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;font-weight:600;color:var(--blue);text-decoration:none;}
+.methods-link:hover{text-decoration:underline;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
 @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:560px){.grid{grid-template-columns:1fr;}}
-.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;}
-.chart-card h3{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;}
-.chart-card .sub{font-size:11px;color:var(--slate);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
-.trend-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;}
-.up{background:#fef2f2;color:#dc2626;}
-.down{background:#f0fdf4;color:#16a34a;}
-.flat{background:#f8fafc;color:#64748b;}
-.section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--slate);margin:32px 0 16px;}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;box-shadow:0 1px 2px rgba(15,31,61,.04);transition:box-shadow .15s;}
+.chart-card:hover{box-shadow:0 4px 14px rgba(15,31,61,.08);}
+.chart-card h3{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px;line-height:1.25;min-height:33px;}
+.chart-card .sub{font-size:11px;color:var(--slate);margin-bottom:12px;display:flex;align-items:baseline;justify-content:space-between;}
+.latest-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:#94a3b8;}
+.latest strong{font-size:15px;font-weight:800;color:var(--navy);}
+.latest-yr{color:#94a3b8;}
+.trend-badge{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;}
+.up{background:#fdece7;color:#c2410c;border:1px solid rgba(194,65,12,.25);}
+.down{background:#e6f3f5;color:#0e7490;border:1px solid rgba(14,116,144,.25);}
+.flat{background:#f1f5f9;color:#64748b;border:1px solid rgba(100,116,139,.22);}
+.section-title{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--slate);margin:32px 0 16px;}
+.sec-county{font-weight:600;text-transform:none;letter-spacing:0;color:#94a3b8;font-size:10.5px;white-space:nowrap;}
 .sources{font-size:11px;color:var(--slate);margin-top:36px;padding-top:16px;border-top:1px solid var(--border);}
 footer{background:var(--navy);padding:16px 32px;margin-top:48px;}
 footer span{font-size:11.5px;color:rgba(255,255,255,.4);}
-</style>
-</head>
-<body>
 
-<style>
 .sitenav{background:#0f1f3d;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
 .sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
 .sitenav .links{display:flex;gap:4px;align-items:center;}
@@ -47,41 +49,47 @@ footer span{font-size:11.5px;color:rgba(255,255,255,.4);}
 .sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
 .county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
 .county-group .navlink{border-radius:5px;}
+.nico{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px;margin-right:5px;flex-shrink:0;}
 </style>
+</head>
+<body>
+
 <nav class="sitenav">
   <a class="brand" href="index.html">Lakes Linked Care</a>
   <div class="links">
     <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
     <div class="county-group">
-      <a class="navlink" href="isabella.html">📊 Isabella</a>
-      <a class="navlink" href="clare.html">🚨 Clare</a>
-      <a class="navlink" href="midland.html">🏭 Midland</a>
+      <a class="navlink" href="isabella.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Isabella</a>
+      <a class="navlink" href="clare.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Clare</a>
+      <a class="navlink" href="midland.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Midland</a>
     </div>
     <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
-    <a class="navlink" href="index.html">🏠 Portal</a>
+    <a class="navlink" href="index.html"><svg class="nico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Portal</a>
     <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
-    <a class="navlink" href="isabella.html">📊 Dashboard</a>
-    <a class="navlink" href="isabella_roi.html">💰 Economic Impact</a>
-    <a class="navlink active" href="isabella_trends.html">📈 Trends</a>
-    <a class="navlink" href="isabella_methods.html">📋 Methods</a>
+    <a class="navlink" href="isabella.html"><svg class="nico" viewBox="0 0 24 24"><path d="M3 21h18"/><rect x="5" y="11" width="3" height="7" rx="1"/><rect x="10.5" y="6" width="3" height="12" rx="1"/><rect x="16" y="9" width="3" height="9" rx="1"/></svg>Dashboard</a>
+    <a class="navlink" href="isabella_roi.html"><svg class="nico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.2a2.6 2.6 0 0 0-5 .6c0 3 5 1.4 5 4.4a2.6 2.6 0 0 1-5 .6M12 6.3v11.4"/></svg>Economic Impact</a>
+    <a class="navlink active" href="isabella_trends.html"><svg class="nico" viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="M8 14l3-3 3 2 5-6"/></svg>Trends</a>
+    <a class="navlink" href="isabella_methods.html"><svg class="nico" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Methods</a>
   </div>
 </nav>
 
 <div class="page">
 
   <div class="intro">
+    <span class="county-chip"><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Isabella County, MI · FIPS 26073</span>
     <h2>6-year trend analysis across 16 health indicators</h2>
-    <p>All charts use the same 2017–2023 time frame and honest y-axes starting from 0. Gaps reflect years where CDC PLACES did not publish a county-level estimate for that measure. Data points are age-adjusted prevalence (%) where available.</p>
+    <p>All charts share the same 2017–2023 window and a zero-baseline y-axis; points are age-adjusted prevalence (%) with a 95% confidence band. Gaps are years CDC PLACES did not publish a county estimate.</p>
     <span class="note">⚠ Data gaps do not mean the situation improved or worsened — the indicator simply wasn't reported at county level that year.</span>
+    <a class="methods-link" href="isabella_methods.html#reading-trends">How to read these charts &amp; full definitions →</a>
   </div>
 
-  <div class="section-title">Chronic Disease Burden</div>
+  <div class="section-title">Chronic Disease Burden <span class="sec-county">Isabella County · 2017–2023</span></div>
   <div class="grid" id="grid-chronic"></div>
 
-  <div class="section-title">Behavioral Risk Factors</div>
+  <div class="section-title">Behavioral Risk Factors <span class="sec-county">Isabella County · 2017–2023</span></div>
   <div class="grid" id="grid-behavior"></div>
 
-  <div class="section-title">Mental Health & Social Needs</div>
+  <div class="section-title">Mental Health &amp; Social Needs <span class="sec-county">Isabella County · 2017–2023</span></div>
   <div class="grid" id="grid-social"></div>
 
   <div class="sources">
@@ -94,63 +102,64 @@ footer span{font-size:11.5px;color:rgba(255,255,255,.4);}
 
 <script>
 // ── Data ─────────────────────────────────────────────────────────────────────
-// years axis for all charts
 const YEARS = [2017, 2018, 2019, 2020, 2021, 2022, 2023];
 
-// null = no data for that year
-// [value, lo, hi] = point with confidence interval
+// null = no data for that year · [value, lo, hi] = point with confidence interval
 const DATA = {
-  obesity:    { label:'Obesity', unit:'%', color:'#dc2626', ymax:55, trend:'up',
+  obesity:    { label:'Obesity', unit:'%', ymax:55, trend:'up',
     vals: [null, [37.9,36.0,39.9], [40.7,39.1,42.4], [37.0,35.2,38.8], null, null, [43.1,35.6,50.8]] },
-  hypertension:{ label:'High Blood Pressure', unit:'%', color:'#7c3aed', ymax:50, trend:'up',
+  hypertension:{ label:'High Blood Pressure', unit:'%', ymax:50, trend:'up',
     vals: [[32.1,31.0,33.3], null, [32.9,31.7,34.1], [33.5,32.3,34.8], null, null, [35.5,31.5,39.6]] },
-  diabetes:   { label:'Diabetes', unit:'%', color:'#d97706', ymax:20, trend:'up',
+  diabetes:   { label:'Diabetes', unit:'%', ymax:20, trend:'up',
     vals: [null, [10.8,10.0,11.6], [11.1,10.4,11.9], [10.9,10.0,11.7], null, null, [11.6,9.9,13.4]] },
-  cancer:     { label:'Cancer (non-skin)', unit:'%', color:'#0d9488', ymax:15, trend:'up',
+  cancer:     { label:'Cancer (non-skin)', unit:'%', ymax:15, trend:'up',
     vals: [null, [6.7,6.5,7.2], null, [6.2,5.9,6.5], null, null, [7.7,6.9,8.5]] },
-  copd:       { label:'COPD', unit:'%', color:'#64748b', ymax:15, trend:'up',
+  copd:       { label:'COPD', unit:'%', ymax:15, trend:'up',
     vals: [null, null, null, [8.3,7.2,9.5], null, null, [8.8,7.5,10.3]] },
-  stroke:     { label:'Stroke', unit:'%', color:'#1a56db', ymax:8, trend:'up',
+  stroke:     { label:'Stroke', unit:'%', ymax:8, trend:'up',
     vals: [null, null, null, [3.3,2.9,3.7], null, null, [3.5,3.1,3.9]] },
-  chd:        { label:'Coronary Heart Disease', unit:'%', color:'#059669', ymax:15, trend:'flat',
+  chd:        { label:'Coronary Heart Disease', unit:'%', ymax:15, trend:'flat',
     vals: [null, [7.7,7.1,8.3], null, [6.8,6.2,7.4], null, null, null] },
-  asthma:     { label:'Asthma', unit:'%', color:'#06b6d4', ymax:20, trend:'up',
+  asthma:     { label:'Asthma', unit:'%', ymax:20, trend:'up',
     vals: [null, null, [11.2,10.6,11.8], [11.7,11.2,12.4], null, null, [12.1,10.7,13.7]] },
-  smoking:    { label:'Current Smoking', unit:'%', color:'#374151', ymax:35, trend:'down',
+  smoking:    { label:'Current Smoking', unit:'%', ymax:35, trend:'down',
     vals: [null, null, [22.3,19.4,25.2], [22.1,18.5,25.4], null, null, [18.6,15.1,22.6]] },
-  binge:      { label:'Binge Drinking', unit:'%', color:'#7c3aed', ymax:30, trend:'down',
+  binge:      { label:'Binge Drinking', unit:'%', ymax:30, trend:'down',
     vals: [null, [20.3,19.4,21.2], [19.7,18.8,20.6], [19.1,18.2,20.0], null, null, [17.5,14.5,20.8]] },
-  inactivity: { label:'Physical Inactivity', unit:'%', color:'#d97706', ymax:40, trend:'flat',
+  inactivity: { label:'Physical Inactivity', unit:'%', ymax:40, trend:'flat',
     vals: [null, null, [28.5,26.1,31.2], [22.4,19.8,24.9], null, null, [27.3,22.5,32.3]] },
-  uninsured:  { label:'Uninsured (18–64)', unit:'%', color:'#dc2626', ymax:25, trend:'down',
+  uninsured:  { label:'Uninsured (18–64)', unit:'%', ymax:25, trend:'down',
     vals: [null, [10.6,8.4,13.3], [13.5,11.4,16.1], [10.3,8.4,12.5], null, null, null] },
-  depression: { label:'Depression', unit:'%', color:'#1a56db', ymax:40, trend:'up',
+  depression: { label:'Depression', unit:'%', ymax:40, trend:'up',
     vals: [null, null, [25.6,24.3,26.9], [23.4,22.1,24.7], null, null, null] },
-  mh_distress:{ label:'Frequent Mental Distress', unit:'%', color:'#7c3aed', ymax:30, trend:'up',
+  mh_distress:{ label:'Frequent Mental Distress', unit:'%', ymax:30, trend:'up',
     vals: [null, null, null, [17.7,16.5,19.0], null, null, [20.8,18.1,23.5]] },
-  food_insec: { label:'Food Insecurity', unit:'%', color:'#d97706', ymax:30, trend:'up',
+  food_insec: { label:'Food Insecurity', unit:'%', ymax:30, trend:'up',
     vals: [null, null, null, null, null, null, [18.5,14.8,23.1]] },
-  loneliness: { label:'Loneliness', unit:'%', color:'#0d9488', ymax:50, trend:'up',
+  loneliness: { label:'Loneliness', unit:'%', ymax:50, trend:'up',
     vals: [null, null, null, null, null, null, [35.1,30.3,42.4]] },
 };
 
-// ── Chart factory ─────────────────────────────────────────────────────────────
-function trendClass(t) { return t === 'up' ? 'up' : t === 'down' ? 'down' : 'flat'; }
-function trendLabel(t) { return t === 'up' ? '▲ Worsening' : t === 'down' ? '▼ Improving' : '→ Stable'; }
+// ── Semantic trend color: worsening / improving / stable ──────────────────────
+function trendColor(t){ return t === 'up' ? '#c2410c' : t === 'down' ? '#0e7490' : '#64748b'; }
+function trendClass(t){ return t === 'up' ? 'up' : t === 'down' ? 'down' : 'flat'; }
+function trendLabel(t){ return t === 'up' ? '▲ Worsening' : t === 'down' ? '▼ Improving' : '→ Stable'; }
 
 function makeCard(key, containerId) {
   const d = DATA[key];
+  const col = trendColor(d.trend);
   const card = document.createElement('div');
   card.className = 'chart-card';
 
-  // last known value
-  const knownVals = d.vals.filter(v => v !== null);
-  const lastVal = knownVals.length ? knownVals[knownVals.length - 1][0] : '—';
+  let lastIdx = -1;
+  d.vals.forEach((v,i) => { if (v !== null) lastIdx = i; });
+  const lastVal = lastIdx >= 0 ? d.vals[lastIdx][0] : '—';
+  const lastYear = lastIdx >= 0 ? YEARS[lastIdx] : '';
 
   card.innerHTML = `
     <h3>${d.label}</h3>
     <div class="sub">
-      <span>Latest: <strong>${lastVal}%</strong></span>
+      <span class="latest"><span class="latest-lbl">Latest</span> <strong>${lastVal}%</strong>${lastYear ? ` <span class="latest-yr">· ${lastYear}</span>` : ''}</span>
       <span class="trend-badge ${trendClass(d.trend)}">${trendLabel(d.trend)}</span>
     </div>
     <canvas id="c-${key}" height="160"></canvas>`;
@@ -169,13 +178,13 @@ function makeCard(key, containerId) {
         {
           label: d.label,
           data: points,
-          borderColor: d.color,
-          backgroundColor: d.color + '18',
-          pointBackgroundColor: d.color,
+          borderColor: col,
+          backgroundColor: col + '18',
+          pointBackgroundColor: col,
           pointRadius: points.map(v => v !== null ? 5 : 0),
           pointHoverRadius: 7,
-          borderWidth: 2.5,
-          tension: 0.3,
+          borderWidth: 2,
+          tension: 0.25,
           spanGaps: true,
           fill: false,
         },
@@ -183,11 +192,11 @@ function makeCard(key, containerId) {
           label: '95% CI upper',
           data: d.vals.map((v,i) => v ? points[i] + hiCIs[i] : null),
           borderColor: 'transparent',
-          backgroundColor: d.color + '12',
+          backgroundColor: col + '1a',
           pointRadius: 0,
           fill: '+1',
           spanGaps: true,
-          tension: 0.3,
+          tension: 0.25,
         },
         {
           label: '95% CI lower',
@@ -195,7 +204,7 @@ function makeCard(key, containerId) {
           borderColor: 'transparent',
           pointRadius: 0,
           spanGaps: true,
-          tension: 0.3,
+          tension: 0.25,
         },
       ]
     },
@@ -214,26 +223,14 @@ function makeCard(key, containerId) {
         }
       },
       scales: {
-        x: {
-          grid: { color: '#f1f5f9' },
-          ticks: { font: { size: 11 }, color: '#64748b' }
-        },
-        y: {
-          min: 0,
-          max: d.ymax,
-          grid: { color: '#f1f5f9' },
-          ticks: {
-            font: { size: 11 },
-            color: '#64748b',
-            callback: v => v + '%'
-          }
-        }
+        x: { grid: { color: '#f1f5f9' }, ticks: { font: { size: 11 }, color: '#64748b' } },
+        y: { min: 0, max: d.ymax, grid: { color: '#f1f5f9' },
+             ticks: { font: { size: 11 }, color: '#64748b', callback: v => v + '%' } }
       }
     }
   });
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
 const chronic  = ['obesity','hypertension','diabetes','cancer','copd','stroke','chd','asthma'];
 const behavior = ['smoking','binge','inactivity','uninsured'];
 const social   = ['depression','mh_distress','food_insec','loneliness'];
