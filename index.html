@@ -4,14 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Michigan Rural Health Burden Analysis | Lakes Linked Care</title>
-<meta name="description" content="Educational disease burden analysis for rural Michigan counties — identifying top health conditions, quantifying economic impact, and supporting grant applications and health planning. Dr. Sergey Soshnikov, MD PhD · Central Michigan University.">
+<meta name="description" content="Educational disease burden analysis for rural Michigan counties — identifying top health conditions, quantifying economic impact, and supporting grant applications and health planning. Dr. Sergey Soshnikov, MD PhD.">
 <meta property="og:title" content="Michigan Rural Health Burden Analysis | Lakes Linked Care">
 <meta property="og:description" content="3 counties complete · ~37,960 DALYs/yr · 3 in pipeline. Planning-grade burden analysis for county health departments, grant applications, and rural health policy.">
-<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/index.html">
+<meta property="og:url" content="https://lakeslinked.com/index.html">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 /* ── DESIGN TOKENS ── */
 :root {
@@ -604,7 +606,7 @@ footer{background:var(--navy);padding:22px 32px;}
     </div>
     <div class="brand-text">
       <div class="brand-name">Lakes Linked Care</div>
-      <div class="brand-sub">Soshnikov, MD PhD &middot; Public Health Division &middot; Central Michigan University</div>
+      <div class="brand-sub">Soshnikov, MD PhD &middot; Public Health Division &middot; Lakes Linked</div>
     </div>
   </div>
   <div class="header-right">
@@ -645,7 +647,7 @@ footer{background:var(--navy);padding:22px 32px;}
       <div class="byline-block">
         <div class="author">Sergey Soshnikov, MD PhD</div>
         <div class="affil">
-          Public Health Division &middot; Central Michigan University<br>
+          Public Health Division &middot; Lakes Linked<br>
           Mount Pleasant, Michigan &middot; 2026
         </div>
       </div>
@@ -797,7 +799,7 @@ footer{background:var(--navy);padding:22px 32px;}
       </div>
       <div class="cc-body">
         <div class="cc-title">Isabella County, Michigan</div>
-        <div class="cc-desc">Population 64,565 &middot; CMU home county &middot; 15,430 DALYs/yr (primary). Diverse burden profile: cancer #1, CVD #2, opioids, mental health. Multiple HPSA designations.</div>
+        <div class="cc-desc">Population 64,565 &middot; regional university county &middot; 15,430 DALYs/yr (primary). Diverse burden profile: cancer #1, CVD #2, opioids, mental health. Multiple HPSA designations.</div>
         <div class="cc-stats">
           <div class="cc-stat">
             <div class="sv" style="color:var(--blue)">15,430</div>
@@ -996,6 +998,57 @@ footer{background:var(--navy);padding:22px 32px;}
 
   </div><!-- end pipeline-grid -->
 
+  <!-- Michigan Coverage Map -->
+  <div class="section-head">
+    <h2>Michigan Coverage Map</h2>
+    <div class="sh-line"></div>
+    <span class="section-meta" id="mi-counter">3 of 83 counties analyzed</span>
+  </div>
+  <p style="font-size:13px;color:var(--text-secondary);max-width:760px;margin:-2px 0 12px;">Click a completed county (blue) to open its dashboard. Counties in grey aren't analyzed yet — available on request.</p>
+  <div style="display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--text-secondary);margin-bottom:10px;align-items:center;">
+    <span><span style="display:inline-block;width:13px;height:13px;border-radius:3px;background:#1a56db;vertical-align:-2px;margin-right:6px;"></span>Analyzed (click)</span>
+    <span><span style="display:inline-block;width:13px;height:13px;border-radius:3px;background:#bfdbfe;vertical-align:-2px;margin-right:6px;"></span>In pipeline</span>
+    <span><span style="display:inline-block;width:13px;height:13px;border-radius:3px;background:#e2e8f0;border:1px solid #cbd5e1;vertical-align:-2px;margin-right:6px;"></span>Not yet analyzed</span>
+  </div>
+  <div id="mi-map" style="height:440px;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:var(--shadow);"></div>
+  <p style="font-size:11px;color:var(--muted);margin-top:8px;">Boundaries: US Census counties, loaded at runtime. <a href="michigan_map.html" style="color:var(--blue);font-weight:600;">Open full-screen map →</a></p>
+  <script>
+  (function(){
+    if (typeof L === 'undefined') return;
+    const DONE = {
+      '26073': { name:'Isabella', url:'isabella.html', dalys:'15,430', pop:'64,565' },
+      '26035': { name:'Clare',    url:'clare.html',    dalys:'8,198',  pop:'30,013' },
+      '26111': { name:'Midland',  url:'midland.html',  dalys:'14,335', pop:'82,884' },
+    };
+    const PIPELINE = { '26057':'Gratiot · Q3 2026', '26107':'Mecosta · Q4 2026', '26161':'Washtenaw · Q4 2026' };
+    function styleFor(fips){
+      if (DONE[fips])     return { fillColor:'#1a56db', color:'#fff', weight:1, fillOpacity:.92 };
+      if (PIPELINE[fips]) return { fillColor:'#bfdbfe', color:'#fff', weight:1, fillOpacity:.95 };
+      return { fillColor:'#e2e8f0', color:'#fff', weight:1, fillOpacity:1 };
+    }
+    const m = L.map('mi-map', { zoomControl:true, scrollWheelZoom:false, attributionControl:false, dragging:true });
+    fetch('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json')
+      .then(r=>r.json()).then(geo=>{
+        const mi = { type:'FeatureCollection', features: geo.features.filter(f=>typeof f.id==='string' && f.id.startsWith('26')) };
+        const layer = L.geoJSON(mi, {
+          style: f=>styleFor(f.id),
+          onEachFeature: (f, lyr)=>{
+            const fips=f.id, nm=(f.properties&&f.properties.NAME)||'County', done=DONE[fips], pipe=PIPELINE[fips];
+            let tip;
+            if (done) tip = '<strong>'+done.name+' County</strong><br>'+done.dalys+' DALYs/yr · pop '+done.pop+'<br>Click to open →';
+            else if (pipe) tip = '<strong>'+nm+' County</strong><br>In pipeline ('+pipe.split('·')[1].trim()+')';
+            else tip = '<strong>'+nm+' County</strong><br>Not yet analyzed · available on request';
+            lyr.bindTooltip(tip, { sticky:true });
+            lyr.on('mouseover', ()=>lyr.setStyle({ weight:2.5, color:'#0f1f3d' }));
+            lyr.on('mouseout',  ()=>lyr.setStyle(styleFor(fips)));
+            if (done) lyr.on('click', ()=>{ window.location = done.url; });
+          }
+        }).addTo(m);
+        m.fitBounds(layer.getBounds(), { padding:[10,10] });
+      }).catch(e=>{ document.getElementById('mi-counter').textContent='3 of 83 analyzed (map source unavailable)'; });
+  })();
+  </script>
+
   <!-- References -->
   <div class="references-section">
     <h2>References</h2>
@@ -1038,8 +1091,8 @@ footer{background:var(--navy);padding:22px 32px;}
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
-      <span>Lakes Linked Care &middot; Dr. Sergey Soshnikov, MD PhD &middot; Public Health Division &middot; Central Michigan University &middot; 2026</span>
-      <span>Central Michigan University &middot; Mount Pleasant, Michigan</span>
+      <span>Lakes Linked Care &middot; Dr. Sergey Soshnikov, MD PhD &middot; Public Health Division &middot; Lakes Linked &middot; 2026</span>
+      <span>Lakes Linked &middot; Mount Pleasant, Michigan</span>
     </div>
     <div class="footer-sources">
       <span class="footer-sources-label">Data sources</span>
