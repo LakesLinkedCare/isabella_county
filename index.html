@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Michigan Rural Health Burden Analysis | Lakes Linked Care</title>
+<title>Michigan Rural Health Burden Analysis | Lakes Linked</title>
 <meta name="description" content="Educational disease burden analysis for rural Michigan counties — identifying top health conditions, quantifying economic impact, and supporting grant applications and health planning. Dr. Sergey Soshnikov, MD PhD.">
-<meta property="og:title" content="Michigan Rural Health Burden Analysis | Lakes Linked Care">
+<meta property="og:title" content="Michigan Rural Health Burden Analysis | Lakes Linked">
 <meta property="og:description" content="3 counties complete · ~37,960 DALYs/yr · 3 in pipeline. Planning-grade burden analysis for county health departments, grant applications, and rural health policy.">
 <meta property="og:url" content="https://lakeslinked.com/index.html">
 <meta property="og:type" content="website">
@@ -605,7 +605,7 @@ footer{background:var(--navy);padding:22px 32px;}
       </svg>
     </div>
     <div class="brand-text">
-      <div class="brand-name">Lakes Linked Care</div>
+      <div class="brand-name">Lakes Linked</div>
       <div class="brand-sub">Soshnikov, MD PhD &middot; Public Health Division &middot; Lakes Linked</div>
     </div>
   </div>
@@ -631,9 +631,12 @@ footer{background:var(--navy);padding:22px 32px;}
       <a href="midland.html">
         <span class="nav-dot" style="background:var(--green);"></span>Midland
       </a>
+      <a href="gratiot.html">
+        <span class="nav-dot" style="background:var(--amber);"></span>Gratiot
+      </a>
     </div>
     <div class="nav-divider"></div>
-    <span class="nav-pipeline">Pipeline: Gratiot &middot; Mecosta &middot; Washtenaw</span>
+    <span class="nav-pipeline">Pipeline: Mecosta &middot; Washtenaw</span>
   </div>
 </div>
 
@@ -656,19 +659,19 @@ footer{background:var(--navy);padding:22px 32px;}
 
       <div class="hero-stats">
         <div class="hs">
-          <div class="n">3</div>
+          <div class="n">4</div>
           <div class="l">Counties analyzed</div>
-          <div class="hs-sub">Isabella &middot; Clare &middot; Midland</div>
+          <div class="hs-sub">Isabella &middot; Clare &middot; Midland &middot; Gratiot</div>
         </div>
         <div class="hs">
-          <div class="n">~37,960</div>
+          <div class="n">~45,500</div>
           <div class="l">Combined DALYs/yr</div>
           <div class="hs-sub">Primary estimates &middot; frontier LE 89.1 yrs</div>
         </div>
         <div class="hs">
-          <div class="n">3</div>
+          <div class="n">2</div>
           <div class="l">In pipeline</div>
-          <div class="hs-sub">Gratiot &middot; Mecosta &middot; Washtenaw</div>
+          <div class="hs-sub">Mecosta &middot; Washtenaw</div>
         </div>
       </div>
     </div>
@@ -777,7 +780,7 @@ footer{background:var(--navy);padding:22px 32px;}
   <div class="section-head">
     <h2>Completed County Analyses</h2>
     <div class="sh-line"></div>
-    <span class="section-meta">3 counties &middot; full DALY framework</span>
+    <span class="section-meta">4 counties &middot; full DALY framework</span>
   </div>
 
   <div class="county-grid">
@@ -937,32 +940,67 @@ footer{background:var(--navy);padding:22px 32px;}
       </div>
     </div>
 
+
+    <!-- Gratiot County -->
+    <div class="county-card" onclick="window.location='gratiot.html'" style="--accent:var(--amber);cursor:pointer">
+      <div class="county-card-top"></div>
+      <div class="cc-head">
+        <div>
+          <span class="cc-status-badge status-complete">
+            <span class="status-dot"></span>Completed
+          </span>
+          <div class="version-tag">v1.0</div>
+        </div>
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" style="flex-shrink:0;opacity:.18;">
+          <rect width="36" height="36" rx="8" fill="#d97706"/>
+          <path d="M6 28 L12 14 L18 20 L22 10 L30 16" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="12" cy="14" r="2" fill="#d97706"/>
+        </svg>
+      </div>
+      <div class="cc-body">
+        <div class="cc-title">Gratiot County, Michigan</div>
+        <div class="cc-desc">Population 41,368 &middot; agricultural rural economy &middot; 7,533 DALYs/yr (primary). Cancer #1, SUD #2, MH #3. Correctional population effect, HPSA-designated, MMDHD service area.</div>
+        <div class="cc-stats">
+          <div class="cc-stat">
+            <div class="sv" style="color:var(--amber)">7,533</div>
+            <div class="sl">DALYs/yr</div>
+          </div>
+          <div class="cc-stat">
+            <div class="sv">41,368</div>
+            <div class="sl">Population</div>
+          </div>
+          <div class="cc-stat">
+            <div class="sv" style="color:var(--navy)">Cancer #1</div>
+            <div class="sl">Top condition</div>
+          </div>
+        </div>
+      </div>
+      <div class="cc-chips">
+        <span class="chip">7,533 DALYs</span>
+        <span class="chip">$467M burden</span>
+        <span class="chip">Agricultural</span>
+        <span class="chip chip-fips">FIPS 26057</span>
+      </div>
+      <div class="cc-links" onclick="event.stopPropagation()">
+        <a class="primary" href="gratiot.html">View Dashboard</a>
+        <div class="cc-secondary-links">
+          <a href="gratiot_methods.html">Methods</a>
+          <span class="sep">&middot;</span>
+          <a href="gratiot_roi.html">Economic Impact</a>
+        </div>
+      </div>
+    </div>
+
   </div><!-- end county-grid -->
 
   <!-- Pipeline Counties -->
   <div class="section-head">
     <h2>Counties in Development Pipeline</h2>
     <div class="sh-line"></div>
-    <span class="section-meta">Planned Q3&ndash;Q4 2026</span>
+    <span class="section-meta">Planned Q4 2026</span>
   </div>
 
   <div class="pipeline-grid">
-
-    <div class="pipe-card">
-      <div class="pipe-card-top"></div>
-      <span class="pipe-status-badge">
-        <svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="3" stroke="currentColor" stroke-width="1.2"/></svg>
-        Q3 2026
-      </span>
-      <div class="pipe-icon-wrap">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-      </div>
-      <h3>Gratiot County</h3>
-      <div class="pipe-fips">FIPS 26057</div>
-      <p>Adjacent to Isabella; rural agricultural economy, no university anchor. Agricultural SDOH contrast study.</p>
-    </div>
 
     <div class="pipe-card">
       <div class="pipe-card-top"></div>
@@ -1091,7 +1129,7 @@ footer{background:var(--navy);padding:22px 32px;}
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
-      <span>Lakes Linked Care &middot; Dr. Sergey Soshnikov, MD PhD &middot; Public Health Division &middot; Lakes Linked &middot; 2026</span>
+      <span>Lakes Linked &middot; Dr. Sergey Soshnikov, MD PhD &middot; Public Health Division &middot; Lakes Linked &middot; 2026</span>
       <span>Lakes Linked &middot; Mount Pleasant, Michigan</span>
     </div>
     <div class="footer-sources">

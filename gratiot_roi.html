@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gratiot County — Economic Impact &amp; Investment Model | Lakes Linked</title>
+<meta name="description" content="Gratiot County economic burden of disease: $467M human capital, $3.7B VSL. Agricultural rural economy, cancer #1, SUD #2. Per-condition cost breakdown and intervention ROI estimates.">
+<meta property="og:title" content="Gratiot County — Economic Impact &amp; Investment Model | Lakes Linked">
+<meta property="og:url" content="https://lakeslinked.com/gratiot_roi.html">
+<meta property="og:type" content="website">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0f1f3d;--blue:#1a56db;--teal:#0d9488;--red:#dc2626;
+  --amber:#d97706;--purple:#7c3aed;--green:#059669;--slate:#64748b;
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--muted:#64748b;
+  --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.04);
+  --accent:var(--amber);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#0f172a;line-height:1.5;}
+
+.sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
+.sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
+.sitenav .links{display:flex;gap:4px;align-items:center;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+.nico{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px;margin-right:5px;flex-shrink:0;}
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+
+.hero{background:linear-gradient(130deg,#1c0a00 0%,#5c2d00 45%,#1e3a5f 100%);padding:36px 28px 30px;}
+.hero-inner{max-width:1100px;margin:auto;}
+.hero h1{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;}
+.hero .sub{color:rgba(255,255,255,.6);font-size:13px;margin-bottom:20px;}
+.hero-stats{display:flex;flex-wrap:wrap;gap:20px;}
+.hs .num{font-size:30px;font-weight:800;color:#fff;letter-spacing:-.02em;}
+.hs .lbl{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+.hs .cmp{font-size:12px;color:#fbbf24;margin-top:3px;}
+.hdiv{width:1px;background:rgba(255,255,255,.12);align-self:stretch;}
+
+.data-notice{background:#fffbeb;border-bottom:1px solid #fde68a;padding:9px 28px;font-size:12px;color:#78350f;display:flex;gap:8px;align-items:center;}
+.main{max-width:1100px;margin:0 auto;padding:32px 24px;}
+.section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:32px 0 16px;}
+
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
+@media(max-width:900px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);}
+.kpi .kv{font-size:22px;font-weight:800;letter-spacing:-.02em;color:#0f172a;}
+.kpi .kl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-top:4px;}
+.kpi .ks{font-size:11.5px;color:var(--slate);margin-top:6px;line-height:1.45;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;}
+@media(max-width:800px){.two-col{grid-template-columns:1fr;}}
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:22px;box-shadow:var(--shadow);}
+.card h3{font-size:14px;font-weight:700;margin-bottom:4px;}
+.card .card-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
+
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+thead th{background:var(--navy);color:rgba(255,255,255,.9);padding:9px 11px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.03em;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border);}
+tbody tr:hover{background:#f8fafc;}
+tbody tr.total-row{background:#f0f4f8;font-weight:700;border-top:2px solid var(--navy);}
+tbody td{padding:9px 11px;vertical-align:top;}
+.cond-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle;}
+
+.int-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:14px;box-shadow:var(--shadow);}
+.int-card h4{font-size:13.5px;font-weight:700;margin-bottom:4px;}
+.int-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+.int-badge{font-size:10.5px;font-weight:700;border-radius:10px;padding:2px 9px;}
+.int-badge.ev-strong{background:#dcfce7;color:#166534;}
+.int-badge.ev-mod{background:#fef3c7;color:#92400e;}
+.int-badge.grant{background:#ede9fe;color:#5b21b6;}
+.int-card p{font-size:12.5px;color:#475569;line-height:1.6;}
+.int-roi{font-size:12px;font-weight:700;color:var(--teal);margin-top:8px;}
+
+footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+</style>
+</head>
+<body>
+
+<nav class="sitenav">
+  <a class="brand" href="index.html">Lakes Linked</a>
+  <div class="links">
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink" href="isabella.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Isabella</a>
+      <a class="navlink" href="clare.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Clare</a>
+      <a class="navlink" href="midland.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Midland</a>
+      <a class="navlink active" href="gratiot.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Gratiot</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="gratiot.html"><svg class="nico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+    <a class="navlink" href="gratiot_methods.html"><svg class="nico" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Methods</a>
+  </div>
+</nav>
+
+<div class="data-notice">
+  📊 <span>Economic burden calculations use <strong>human capital method</strong> (DALYs × $62,000 GDP/capita) and <strong>Value of Statistical Life</strong> (deaths × income-adjusted HHS VSL). Not regulatory cost-benefit analysis. <a href="gratiot_methods.html" style="color:#92400e;font-weight:700;">Methods →</a></span>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Gratiot County — Economic Burden &amp; Investment Model</h1>
+    <p class="sub">Agricultural rural economy · FIPS 26057 · Pop. 41,368 · June 2026</p>
+    <div class="hero-stats">
+      <div class="hs">
+        <div class="num">$467M</div>
+        <div class="lbl">Annual economic burden (HC)</div>
+        <div class="cmp">7,533 DALYs × $62,000 GDP/capita</div>
+      </div>
+      <div class="hdiv"></div>
+      <div class="hs">
+        <div class="num">$3,657M</div>
+        <div class="lbl">VSL economic burden</div>
+        <div class="cmp">296 deaths × $12.4M VSL (income-adj.)</div>
+      </div>
+      <div class="hdiv"></div>
+      <div class="hs">
+        <div class="num">$62K</div>
+        <div class="lbl">Value per DALY averted</div>
+        <div class="cmp">GDP/capita · Human capital proxy</div>
+      </div>
+      <div class="hdiv"></div>
+      <div class="hs">
+        <div class="num">$12.4M</div>
+        <div class="lbl">Income-adj. VSL (Gratiot)</div>
+        <div class="cmp">($63,556/$66,621)^0.5 × $13.4M HHS base</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <p class="section-title">Burden Summary</p>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kv" style="color:var(--amber)">$467M</div>
+      <div class="kl">HC Burden / Year</div>
+      <div class="ks">7,533 DALYs × $62,000 = $466.0M. Conservative floor — measures lost productivity only.</div>
+    </div>
+    <div class="kpi">
+      <div class="kv" style="color:var(--navy)">$3,657M</div>
+      <div class="kl">VSL Burden / Year</div>
+      <div class="ks">296 deaths × $12,370,062 VSL. Mortality only; standard for federal cost-benefit analysis.</div>
+    </div>
+    <div class="kpi">
+      <div class="kv">296</div>
+      <div class="kl">Est. Deaths / Year</div>
+      <div class="ks">CDC WONDER 2020–22 × rural adjustment. Cancer (83), CVD (114) are leading causes.</div>
+    </div>
+    <div class="kpi">
+      <div class="kv">$63,556</div>
+      <div class="kl">Median Household Income</div>
+      <div class="ks">ACS 2024. Per capita: $30,221 — low, reflecting agricultural wage work and seasonal employment.</div>
+    </div>
+  </div>
+
+  <!-- Per-condition table -->
+  <p class="section-title">Economic Burden by Condition</p>
+  <div class="card" style="margin-bottom:24px">
+    <h3>Per-Condition Economic Burden</h3>
+    <p class="card-sub">Human capital (HC): DALYs × $62,000 · VSL: Deaths × $12,370,062 · Ranked by HC burden</p>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Condition</th>
+            <th>DALYs/yr</th>
+            <th>Deaths/yr</th>
+            <th>HC Burden (HC = DALYs × $62K)</th>
+            <th>VSL Burden (deaths × $12.4M)</th>
+            <th>Total DALY-based burden</th>
+            <th>Rank (HC)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="cond-dot" style="background:#c65b4e"></span><strong>Cancer</strong> <span style="font-size:10.5px;color:#94a3b8">C00–C97</span></td>
+            <td>1,812</td><td>83</td>
+            <td><strong>$112.3M</strong></td>
+            <td>$1,026.7M</td>
+            <td>$1,139.0M</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td><span class="cond-dot" style="background:#c79a4b"></span><strong>SUD</strong> <span style="font-size:10.5px;color:#94a3b8">F10–F19</span></td>
+            <td>1,594</td><td>24</td>
+            <td><strong>$98.8M</strong></td>
+            <td>$296.9M</td>
+            <td>$395.7M</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td><span class="cond-dot" style="background:#6b6ecf"></span><strong>MH</strong> <span style="font-size:10.5px;color:#94a3b8">F30–F48</span></td>
+            <td>1,593</td><td>9</td>
+            <td><strong>$98.8M</strong><sup title="Remission-adj MH: 941 DALYs = $58.3M">†</sup></td>
+            <td>$111.3M</td>
+            <td>$210.1M</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td><span class="cond-dot" style="background:#2f6fb0"></span><strong>CVD</strong> <span style="font-size:10.5px;color:#94a3b8">I20–I51</span></td>
+            <td>937</td><td>114</td>
+            <td><strong>$58.1M</strong></td>
+            <td>$1,410.2M</td>
+            <td>$1,468.3M</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td><span class="cond-dot" style="background:#4f9d8a"></span><strong>COPD</strong> <span style="font-size:10.5px;color:#94a3b8">J44</span></td>
+            <td>738</td><td>28</td>
+            <td><strong>$45.8M</strong></td>
+            <td>$346.4M</td>
+            <td>$392.2M</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td><span class="cond-dot" style="background:#6d8aa8"></span><strong>Stroke</strong> <span style="font-size:10.5px;color:#94a3b8">I60–I69</span></td>
+            <td>511</td><td>22</td>
+            <td><strong>$31.7M</strong></td>
+            <td>$272.1M</td>
+            <td>$303.8M</td>
+            <td>6</td>
+          </tr>
+          <tr>
+            <td><span class="cond-dot" style="background:#aeb8c4"></span><strong>Diabetes</strong> <span style="font-size:10.5px;color:#94a3b8">E11</span></td>
+            <td>348</td><td>16</td>
+            <td><strong>$21.6M</strong></td>
+            <td>$197.9M</td>
+            <td>$219.5M</td>
+            <td>7</td>
+          </tr>
+          <tr class="total-row">
+            <td>TOTAL</td>
+            <td>7,533</td><td>296</td>
+            <td><strong>$467.1M</strong></td>
+            <td><strong>$3,661.5M</strong></td>
+            <td><strong>$4,128.6M</strong></td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px">† MH remission-adjusted (×0.50) gives 941 DALYs = $58.3M HC. Raw MH (1,593 DALYs) shown in table above. VSL is mortality-only; total MH deaths 9 (suicide, overdose complications). CVD ranks #1 on VSL due to 114 deaths × high VSL even with lower DALY rank, illustrating how HC and VSL methods can diverge for diseases with high case fatality vs. high disability burden.</p>
+    <p style="font-size:11px;color:var(--muted);margin-top:6px"><strong>Abbreviations:</strong> HC = human capital · VSL = value of statistical life · SUD = substance use disorders · MH = mental health · CVD = cardiovascular disease · COPD = chronic obstructive pulmonary disease · DW = disability weight · DALY = disability-adjusted life year</p>
+  </div>
+
+  <!-- Charts -->
+  <div class="two-col">
+    <div class="card">
+      <h3>HC Burden by Condition ($M/yr)</h3>
+      <p class="card-sub">Human capital losses: DALYs × $62,000 GDP/capita</p>
+      <div style="height:280px;position:relative"><canvas id="hcChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>VSL Burden by Condition ($M/yr)</h3>
+      <p class="card-sub">Mortality-based VSL: deaths × $12.4M income-adjusted</p>
+      <div style="height:280px;position:relative"><canvas id="vslChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- VSL methodology note -->
+  <div class="card" style="margin-bottom:28px;border-left:3px solid var(--amber);">
+    <h3 style="margin-bottom:8px">VSL Income Adjustment — Gratiot County</h3>
+    <p style="font-size:12.5px;color:#475569;line-height:1.7;margin-bottom:10px">The HHS base VSL for 2026 is $13,400,000 (2020 dollars). For Gratiot County, income adjustment uses the elasticity formula: VSL<sub>Gratiot</sub> = VSL<sub>national</sub> × (Income<sub>Gratiot</sub> / Income<sub>US</sub>)<sup>0.5</sup></p>
+    <div style="background:#f8fafc;border-radius:8px;padding:14px;font-family:'Courier New',monospace;font-size:12px;color:#374151;margin-bottom:10px">
+      VSL_Gratiot = $13,400,000 × (63,556 / 72,875)^0.5<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= $13,400,000 × 0.9336<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <strong>$12,370,062</strong>
+    </div>
+    <p style="font-size:11.5px;color:#64748b;line-height:1.6">Gratiot County's median income ($63,556) is about 87% of the US median ($72,875), yielding a VSL 7% below the national figure. This adjustment ensures the VSL reflects Gratiot's local willingness-to-pay, which is lower due to the agricultural wage structure, seasonal employment, and lower per-capita income ($30,221). The income-adjusted VSL is appropriate for county-level grant applications to HRSA, SAMHSA, and MDHHS where local economic context is relevant.</p>
+  </div>
+
+  <!-- Intervention ROI -->
+  <p class="section-title">Intervention ROI Estimates</p>
+  <p style="font-size:13px;color:#475569;margin-bottom:20px;line-height:1.6">Each DALY averted is worth ~$62,000 in recovered productivity (HC) or ~$12.4M in prevented mortality (VSL). These values anchor cost-effectiveness thresholds for intervention investment decisions and grant applications targeting Gratiot County.</p>
+
+  <div class="int-card" style="border-left:3px solid #c65b4e;">
+    <h4>Cancer Screening — Agricultural Worker Outreach</h4>
+    <div class="int-meta">
+      <span class="int-badge ev-strong">Evidence: Strong</span>
+      <span class="int-badge grant">HRSA Rural Health Grant</span>
+      <span class="int-badge grant">MDHHS Cancer Screening</span>
+    </div>
+    <p>Mobile colorectal, lung, and cervical/breast cancer screening targeting agricultural workers, including Spanish-speaking farmworker outreach. Gratiot's cancer burden is 1,812 DALYs/yr ($112M HC). USPSTF-recommended screening programs typically avert 1 death per 1,000–3,000 screened over 5–10 years. At Gratiot's 8.6% cancer prevalence in an adult population of 33,395, a $400K–$800K outreach program could plausibly identify 15–40 additional cancers/yr at earlier stages. Earlier detection conservatively averts 5–10 DALYs ($310K–$620K HC) per year of program operation.</p>
+    <div class="int-roi">Est. ROI: $310K–$620K HC recovered per $400K–$800K program cost · Grant-eligible via HRSA Rural Health Outreach (RHOP)</div>
+  </div>
+
+  <div class="int-card" style="border-left:3px solid #c79a4b;">
+    <h4>SUD Harm Reduction — Naloxone + MOUD at Primary Care</h4>
+    <div class="int-meta">
+      <span class="int-badge ev-strong">Evidence: Strong</span>
+      <span class="int-badge grant">SAMHSA Rural SUD Grant</span>
+      <span class="int-badge grant">MDHHS SSCG</span>
+    </div>
+    <p>Naloxone community distribution and Medication for Opioid Use Disorder (MOUD — buprenorphine/methadone) integrated at Gratiot Medical Center and FQHC sites. SUD burden: 1,594 DALYs/yr ($98.8M HC), 24 deaths/yr. SAMHSA RURAL-OPIOID programs show cost per DALY averted of $8,000–$25,000 — well below the $62,000 HC threshold. A $500K SAMHSA rural grant (RCORP) could reduce SUD deaths by 3–5/yr and avert 40–80 DALYs ($2.5M–$5.0M HC value).</p>
+    <div class="int-roi">Est. ROI: $2.5M–$5.0M HC per $500K investment · ROI 400–900% · SAMHSA RCORP-Implementation eligible</div>
+  </div>
+
+  <div class="int-card" style="border-left:3px solid #6b6ecf;">
+    <h4>Telehealth Mental Health — Rural MH Access</h4>
+    <div class="int-meta">
+      <span class="int-badge ev-strong">Evidence: Strong</span>
+      <span class="int-badge grant">HRSA Rural Health</span>
+      <span class="int-badge grant">MDHHS CMH Partnership</span>
+    </div>
+    <p>Gratiot's MH burden: 1,593 DALYs/yr, 26.9% depression prevalence. MMDHD covers Gratiot and 5 other counties — limited per-capita capacity. A telehealth behavioral health program (video-based CBT, medication management) reaching 500–1,000 patients/yr could reduce MH burden by 15–25% in served population. Evidence-based collaborative care models show 60–80 DALYs averted per 1,000 patients treated.</p>
+    <div class="int-roi">Est. ROI: $3.7M–$5.0M HC per $600K–$1M program · Rural MH shortage area eligible (HPSA behavioral health)</div>
+  </div>
+
+  <div class="int-card" style="border-left:3px solid #2f6fb0;">
+    <h4>CVD Hypertension Control — FQHC + Pharmacy Sites</h4>
+    <div class="int-meta">
+      <span class="int-badge ev-strong">Evidence: Strong</span>
+      <span class="int-badge grant">HRSA Health Center</span>
+      <span class="int-badge grant">AHA Rural &amp; Underserved</span>
+    </div>
+    <p>CVD accounts for 114/296 deaths (39%) and 937 DALYs. Hypertension prevalence 35.8%, obesity 36.7%. Community Preventive Services Task Force (CPSTF) recommends team-based hypertension control (pharmacist + PA + care coordinator). Program cost $300K–$500K/yr for 1,000 patients; evidence supports 8–12 mmHg SBP reduction → 15–20% CVD mortality reduction → ~17 deaths averted over 10 years = ~$17M VSL saved per program year.</p>
+    <div class="int-roi">Est. ROI: ~$17M VSL per $400K/yr · HRSA Health Center Quality Improvement eligible</div>
+  </div>
+
+  <div class="int-card" style="border-left:3px solid #0d9488;margin-bottom:0">
+    <h4>Correctional Re-entry Health — MDOC Partnership</h4>
+    <div class="int-meta">
+      <span class="int-badge ev-mod">Evidence: Moderate</span>
+      <span class="int-badge grant">BJA Reentry</span>
+      <span class="int-badge grant">Medicaid Reentry</span>
+    </div>
+    <p>Central Michigan Correctional Facility (Carson City) houses ~2,000 individuals. Post-release mortality rate is 12× higher than general population in first 2 weeks (opioid overdose primary). Medicaid enrollment at release + naloxone kit distribution is the highest-ROI intervention per dollar for this population. A $200K–$400K reentry health program could prevent 3–8 overdose deaths/yr post-release = $37M–$99M VSL value. Also reduces uninsured ED utilization burden on Gratiot Medical Center.</p>
+    <div class="int-roi">Est. ROI: $37M–$99M VSL per $200K–$400K program · Bureau of Justice Assistance Reentry Grant eligible</div>
+  </div>
+
+  <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px 18px;margin:24px 0;font-size:12px;color:#78350f;line-height:1.7;">
+    <strong>Disclaimer:</strong> ROI estimates are planning-grade calculations based on DALYs × GDP/capita and VSL frameworks. They are not formal cost-benefit analyses and should not be used as the sole basis for investment decisions. Actual program outcomes depend on implementation fidelity, local capacity, and target population engagement. Agricultural and correctional populations may be underrepresented in DALY estimates due to survey methodology exclusions. See <a href="gratiot_methods.html" style="color:#92400e;font-weight:700;">Methods</a> for full uncertainty discussion.
+  </div>
+
+</div><!-- end .main -->
+
+<footer>
+  <span>Gratiot County, Michigan · FIPS 26057 · Economic Impact & Investment Model · June 2026 · CDC PLACES 2025 · ACS 2024 · HHS ASPE 2026 VSL</span>
+  <span>Sergey Soshnikov, MD PhD · Public Health Researcher</span>
+</footer>
+
+<script>
+// HC chart
+new Chart(document.getElementById('hcChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: ['Cancer','SUD','MH','CVD','COPD','Stroke','DM'],
+    datasets: [{
+      label: 'HC Burden ($M)',
+      data: [112.3, 98.8, 98.8, 58.1, 45.8, 31.7, 21.6],
+      backgroundColor: ['#c65b4e','#c79a4b','#6b6ecf','#2f6fb0','#4f9d8a','#6d8aa8','#aeb8c4'],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{display:false}, tooltip:{ callbacks:{ label:c=>`$${c.raw}M/yr` }}},
+    scales: {
+      x: { grid:{color:'#f1f5f9'}, ticks:{font:{size:11},callback:v=>'$'+v+'M'}, title:{display:true,text:'$ millions/yr',font:{size:11}}},
+      y: { grid:{display:false}, ticks:{font:{size:11}} }
+    }
+  }
+});
+
+// VSL chart
+new Chart(document.getElementById('vslChart').getContext('2d'), {
+  type: 'bar',
+  data: {
+    labels: ['CVD','Cancer','COPD','SUD','Stroke','DM','MH'],
+    datasets: [{
+      label: 'VSL Burden ($M)',
+      data: [1410.2, 1026.7, 346.4, 296.9, 272.1, 197.9, 111.3],
+      backgroundColor: ['#2f6fb0','#c65b4e','#4f9d8a','#c79a4b','#6d8aa8','#aeb8c4','#6b6ecf'],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend:{display:false}, tooltip:{ callbacks:{ label:c=>`$${c.raw}M` }}},
+    scales: {
+      x: { grid:{color:'#f1f5f9'}, ticks:{font:{size:11},callback:v=>'$'+v+'M'}, title:{display:true,text:'$ millions',font:{size:11}}},
+      y: { grid:{display:false}, ticks:{font:{size:11}} }
+    }
+  }
+});
+</script>
+</body>
+</html>

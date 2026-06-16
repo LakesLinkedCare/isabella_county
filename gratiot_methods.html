@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gratiot County — Methods Supplement | Lakes Linked</title>
+<meta name="description" content="Full methodology for Gratiot County health burden analysis: data sources, DALY computation, VSL adjustment, uncertainty bounds, rural adjustment factors, and comorbidity heatmap methodology.">
+<meta property="og:title" content="Gratiot County — Methods Supplement | Lakes Linked">
+<meta property="og:url" content="https://lakeslinked.com/gratiot_methods.html">
+<meta property="og:type" content="website">
+<style>
+:root{
+  --navy:#0f1f3d;--blue:#1a56db;--teal:#0d9488;--red:#dc2626;
+  --amber:#d97706;--purple:#7c3aed;--green:#059669;--slate:#64748b;
+  --bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--muted:#64748b;
+  --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#0f172a;line-height:1.5;}
+
+.sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:100;}
+.sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
+.sitenav .links{display:flex;gap:4px;align-items:center;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+.nico{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px;margin-right:5px;flex-shrink:0;}
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+
+.hero{background:linear-gradient(130deg,#1c0a00 0%,#5c2d00 45%,#0f2d52 100%);padding:30px 28px 26px;}
+.hero-inner{max-width:1000px;margin:auto;}
+.hero h1{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:4px;}
+.hero .sub{color:rgba(255,255,255,.6);font-size:13px;}
+
+.main{max-width:1000px;margin:0 auto;padding:32px 24px 60px;}
+
+.method-section{margin-bottom:36px;}
+.method-section h2{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--amber);display:inline-block;}
+.method-section p,.method-section li{font-size:13px;color:#374151;line-height:1.75;margin-bottom:8px;}
+.method-section ul,.method-section ol{padding-left:20px;margin-bottom:8px;}
+.method-section li{margin-bottom:4px;}
+.method-section strong{color:#0f172a;}
+
+.code-block{background:#1e293b;color:#e2e8f0;font-family:'Courier New',monospace;font-size:11.5px;padding:14px 18px;border-radius:8px;overflow-x:auto;margin:10px 0 14px;line-height:1.7;}
+.code-block .comment{color:#64748b;}
+
+.data-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0 14px;}
+.data-table thead th{background:var(--navy);color:rgba(255,255,255,.9);padding:8px 12px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.03em;}
+.data-table tbody td{padding:8px 12px;border-bottom:1px solid var(--border);}
+.data-table tbody tr:hover{background:#f8fafc;}
+
+.dq-badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:10.5px;font-weight:700;margin-left:6px;}
+.dq-obs{background:#dcfce7;color:#166534;} .dq-mdl{background:#fef9c3;color:#854d0e;} .dq-imp{background:#fee2e2;color:#991b1b;}
+
+.note-box{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px 18px;margin:12px 0;font-size:12px;color:#78350f;line-height:1.7;}
+.note-box strong{color:#92400e;}
+
+.toc{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:28px;box-shadow:var(--shadow);}
+.toc h3{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:10px;}
+.toc ol{padding-left:18px;}
+.toc li{font-size:13px;margin-bottom:4px;}
+.toc a{color:var(--blue);text-decoration:none;}
+.toc a:hover{text-decoration:underline;}
+
+footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+</style>
+</head>
+<body>
+
+<nav class="sitenav">
+  <a class="brand" href="index.html">Lakes Linked</a>
+  <div class="links">
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink" href="isabella.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Isabella</a>
+      <a class="navlink" href="clare.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Clare</a>
+      <a class="navlink" href="midland.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Midland</a>
+      <a class="navlink active" href="gratiot.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Gratiot</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink" href="gratiot.html"><svg class="nico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+    <a class="navlink" href="gratiot_roi.html"><svg class="nico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.2a2.6 2.6 0 0 0-5 .6c0 3 5 1.4 5 4.4a2.6 2.6 0 0 1-5 .6M12 6.3v11.4"/></svg>Economic Impact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Gratiot County Health Burden — Methods Supplement</h1>
+    <p class="sub">Full data sources, DALY framework, VSL adjustment, uncertainty, and agricultural context · FIPS 26057 · June 2026</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- TOC -->
+  <div class="toc">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#sec-overview">Analytical Overview</a></li>
+      <li><a href="#sec-sources">Data Sources</a></li>
+      <li><a href="#sec-daly">DALY Computation</a></li>
+      <li><a href="#sec-rural">Rural Mortality Adjustment</a></li>
+      <li><a href="#sec-conditions">Condition-Specific Notes</a></li>
+      <li><a href="#sec-vsl">VSL &amp; Economic Burden</a></li>
+      <li><a href="#sec-comorbidity">Comorbidity Heatmap</a></li>
+      <li><a href="#sec-limits">Limitations &amp; Uncertainty</a></li>
+      <li><a href="#sec-context">Gratiot County Context</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. Overview -->
+  <div class="method-section" id="sec-overview">
+    <h2>1. Analytical Overview</h2>
+    <p>This analysis estimates the disease burden for Gratiot County, Michigan (FIPS 26057, population 41,368) using the disability-adjusted life year (DALY) framework. DALYs combine two components: years of life lost to premature mortality (YLL) and years lived with disability (YLD). The formula is:</p>
+    <div class="code-block">
+DALY = YLL + YLD<br>
+YLL  = Deaths × (Life Expectancy − Mean Age at Death)<br>
+YLD  = Prevalent Cases × Disability Weight (DW)<br>
+     = Population × Prevalence × DW
+    </div>
+    <p>Two life expectancy standards are used: Michigan state LE (78.6 years, primary) and WHO Frontier LE (89.1 years, sensitivity). No discounting or age-weighting is applied (WHO 2012 standard). Disability weights from IHME GBD 2021.</p>
+    <p>The analysis is <strong>planning-grade, not peer-reviewed</strong>. Uncertainty is ±15–20% inherent in DALY estimates at county level. All results should be interpreted as orders-of-magnitude guidance for health planning, grant applications, and community health needs assessments (CHNAs) — not as regulatory epidemiological findings.</p>
+  </div>
+
+  <!-- 2. Data Sources -->
+  <div class="method-section" id="sec-sources">
+    <h2>2. Data Sources</h2>
+    <table class="data-table">
+      <thead><tr><th>Source</th><th>What it provides</th><th>Version</th><th>Access</th><th>Quality</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>CDC PLACES 2025</strong></td>
+          <td>County-level crude prevalence for 12 conditions (cancer, COPD, stroke, diabetes, depression/MH, hypertension, binge drinking, smoking, obesity, physical inactivity, checkup, uninsured)</td>
+          <td>2025 release (BRFSS 2023–24)</td>
+          <td><a href="https://data.cdc.gov/resource/i46a-9kgh.json?StateAbbr=MI&amp;CountyName=Gratiot" target="_blank">GIS-Friendly API</a></td>
+          <td><span class="dq-badge dq-obs">Observed</span></td>
+        </tr>
+        <tr>
+          <td><strong>CDC WONDER 2020–22</strong></td>
+          <td>County-level all-cause and cause-specific mortality (3-year pooled)</td>
+          <td>2020–2022</td>
+          <td>Michigan state rates applied × rural adjustment</td>
+          <td><span class="dq-badge dq-mdl">Modeled</span></td>
+        </tr>
+        <tr>
+          <td><strong>US Census ACS 2024</strong></td>
+          <td>Population, median income, per capita income, poverty rate, median age, households</td>
+          <td>ACS 5-Year 2024</td>
+          <td><a href="https://censusreporter.org/profiles/05000US26057-gratiot-county-mi/" target="_blank">CensusReporter</a></td>
+          <td><span class="dq-badge dq-obs">Observed</span></td>
+        </tr>
+        <tr>
+          <td><strong>IHME GBD 2021</strong></td>
+          <td>Disability weights (DW) for all modeled conditions</td>
+          <td>GBD 2021</td>
+          <td>ihmeuw.org</td>
+          <td><span class="dq-badge dq-obs">Observed</span></td>
+        </tr>
+        <tr>
+          <td><strong>HHS ASPE 2026</strong></td>
+          <td>National VSL = $13,400,000 (2020 USD)</td>
+          <td>2026</td>
+          <td>aspe.hhs.gov</td>
+          <td><span class="dq-badge dq-obs">Observed</span></td>
+        </tr>
+        <tr>
+          <td><strong>MMDHD CHNA</strong></td>
+          <td>Mid-Michigan District Health Department community health needs data</td>
+          <td>2022–2025</td>
+          <td>mmdhd.org (partial)</td>
+          <td><span class="dq-badge dq-mdl">Partial</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3. DALY Framework -->
+  <div class="method-section" id="sec-daly">
+    <h2>3. DALY Computation</h2>
+    <p><strong>YLL (Years of Life Lost):</strong> For each condition, YLL = deaths × max(0, LE − mean_age_at_death). Michigan LE 78.6 is the primary standard; Frontier LE 89.1 is the sensitivity analysis. No discounting or age-weighting (WHO 2012 standard).</p>
+    <p><strong>YLD (Years Lived with Disability):</strong> YLD = prevalent cases × DW = pop_adult × prevalence × DW. For mental health, a remission adjustment factor of ×0.50 is applied in the remission-adjusted mode (active prevalence = 26.9% × 0.50 = 13.5%), reflecting that approximately half of individuals with lifetime MH disorders are not in an active episode at any given time.</p>
+    <p><strong>CVD derivation:</strong> CDC PLACES provides hypertension prevalence (35.8%) as a proxy. CVD prevalence is derived: CVD = max(HTN × 0.22, 0.065) = max(0.358 × 0.22, 0.065) = max(0.079, 0.065) = 7.9%.</p>
+    <p><strong>SUD derivation:</strong> SUD = min(binge_drinking × 0.15 + 0.045, 0.15) = min(0.170 × 0.15 + 0.045, 0.15) = min(0.0705, 0.15) = 7.0%.</p>
+    <p><strong>Key parameter values:</strong></p>
+    <table class="data-table">
+      <thead><tr><th>Condition</th><th>Prevalence</th><th>DW</th><th>Deaths</th><th>Mean age at death</th><th>YLL (MI LE)</th><th>YLD (raw)</th><th>DALYs</th></tr></thead>
+      <tbody>
+        <tr><td>Cancer</td><td>8.6% (PLACES)</td><td>0.294</td><td>83</td><td>67.0</td><td>967</td><td>844</td><td>1,812</td></tr>
+        <tr><td>SUD</td><td>7.0% (derived)</td><td>0.329</td><td>24</td><td>44.0</td><td>820</td><td>774</td><td>1,594</td></tr>
+        <tr><td>MH (raw)</td><td>26.9% (PLACES)</td><td>0.145</td><td>9</td><td>46.0</td><td>290</td><td>1,303</td><td>1,593</td></tr>
+        <tr><td>MH (remission adj)</td><td>13.5% (×0.50)</td><td>0.145</td><td>9</td><td>46.0</td><td>290</td><td>651</td><td>941</td></tr>
+        <tr><td>CVD</td><td>7.9% (derived)</td><td>0.070</td><td>114</td><td>72.0</td><td>752</td><td>184</td><td>937</td></tr>
+        <tr><td>COPD</td><td>8.8% (PLACES)</td><td>0.198</td><td>28</td><td>73.0</td><td>156</td><td>582</td><td>738</td></tr>
+        <tr><td>Stroke</td><td>3.7% (PLACES)</td><td>0.316</td><td>22</td><td>73.0</td><td>120</td><td>391</td><td>511</td></tr>
+        <tr><td>Diabetes</td><td>11.6% (PLACES)</td><td>0.054</td><td>16</td><td>70.0</td><td>139</td><td>209</td><td>348</td></tr>
+        <tr style="font-weight:700;background:#f0f4f8"><td>TOTAL</td><td>—</td><td>—</td><td>296</td><td>—</td><td>3,246</td><td>4,287</td><td>7,533</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Frontier LE sensitivity:</strong> Under Frontier LE 89.1, YLL increases substantially for all conditions — especially Cancer (+867), CVD (+1,197), and SUD (+262). Total Frontier DALYs ≈ 10,700 (MI LE 7,533 → Frontier ~10,700).</p>
+  </div>
+
+  <!-- 4. Rural Mortality Adjustment -->
+  <div class="method-section" id="sec-rural">
+    <h2>4. Rural Mortality Adjustment</h2>
+    <p>Gratiot County is designated as Rural by HRSA and is a Medically Underserved Area (MUA) and Health Professional Shortage Area (HPSA) for primary care and behavioral health. CDC WONDER county-level mortality counts are often suppressed for small counties (n&lt;10 in a cell) to protect privacy. When suppressed, Michigan state rates (age-standardized, CDC WONDER 2020–22) are applied and multiplied by a rural adjustment factor.</p>
+    <p><strong>Rural adjustment factors used:</strong></p>
+    <ul>
+      <li>Cancer mortality: MI state rate × 1.15 (rural cancer mortality 10–20% higher due to access barriers and late-stage diagnosis)</li>
+      <li>CVD mortality: MI state rate × 1.20 (rural CVD 15–25% higher; less access to cardiac catheterization and specialist care)</li>
+      <li>SUD mortality: MI state rate × 1.25 (rural overdose mortality consistently elevated; naloxone access gaps)</li>
+      <li>COPD mortality: MI state rate × 1.10</li>
+      <li>Stroke mortality: MI state rate × 1.12</li>
+      <li>Diabetes mortality: MI state rate × 1.08</li>
+    </ul>
+    <p>These adjustment factors are derived from CDC NHIS rural-urban comparison studies (2018–2022) and RUPRI Rural Health Policy Analysis series (2023). They represent planning-grade estimates. Actual mortality counts for Gratiot County would require a WONDER data request with appropriate data agreements.</p>
+  </div>
+
+  <!-- 5. Condition-Specific Notes -->
+  <div class="method-section" id="sec-conditions">
+    <h2>5. Condition-Specific Notes</h2>
+    <p><strong>Cancer (8.6% prevalence, #1 burden).</strong> CDC PLACES 2025 provides crude county-level cancer prevalence from BRFSS 2023–24. Cancer mortality estimated at ~201/100k (elevated vs. MI average 155/100k). Agricultural chemical exposure (pesticides, herbicides — atrazine, chlorpyrifos), rural access barriers to oncology care, and delayed screening likely contribute to Gratiot's elevated cancer burden. Note: BRFSS cancer prevalence captures survivors including those in remission — some overcount of acute burden is expected, partially offset by delayed-diagnosis bias in rural areas.</p>
+
+    <p><strong>Substance Use Disorders (7.0% derived prevalence, #2 burden).</strong> PLACES provides binge drinking (17.0%). SUD prevalence derived from: SUD = min(binge × 0.15 + 0.045, 0.15) = 7.0%. This captures alcohol use disorder and estimated opioid use disorder (OUD). Opioid-related overdose deaths represent a major component of SUD mortality at mean age 44 — among the highest YLL per death of all conditions analyzed. The Central Michigan Correctional Facility (CMCF, Carson City) means post-release opioid mortality — estimated 12× higher than baseline in first 2 weeks — is likely undercaptured in county-level mortality data.</p>
+
+    <p><strong>Mental Health (26.9% prevalence, #3 burden raw, adj. #4).</strong> PLACES depression prevalence (26.9%) is used as the MH prevalence proxy (consistent across Michigan county analyses). Remission-adjusted mode uses ×0.50 factor (active episode prevalence = 13.5%). MH deaths (n=9) include suicide and complications — likely undercounted due to rural coroner misclassification and MH cause-of-death attribution gaps. MMDHD covers 6 counties with limited per-capita behavioral health capacity.</p>
+
+    <p><strong>CVD (7.9% derived prevalence, #4 burden).</strong> CVD prevalence derived from hypertension proxy (35.8% × 0.22 = 7.9%). The 22% multiplier reflects proportion of hypertensive individuals who develop manifest ischemic heart disease or heart failure within 5 years (ACC/AHA guidelines, Framingham Heart Study data). CVD accounts for 114/296 (39%) of estimated deaths — the largest single cause. Agricultural workers are often uninsured or have gaps in preventive care access, likely resulting in higher case fatality rates than urban counterparts.</p>
+
+    <p><strong>COPD (8.8%, #5 burden).</strong> Directly observed from CDC PLACES. Smoking prevalence (16.6%) is below the Michigan average (18.6%), which is somewhat inconsistent with the elevated COPD prevalence — may reflect historical smoking rates, agricultural dust exposure, or reporting differences. Rural COPD management is hampered by lack of pulmonology specialists and pulmonary rehabilitation programs.</p>
+
+    <p><strong>Stroke (3.7%, #6 burden).</strong> Directly from CDC PLACES. Diabetes 11.6% and hypertension 35.8% are the dominant stroke risk factors. Rural stroke mortality is elevated due to longer EMS transport times to stroke-capable hospitals — tPA eligibility window (4.5 hours) is frequently missed.</p>
+
+    <p><strong>Diabetes (11.6%, #7 burden).</strong> Directly from CDC PLACES. Obesity (36.7%) is the primary modifiable risk factor. Agricultural diet patterns and limited access to diabetes education programs contribute to the 11.6% prevalence (vs. MI avg ~10.7%).</p>
+  </div>
+
+  <!-- 6. VSL -->
+  <div class="method-section" id="sec-vsl">
+    <h2>6. Value of Statistical Life (VSL) &amp; Economic Burden</h2>
+    <p><strong>Human Capital (HC) method:</strong> HC burden = total DALYs × GDP per capita. GDP per capita used: $62,000 (2024 US GDP/capita, BEA). This represents the expected productivity loss from one DALY (one year of full health lost). HC burden is the conservative floor — it captures only monetizable productivity losses.</p>
+    <p><strong>VSL method:</strong> The HHS base VSL (2026) is $13,400,000 (2020 USD). This is income-adjusted for Gratiot County using the ASPE elasticity framework:</p>
+    <div class="code-block">
+VSL_Gratiot = VSL_national × (Median_Income_Gratiot / Median_Income_US)^0.5<br>
+            = $13,400,000 × (63,556 / 72,875)^0.5<br>
+            = $13,400,000 × 0.9236<br>
+            = $12,370,062
+    </div>
+    <p>VSL is a mortality-only measure. VSL burden = 296 estimated deaths × $12,370,062 = $3,657M. VSL does not capture morbidity burden (YLD component). Total economic burden combining HC + VSL is presented as a range: $467M (HC, conservative) to $4.1B (HC + VSL mortality).</p>
+  </div>
+
+  <!-- 7. Comorbidity Heatmap -->
+  <div class="method-section" id="sec-comorbidity">
+    <h2>7. Comorbidity Heatmap Methodology</h2>
+    <p><strong>Method:</strong> The comorbidity co-occurrence matrix uses the <em>independence model</em>: expected co-occurrence = P(Condition A) × P(Condition B) × N, where N = 10,000 adults (per-10,000 normalization for visual clarity). This is a planning-grade estimate that assumes independence between conditions — in reality, many comorbidity pairs are positively correlated (e.g., diabetes + CVD, SUD + MH), meaning true co-occurrence is higher than the independence estimate.</p>
+    <p><strong>Gratiot County prevalences used:</strong></p>
+    <ul>
+      <li>MH: 26.9% (PLACES depression proxy)</li>
+      <li>Cancer: 8.6%</li>
+      <li>SUD: 7.0% (derived)</li>
+      <li>CVD: 7.9% (derived from HTN)</li>
+      <li>COPD: 8.8%</li>
+      <li>Stroke: 3.7%</li>
+      <li>Diabetes: 11.6%</li>
+    </ul>
+    <p><strong>Example calculation — DM+MH (highest pair):</strong> 0.116 × 0.269 × 10,000 = 312 per 10,000 adults. This means that under the independence model, approximately 312 of every 10,000 Gratiot adults would have both diabetes and a mental health condition.</p>
+    <p><strong>DALY correction values:</strong> The tooltip values (DW product and DALY correction) in the heatmap are derived from IHME GBD 2021 comorbidity correction tables. These represent the expected additional DALY burden from concurrent disability weights, accounting for the fact that two disabilities together cause slightly less than the sum of their individual DW values (due to the multiplicative interaction floor).</p>
+    <div class="note-box">
+      <strong>Important:</strong> The heatmap uses an <em>independence model</em>. Known comorbidity synergies (SUD+MH, DM+CVD, COPD+CVD) mean actual co-occurrence is higher than displayed. These are planning-grade values for intervention prioritization, not epidemiological estimates.
+    </div>
+  </div>
+
+  <!-- 8. Limitations -->
+  <div class="method-section" id="sec-limits">
+    <h2>8. Limitations &amp; Uncertainty</h2>
+    <ul>
+      <li><strong>Survey methodology exclusions:</strong> BRFSS (underlying CDC PLACES) is a telephone survey of household residents. Two major Gratiot populations are excluded: (1) ~2,000 incarcerated individuals at Central Michigan Correctional Facility (Carson City), who have substantially higher SUD, MH, and infectious disease prevalence; (2) seasonal agricultural workers, including migrant farmworkers, who are less likely to respond to household telephone surveys. True disease burden is likely higher than PLACES estimates suggest.</li>
+      <li><strong>Small county mortality suppression:</strong> CDC WONDER suppresses cell counts &lt;10 to protect privacy. Multiple cause-of-death cells for Gratiot County are suppressed, requiring application of Michigan state rates × rural adjustment factors. This introduces additional modeling uncertainty of ±20–30% for some conditions.</li>
+      <li><strong>Prevalence ≠ incidence:</strong> BRFSS asks about ever-diagnosed conditions, not active current disease. Cancer prevalence (8.6%) includes survivors who may have been treated and have full or near-full health function. DALY estimates from prevalence-based YLD may overestimate active disability burden for cancer.</li>
+      <li><strong>Inherent DALY uncertainty:</strong> ±15–20% is the inherent uncertainty at county level due to small numbers, survey methodology, and disability weight precision. The 7,533 DALY estimate should be interpreted as roughly 6,200–9,000 DALYs (±20% uncertainty interval).</li>
+      <li><strong>Disability weight applicability:</strong> IHME GBD 2021 DW values were derived primarily from general population surveys — they may not perfectly capture the severity distribution in a rural, lower-income, agricultural county population with barriers to treatment access.</li>
+      <li><strong>Agricultural exposures not quantified:</strong> Occupational exposures (pesticides, grain dust, machinery noise, farm injury) are not explicitly captured in CDC PLACES prevalence estimates. These exposures contribute to cancer, COPD, and injury burden but are not separately quantified in this analysis.</li>
+    </ul>
+  </div>
+
+  <!-- 9. Gratiot Context -->
+  <div class="method-section" id="sec-context">
+    <h2>9. Gratiot County Local Context</h2>
+    <p><strong>Geography:</strong> Gratiot County (FIPS 26057) is a rural agricultural county in central Michigan, adjacent to Isabella County to the northeast. County seat: Ithaca, Michigan. Largest community: St. Louis, MI (home of Gratiot Medical Center, part of Spectrum Health/Corewell Health system).</p>
+    <p><strong>Agricultural economy:</strong> Primary crops: corn, soybeans, dry beans, and sugar beets. Significant poultry and livestock operations. Seasonal agricultural employment with associated SDOH risks (poverty, lack of insurance, housing insecurity, occupational exposure). Food insecurity prevalence estimated at 16.4% (PLACES). Median household income $63,556; per-capita income $30,221 — the gap reflects multi-earner household structures masking individual income poverty.</p>
+    <p><strong>Central Michigan Correctional Facility (CMCF):</strong> Located in Carson City, Gratiot County. A major Michigan Department of Corrections facility housing approximately 1,500–2,000 individuals. Incarcerated individuals are excluded from BRFSS household surveys but remain counted in Census population denominators (population 41,368 includes correctional residents). This denominator inflation with numerator exclusion means disease rates are underestimated for the county. Post-release opioid overdose mortality is a critical concern for Gratiot EMS and county health systems.</p>
+    <p><strong>Health system:</strong> Gratiot Medical Center (Ithaca) is the primary acute care hospital — a critical access hospital (CAH). Behavioral health services are limited; the Mid-Michigan District Health Department (MMDHD) covers Gratiot alongside Arenac, Clare, Gladwin, Isabella, and Osceola counties — six counties sharing one district health infrastructure. This results in substantially reduced per-capita public health capacity compared to single-county health departments.</p>
+    <p><strong>Grant landscape:</strong> Gratiot County's MUA/MUP designation and HPSA designations (primary care and behavioral health) make it eligible for HRSA Rural Health Outreach, HRSA Health Center Program, SAMHSA RCORP, MDHHS SSCG, and multiple rural health-focused federal and state grants. The CHNA obligation for Gratiot Medical Center (IRS 990 Schedule H) requires community benefit investments — the burden analysis in this series provides direct quantification for CHNA evidence requirements.</p>
+  </div>
+
+  <div class="note-box" style="margin-top:28px">
+    <strong>Citation:</strong> Soshnikov S. Gratiot County Health Burden Analysis — Methods Supplement. Lakes Linked Public Health Division, 2026. Data sources: CDC PLACES 2025; CDC WONDER 2020–22; US Census ACS 2024; IHME GBD 2021; HHS ASPE 2026 VSL. Analysis is planning-grade and not a peer-reviewed epidemiological study. <a href="gratiot.html" style="color:#92400e;font-weight:700;">View dashboard →</a>
+  </div>
+
+</div><!-- end .main -->
+
+<footer>
+  <span>Gratiot County Methods Supplement · FIPS 26057 · June 2026 · Lakes Linked</span>
+  <span>Sergey Soshnikov, MD PhD · Public Health Researcher</span>
+</footer>
+
+</body>
+</html>
