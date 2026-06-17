@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shared Methodology Framework | Lakes Linked Care</title>
-<meta name="description" content="DALY methodology framework for the Lakes Linked Care Michigan rural health burden analysis. Python pipeline, data sources, equations, uncertainty model, code availability.">
-<meta property="og:title" content="DALY Methodology Framework | Lakes Linked Care">
+<title>Shared Methodology Framework | Lakes Linked</title>
+<meta name="description" content="DALY methodology framework for the Lakes Linked Michigan rural health burden analysis. Python pipeline, data sources, equations, uncertainty model, code availability.">
+<meta property="og:title" content="DALY Methodology Framework | Lakes Linked">
 <meta property="og:description" content="Shared DALY framework and Python pipeline documentation for county-level disease burden analysis. CDC PLACES · CDC WONDER · IHME GBD 2021 · Monte Carlo n=10,000.">
-<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/shared_methods.html">
+<meta property="og:url" content="https://lakeslinked.com/shared_methods.html">
 <meta property="og:type" content="website">
 <style>
 :root{
@@ -135,11 +135,11 @@ tbody td{padding:7px 10px;vertical-align:top;font-size:12.5px;}
 
 <!-- Navigation -->
 <nav class="sitenav">
-  <a class="brand" href="index.html">Lakes Linked Care</a>
+  <a class="brand" href="index.html">Lakes Linked</a>
   <div class="links">
     <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
     <div class="county-group">
-      <a class="navlink" href="home.html">📊 Isabella</a>
+      <a class="navlink" href="isabella.html">📊 Isabella</a>
       <a class="navlink" href="clare.html">🚨 Clare</a>
     </div>
     <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
@@ -155,10 +155,10 @@ tbody td{padding:7px 10px;vertical-align:top;font-size:12.5px;}
 <div class="title-block">
   <div class="badge">Shared Methodology · Framework Document · v1.0</div>
   <h1>County-Level Disease Burden Analysis in Rural Michigan: DALY Framework, Data Sources, and Reproducible Python Pipeline</h1>
-  <div class="sub">Methodology reference for the Lakes Linked Care Michigan Rural Health Burden Analysis series</div>
+  <div class="sub">Methodology reference for the Lakes Linked Michigan Rural Health Burden Analysis series</div>
   <div class="authors">Sergey Soshnikov, MD PhD</div>
-  <div class="affil">Department of Public Health, Central Michigan University · Mount Pleasant, Michigan</div>
-  <div class="corr">Correspondence: <a href="mailto:biososh@gmail.com" style="color:var(--blue)">biososh@gmail.com</a> · Lakes Linked Care · <a href="https://lakeslinkedcare.github.io/isabella_county/" style="color:var(--blue)" target="_blank">lakeslinkedcare.github.io</a></div>
+  <div class="affil">Lakes Linked · Mount Pleasant, Michigan</div>
+  <div class="corr">Correspondence: <a href="mailto:biososh@gmail.com" style="color:var(--blue)">biososh@gmail.com</a> · Lakes Linked · <a href="https://lakeslinked.com/" style="color:var(--blue)" target="_blank">lakeslinked.com</a></div>
   <div class="meta-chips">
     <span class="chip">Version 1.0 · June 2026</span>
     <span class="chip">Not peer-reviewed</span>
@@ -175,9 +175,9 @@ tbody td{padding:7px 10px;vertical-align:top;font-size:12.5px;}
 <!-- Abstract -->
 <div class="abstract">
   <div class="hd">Abstract</div>
-  <p><strong>Background.</strong> County-level disease burden estimates comparable to Global Burden of Disease (GBD) methodology are rarely available in the United States. This document describes a reproducible, open-source Python pipeline for computing planning-grade Disability-Adjusted Life Year (DALY) estimates for rural Michigan counties using exclusively open public data. The framework is designed to scale to all 83 Michigan counties with minimal per-county configuration changes.</p>
+  <p><strong>Background.</strong> County-level DALY disease burden estimates are rarely available for rural U.S. counties. This document describes a reproducible, open-source Python pipeline for computing planning-grade Disability-Adjusted Life Year (DALY) estimates for rural Michigan counties using exclusively open public data. The DALY framework was developed by IHME for the Global Burden of Disease Study — a body of work we deeply respect and do not attempt to replicate. This project applies GBD's openly published disability weights and WHO reference standards for educational and local health planning purposes only. The pipeline is designed to scale to all 83 Michigan counties with minimal per-county configuration changes.</p>
   <p><strong>Methods.</strong> We constructed DALY estimates from five open data sources: CDC WONDER 2020–2022 (mortality), CDC PLACES 2024 (prevalence), IHME GBD 2021 (disability weights), County Health Rankings 2010–2024 (years of potential life lost), and U.S. Census ACS 2022 (population denominators). YLL uses the WHO GHE frontier reference life table (89.1 years) as primary; Michigan observed LE (78.6 years) is reported as a planning sensitivity. Uncertainty was quantified via Monte Carlo simulation (n = 10,000). All analyses were implemented in Python 3.10 using NumPy, Pandas, SciPy, and Matplotlib; source code is available on GitHub.</p>
-  <p><strong>Completed counties (June 2026).</strong> Isabella County (FIPS 26073): 15,430 DALYs/yr (95% UI 14,459–16,481), frontier LE primary. Clare County (FIPS 26035): 8,198 DALYs/yr (±20% uncertainty), frontier LE primary. Four counties in pipeline: Gratiot (Q3 2026), Midland (Q3 2026), Mecosta (Q4 2026), Washtenaw (Q4 2026, urban reference).</p>
+  <p><strong>Completed counties (June 2026).</strong> Isabella County (FIPS 26073): 15,140 DALYs/yr (95% UI 14,032–16,206), frontier LE primary. Clare County (FIPS 26035): 8,198 DALYs/yr (±20% uncertainty), frontier LE primary. Four counties in pipeline: Gratiot (Q3 2026), Midland (Q3 2026), Mecosta (Q4 2026), Washtenaw (Q4 2026, urban reference).</p>
   <p><strong>Limitations.</strong> Mixed-source modeled planning scenario — not a validated GBD-standard county burden estimate. Prevalence inputs are model-based (CDC PLACES MLRP). Mortality uses mean-age-at-death simplification for YLL; rural adjustment factors (×1.2–1.85) proxy suppressed CDC WONDER cells. Results are directional planning approximations for grant writing, CHNA processes, and county health planning.</p>
 </div>
 
@@ -527,11 +527,11 @@ python3 director.py --county midland --dry-run</div>
 <!-- 5. County Supplements -->
 <h2 class="sec"><span style="color:var(--blue);margin-right:6px">5.</span> County-Specific Supplements</h2>
 
-<p>This shared framework document covers methodology common to all county analyses. County-specific data quality tables, condition rankings, population characteristics, and analytic considerations are documented in each county's supplement. The supplement also notes where county-specific data availability required modifications to the standard pipeline (e.g., Clare County: WONDER fully suppressed for all causes, requiring full state-rate substitution; Isabella County: University of Michigan CMU student population inflates ACS poverty rate).</p>
+<p>This shared framework document covers methodology common to all county analyses. County-specific data quality tables, condition rankings, population characteristics, and analytic considerations are documented in each county's supplement. The supplement also notes where county-specific data availability required modifications to the standard pipeline (e.g., Clare County: WONDER fully suppressed for all causes, requiring full state-rate substitution; Isabella County: University of Michigan university student population inflates ACS poverty rate).</p>
 
 <div class="county-selector">
   <span class="cs-label">County supplements:</span>
-  <a class="cs-btn isabella" href="Isabella_County_Methods_Supplement.html">📊 Isabella County — v5.0</a>
+  <a class="cs-btn isabella" href="isabella_methods.html">📊 Isabella County — v5.0</a>
   <a class="cs-btn clare" href="clare_methods.html">🚨 Clare County — v1.0</a>
   <span class="cs-btn pipeline">🌾 Gratiot — Q3 2026</span>
   <span class="cs-btn pipeline">🏭 Midland — Q3 2026</span>
@@ -550,10 +550,10 @@ python3 director.py --county midland --dry-run</div>
     <tbody>
       <tr style="background:#f0f7ff;">
         <td><strong>Isabella</strong></td><td>26073</td><td>64,565</td>
-        <td><strong>15,430</strong><br><span style="font-size:10.5px;color:#64748b">95% UI 14,459–16,481</span></td>
-        <td>10,579</td>
+        <td><strong>15,140</strong><br><span style="font-size:10.5px;color:#64748b">95% UI 14,032–16,206</span></td>
+        <td>10,288</td>
         <td>Cancer #1 · CVD #2 · SUD #3</td>
-        <td>CMU university pop; MH HPSA 176,938:1</td>
+        <td>the university university pop; MH HPSA 176,938:1</td>
         <td><span class="dc obs">Complete v5.0</span></td>
       </tr>
       <tr style="background:#fff5f5;">
@@ -589,7 +589,7 @@ python3 director.py --county midland --dry-run</div>
 
 <p><strong>Intended use.</strong> These analyses are intended for: county health department planning, Community Health Needs Assessment (CHNA) process support, grant application development (SAMHSA SOR, HRSA Rural Health, MDHHS, NIH R21), academic collaboration, and public health education. They are NOT intended for clinical decision-making, regulatory submissions, or direct policy implementation without additional validation.</p>
 
-<p><strong>Not a formal GBD estimate.</strong> This framework adapts GBD methodology for open-data county planning analysis. It does not replicate formal GBD estimation, which requires: systematic literature reviews for disease parameters, DisMod-MR modeling for incidence/prevalence/duration, Bayesian meta-regression for risk factor attribution, and global validation. Results should be cited as "planning-grade DALY estimates derived from public data" rather than "GBD burden estimates."</p>
+<p><strong>Educational use of GBD framework — not a GBD estimate.</strong> The IHME Global Burden of Disease Study is the world's most comprehensive disease burden framework, representing decades of rigorous global scholarship by thousands of researchers. We hold this work in deep respect and make no claim to replicate it. This project applies GBD's publicly available disability weights and the WHO GHE frontier life table to open county-level data for <em>educational and rural health planning purposes only</em>. The DALY metric — borrowed from GBD methodology — allows rural planners to express local health burden in the same units used globally, enabling grant writing, community health needs assessments, and program prioritization. A formal GBD estimate requires systematic literature reviews, DisMod-MR incidence/prevalence/duration modeling, Bayesian meta-regression for risk attribution, and international peer validation — none of which this analysis provides or attempts to provide. Results should be cited as "planning-grade DALY estimates derived from open public data, applying GBD disability weights and WHO reference standards" — never as "GBD burden estimates."</p>
 
 <div class="warn-box">
   <strong>Conditions not modeled.</strong> This analysis covers seven major condition groups (cancer, CVD, SUD, mental health, COPD, stroke, diabetes). Excluded conditions include: musculoskeletal disorders (leading global YLD source), maternal/neonatal conditions, injuries and violence, communicable diseases (except indirectly via SUD/opioids), oral health, and vision/hearing loss. Total burden is therefore underestimated relative to full GBD. Expansion to additional conditions is planned for v6.0.
@@ -620,10 +620,10 @@ python3 director.py --county midland --dry-run</div>
 
 <!-- Footer -->
 <div class="doc-footer">
-  <strong>Citation:</strong> Soshnikov S. County-Level Disease Burden Analysis in Rural Michigan: DALY Framework, Data Sources, and Reproducible Python Pipeline. Lakes Linked Care, 2026. Available at: <a href="https://lakeslinkedcare.github.io/isabella_county/shared_methods.html" style="color:var(--blue)">lakeslinkedcare.github.io/isabella_county/shared_methods.html</a><br>
+  <strong>Citation:</strong> Soshnikov S. County-Level Disease Burden Analysis in Rural Michigan: DALY Framework, Data Sources, and Reproducible Python Pipeline. Lakes Linked, 2026. Available at: <a href="https://lakeslinked.com/shared_methods.html" style="color:var(--blue)">lakeslinked.com/shared_methods.html</a><br>
   <strong>Code repository:</strong> <a href="https://github.com/lakeslinkedcare/isabella_county" style="color:var(--blue)">github.com/lakeslinkedcare/isabella_county</a><br>
   <strong>Data availability:</strong> All pipeline code and derived data outputs available on GitHub. Raw source data available from CDC, IHME, Census Bureau, RWJ Foundation, and USDA under their respective open-access terms.<br>
-  <strong>Conflict of interest:</strong> None declared. This analysis was conducted independently as part of research activities at Central Michigan University.<br>
+  <strong>Conflict of interest:</strong> None declared. This analysis was conducted independently as part of research activities at Lakes Linked.<br>
   <strong>Funding:</strong> No external funding. Analysis uses open public data and open-source software tools.<br>
   <strong>Version:</strong> v1.0, June 2026. Living document — updated as new county analyses are completed and methodology evolves.
 </div>

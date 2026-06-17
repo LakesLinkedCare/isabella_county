@@ -100,7 +100,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
 
 <!-- Nav -->
 <nav class="sitenav">
-  <a class="brand" href="index.html">Lakes Linked Care</a>
+  <a class="brand" href="index.html">Lakes Linked</a>
   <div class="links">
     <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
     <div class="county-group">
@@ -128,7 +128,7 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
       <div class="hdiv"></div>
       <div class="hs"><div class="num" id="h-sav">$15.7M</div><div class="lbl">Total estimated savings/year</div><div class="cmp">Human-capital value of DALYs averted</div></div>
       <div class="hdiv"></div>
-      <div class="hs"><div class="num">15,430</div><div class="lbl">DALYs/year current burden</div><div class="cmp">→ <a href="home.html" style="color:#34d399">See full burden dashboard</a></div></div>
+      <div class="hs"><div class="num">15,140</div><div class="lbl">DALYs/year current burden</div><div class="cmp">→ <a href="home.html" style="color:#34d399">See full burden dashboard</a></div></div>
     </div>
   </div>
 </div>
@@ -177,14 +177,14 @@ footer{border-top:1px solid var(--border);padding:18px 28px;font-size:11.5px;col
     <div class="scard" style="--accent:var(--purple)">
       <div class="num" id="s-daly">~254</div>
       <div class="lbl">Estimated DALYs averted/year</div>
-      <div class="delta">~1.7% of primary 15,430 burden</div>
+      <div class="delta">~1.7% of primary 15,140 burden</div>
     </div>
   </div>
 
   <!-- Methodology note -->
   <div class="meth-box">
     <strong>Methodology (June 2026 v5.0 update).</strong> ROI ratios are recalculated from Cochrane and peer-reviewed meta-analyses (Reilly 2024 for MH; Perry 2025 for MAT; Whittaker 2019 for tobacco; Agarwal 2025 for BP; Freeman 2021 for cancer screening; Jiang 2026 for diabetes). Formula: DALYs averted = target DALYs × programme reach × meta-analysis effect fraction; savings = DALYs averted × $62,000 (Michigan human capital rate, GDP per capita 2024). ROI = savings ÷ annualised investment. Estimates apply to Isabella County population subgroups derived from CDC PLACES 2024; SUD and CVD prevalence are derived, and several mortality inputs are rural-adjusted proxies. MH and cancer screening ROI are below 2:1, reflecting limitations of cited evidence. All figures ±30–50% uncertainty - directional planning estimates only, not audited projections. Use sliders to model different reach scenarios.
-    <br><strong>Population base:</strong> 64,565 total / ~52,297 adults · Primary burden: 15,430 DALYs (frontier LE + MH remission-adj; 95% UI 14,459–16,481) · Planning sensitivity (MI LE 78.6 yrs): 10,579 DALYs · Monte Carlo n=10,000 · <a href="Isabella_County_Methods_Supplement.html">Full methods →</a>
+    <br><strong>Population base:</strong> 64,565 total / ~52,297 adults · Primary burden: 15,140 DALYs (frontier LE + MH remission-adj; 95% UI 14,032–16,206) · Planning sensitivity (MI LE 78.6 yrs): 10,288 DALYs · Monte Carlo n=10,000 · <a href="Isabella_County_Methods_Supplement.html">Full methods →</a>
   </div>
 
   <!-- Charts -->
@@ -257,7 +257,7 @@ const INTERVENTIONS = {
     icon: '🧠',
     color: '#7c3aed',
     accentBg: '#faf5ff',
-    condition: 'Mental health disorders (29.8% lifetime prev.; #4 burden, 1,733 DALYs remission-adj)',
+    condition: 'Mental health disorders (29.8% lifetime prev.; #4 burden, 1,672 DALYs remission-adj)',
     mechanism: 'Telepsychiatry + collaborative care in primary care (SMI population - schizophrenia, bipolar)',
     targetPop: 7792,
     targetLabel: '~7,792 active MH patients (CDC PLACES × 0.50 remission)',
@@ -277,7 +277,7 @@ const INTERVENTIONS = {
     icon: '💊',
     color: '#d97706',
     accentBg: '#fff7ed',
-    condition: 'Substance use disorders (#3 burden, 2,904 DALYs · 37 deaths/yr at age 44)',
+    condition: 'Substance use disorders (#3 burden, 2,836 DALYs · 37 deaths/yr at age 44)',
     mechanism: 'OAT (buprenorphine) via telehealth primary care; delivery equivalence validated by Perry 2025',
     targetPop: 3755,
     targetLabel: '~3,755 SUD patients (CDC PLACES 2024)',
@@ -317,7 +317,7 @@ const INTERVENTIONS = {
     icon: '❤️',
     color: '#1a56db',
     accentBg: '#eff6ff',
-    condition: 'Ischemic heart disease, stroke (32.1% hypertension · CVD+Stroke 4,375 DALYs)',
+    condition: 'Ischemic heart disease, stroke (32.1% hypertension · CVD+Stroke 4,336 DALYs)',
     mechanism: 'Digital BP tracking + clinical decision support + targeted client communication (Agarwal 2025)',
     targetPop: 16768,
     targetLabel: '~16,768 hypertensive adults (32.1% × 52,297)',
@@ -337,7 +337,7 @@ const INTERVENTIONS = {
     icon: '🔬',
     color: '#dc2626',
     accentBg: '#fef2f2',
-    condition: 'Cancer, all sites (#1 burden, 4,057 DALYs · 130 deaths/yr at age 67)',
+    condition: 'Cancer, all sites (#1 burden, 3,996 DALYs · 130 deaths/yr at age 67)',
     mechanism: 'AI triage for mammography/lung CT screening - workload reduction, not incremental detection',
     targetPop: 5000,
     targetLabel: '5,000 high-risk patients',
@@ -530,7 +530,7 @@ function updateGrant() {
   const t = totalCalc();
   const horizon = parseInt(document.getElementById('horizon')?.value||5);
   document.getElementById('grant-significance').innerHTML =
-    `Isabella County, Michigan faces a primary burden of 15,430 estimated DALYs annually (95% UI 14,459–16,481; frontier LE + MH remission-adj; CDC PLACES 2024, CDC WONDER 2020–22, Monte Carlo n=10,000). Cancer is the leading burden (#1, 4,057 DALYs), followed by CVD (#2, 3,302), SUD (#3, 2,904), and mental health (#4, 1,733 DALYs remission-adj). Mental health access (176,938:1 psychiatrist ratio) remains the dominant structural gap despite the remission adjustment. Evidence strength varies by intervention; current meta-analysis-based ROI ratios range from ${Math.min(...Object.values(INTERVENTIONS).map(d=>d.roiRatio)).toFixed(1)}:1 to ${Math.max(...Object.values(INTERVENTIONS).map(d=>d.roiRatio)).toFixed(0)}:1. A portfolio of six targeted programs is estimated to require ${fmtM(t.inv)} annually and return ${fmtM(t.sav)} in savings - a ${t.roi.toFixed(1)}:1 return and ${fmtM(t.net*horizon)} net benefit over ${horizon} years. Several inputs rely on modeled prevalence or rural-adjusted mortality proxies and should be treated as planning estimates.`;
+    `Isabella County, Michigan faces a primary burden of 15,140 estimated DALYs annually (95% UI 14,032–16,206; frontier LE + MH remission-adj; CDC PLACES 2024, CDC WONDER 2020–22, Monte Carlo n=10,000). Cancer is the leading burden (#1, 3,996 DALYs), followed by CVD (#2, 3,289), SUD (#3, 2,836), and mental health (#4, 1,672 DALYs remission-adj). Mental health access (176,938:1 psychiatrist ratio) remains the dominant structural gap despite the remission adjustment. Evidence strength varies by intervention; current meta-analysis-based ROI ratios range from ${Math.min(...Object.values(INTERVENTIONS).map(d=>d.roiRatio)).toFixed(1)}:1 to ${Math.max(...Object.values(INTERVENTIONS).map(d=>d.roiRatio)).toFixed(0)}:1. A portfolio of six targeted programs is estimated to require ${fmtM(t.inv)} annually and return ${fmtM(t.sav)} in savings - a ${t.roi.toFixed(1)}:1 return and ${fmtM(t.net*horizon)} net benefit over ${horizon} years. Several inputs rely on modeled prevalence or rural-adjusted mortality proxies and should be treated as planning estimates.`;
   document.getElementById('grant-board').innerHTML =
     `For every dollar invested in this package of six AI-enhanced health programs, Isabella County would see an estimated <strong>${t.roi.toFixed(1)} dollars in return</strong> under conservative meta-analysis-based assumptions - mainly through tobacco cessation, blood-pressure control, diabetes monitoring, and selected access improvements. The total annual investment of ${fmtM(t.inv)} would generate ${fmtM(t.net)} in annual net benefit and ${fmtM(t.net*horizon)} over ${horizon} years. Mental-health collaborative care and AI cancer screening are retained as access/workflow strategies, but their ROI should be interpreted cautiously because the cited evidence does not support strong incremental-effect claims.`;
 }

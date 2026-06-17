@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Isabella County Health Burden — 2026</title>
+<title>Isabella County Health Burden - 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root {
@@ -145,11 +145,11 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
 
 <!-- Top bar -->
 <div class="topbar">
-  <span class="logo">Soshnikov· Public Health Analytics</span>
+  <span class="logo">Lakes Linked · Public Health Analytics</span>
   <div class="pills">
-    <span class="pill">WHO DALY Methodology</span>
+    <span class="pill">Planning-grade DALY method</span>
     <span class="pill warn">⚠ Modeled Planning Scenario</span>
-    <span class="pill">v3.0 · June 2026</span>
+    <span class="pill">v5.0 Monte Carlo · June 2026</span>
   </div>
 </div>
 
@@ -160,9 +160,9 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
     <p class="sub">Community Disease Burden Analysis · Mount Pleasant · Population 64,565</p>
     <div class="hero-meta">
       <div class="hero-stat">
-        <div class="num">7,696</div>
-        <div class="lbl">Estimated DALYs / year</div>
-        <div class="cmp">±20% uncertainty range</div>
+        <div class="num">15,140</div>
+        <div class="lbl">Primary DALYs / year</div>
+        <div class="cmp">95% UI 14,032–16,206 · Sensitivity (MI LE): 10,288</div>
       </div>
       <div class="hero-divider"></div>
       <div class="hero-stat">
@@ -178,9 +178,9 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
       </div>
       <div class="hero-divider"></div>
       <div class="hero-stat">
-        <div class="num">~$4.1B</div>
+        <div class="num">~$4.84B</div>
         <div class="lbl">Societal cost (VSL method)</div>
-        <div class="cmp">$477M by human capital approach</div>
+        <div class="cmp">$939M by human capital approach</div>
       </div>
     </div>
   </div>
@@ -189,7 +189,7 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
 <!-- Notice strip -->
 <div class="notice">
   <span class="notice-icon">⚠</span>
-  <span><strong>Planning model — not a validated county burden estimate.</strong> Data pooled from MDHHS 2020, WHO DALY methodology, County Health Rankings 2025, Census ACS 2024–25. Several mortality values are state-substituted proxies (county data suppressed). DALY calculations use simplified mean-age assumptions, not age-specific CDC WONDER distributions. All results are directional planning estimates only.</span>
+  <span><strong>Fact-check applied: planning model - not a validated county burden estimate.</strong> Data pooled from CDC PLACES 2024, CDC WONDER 2020–22, IHME GBD 2021 disability weights, MDHHS, and Census ACS 2022. Several mortality values are rural-adjusted proxies and SUD/CVD prevalence inputs are derived. Primary estimate (frontier LE + MH remission-adj): 15,140 DALYs (95% UI 14,032–16,206); planning sensitivity (MI LE): 10,288 DALYs. Monte Carlo n=10,000. All results are directional planning estimates only.</span>
 </div>
 
 <div class="page">
@@ -206,7 +206,7 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
     </div>
     <div class="kpi c-amber">
       <div class="kpi-num">26.5%</div>
-      <div class="kpi-label">Below 100% FPL — MDHHS 2020 PCNA †</div>
+      <div class="kpi-label">Below 100% FPL - MDHHS 2020 PCNA †</div>
       <div class="kpi-delta neu">Census ACS 2024: 21.9% · QuickFacts: 19.0% (see †)</div>
     </div>
     <div class="kpi c-amber">
@@ -216,7 +216,7 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
     </div>
     <div class="kpi c-red">
       <div class="kpi-num sm">176,938:1</div>
-      <div class="kpi-label">HRSA psychiatrist shortage ratio — Mental Health HPSA ‡</div>
+      <div class="kpi-label">HRSA psychiatrist shortage ratio - Mental Health HPSA ‡</div>
       <div class="kpi-delta up">18.9× worse than MI avg (9,371:1)</div>
     </div>
     <div class="kpi c-red">
@@ -225,38 +225,59 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
       <div class="kpi-delta up">3.4× US avg (6.5%) · 1.5× MI (14.3%)</div>
     </div>
     <div class="kpi c-purple">
-      <div class="kpi-num">7,696</div>
-      <div class="kpi-label">Estimated total DALYs/year (±20%)</div>
-      <div class="kpi-delta neu">Michigan LE 78.6 yrs · Standard DALY methodology</div>
+      <div class="kpi-num">15,140</div>
+      <div class="kpi-label">Primary estimated DALYs/year (95% UI 14,032–16,206)</div>
+      <div class="kpi-delta neu">Frontier LE + MH remission-adj · Sensitivity (MI LE): 10,288</div>
     </div>
   </div>
 
   <!-- Economic Burden -->
   <div class="card" style="margin-bottom:20px">
     <h3>Economic Burden of Disease</h3>
-    <p class="sub">Two methodologies compared — both are approximations based on modeled DALYs and state-level proxies</p>
+    <p class="sub">Two methodologies compared - both are approximations based on modeled DALYs and state-level proxies</p>
     <div class="econ-split">
       <div class="econ-m">
         <h4>Human Capital Approach</h4>
-        <div class="big">~$477M</div>
-        <div class="rng">7,696 DALYs × $62,000 (MI GDP per capita 2024)</div>
+        <div class="big">~$939M</div>
+        <div class="rng">15,140 DALYs × $62,000 (MI GDP per capita 2024)</div>
         <div class="desc">Estimates foregone productivity due to premature death and disability. Conservative lower bound. Standard in GBD academic literature; enables cross-study comparison. Does <em>not</em> include direct medical costs.</div>
       </div>
       <div class="econ-m">
         <h4>Value of Statistical Life (VSL)</h4>
-        <div class="big accent">~$4.1B</div>
-        <div class="rng">Range: $1.9B – $6.3B (HHS 2026 low/high)</div>
-        <div class="desc">Societal willingness to pay to prevent premature deaths. HHS VSL 2026 ($13.4M) income-adjusted for Isabella County ($11.6M; elasticity 0.4) × ~357 deaths/year. Method used by EPA, DOT, HHS for regulatory cost-benefit analysis.</div>
+        <div class="big accent">~$4.84B</div>
+        <div class="rng">Range: ~$2.3B – $7.5B (HHS 2026 low/high)</div>
+        <div class="desc">Social willingness to pay to reduce premature mortality risk. HHS VSL 2026 ($13.4M) income-adjusted for Isabella County (~$10.5M; elasticity 0.4) × ~461 deaths/year. Method used by EPA, DOT, HHS for regulatory cost-benefit analysis.</div>
       </div>
     </div>
-    <div class="econ-note"><strong>Reference LE note:</strong> YLL and human capital burden use Michigan's observed life expectancy of 78.6 years (MDHHS 2024: Male 76.2, Female 80.9, average), not the GBD theoretical reference of 88.9 years. Using Michigan's actual LE is methodologically appropriate for local planning — it reflects years residents realistically expect to live. The 8.6× difference between methods is expected: Human Capital = lost productivity ($477M); VSL = societal willingness to pay to prevent deaths ($4.1B). <em>VSL: $13.4M × (55,237/80,000)^0.4 = $11.6M per statistical life. Source: HHS ASPE 2026. LE source: MDHHS, mdch.state.mi.us/osr/deaths/lifeUSMI.asp.</em></div>
+    <div class="econ-note"><strong>Reference LE note:</strong> YLL and human capital burden use Michigan's observed life expectancy of 78.6 years (MDHHS 2024: Male 76.2, Female 80.9, average) as a planning-grade approximation, rather than a normative reference life table used in WHO/GBD burden analyses. The WHO Global Health Estimates frontier reference life table is approximately 90 years at birth. Standard YLL uses remaining reference life expectancy at age of death, not life expectancy at birth minus mean age; primary estimate uses WHO GHE frontier LE 89.1 yrs with mental health remission adjustment (×0.50): 15,140 DALYs. Planning sensitivity (MI LE 78.6 yrs): 10,288 DALYs. <em>Source: HHS ASPE 2026. LE source: MDHHS, mdch.state.mi.us/osr/deaths/lifeUSMI.asp.</em></div>
+  </div>
+
+  <!-- Abbreviation key -->
+  <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 16px;margin-bottom:18px;font-size:11.5px;color:#64748b;line-height:1.8;">
+    <strong style="color:#0f172a;font-size:11px;text-transform:uppercase;letter-spacing:.06em;">Abbreviations —</strong>
+    <strong>DALY</strong> Disability-Adjusted Life Year &nbsp;·&nbsp;
+    <strong>YLL</strong> Years of Life Lost (premature mortality) &nbsp;·&nbsp;
+    <strong>YLD</strong> Years Lived with Disability &nbsp;·&nbsp;
+    <strong>MH</strong> Mental Health Disorders (F30–F48) &nbsp;·&nbsp;
+    <strong>SUD</strong> Substance Use Disorders (F10–F19) &nbsp;·&nbsp;
+    <strong>CVD</strong> Cardiovascular Disease (I20–I51) &nbsp;·&nbsp;
+    <strong>COPD</strong> Chronic Obstructive Pulmonary Disease (J44) &nbsp;·&nbsp;
+    <strong>DM</strong> Type 2 Diabetes (E11) &nbsp;·&nbsp;
+    <strong>UI</strong> Uncertainty Interval (Monte Carlo 2.5th–97.5th percentile) &nbsp;·&nbsp;
+    <strong>LE</strong> Life Expectancy &nbsp;·&nbsp;
+    <strong>VSL</strong> Value of Statistical Life &nbsp;·&nbsp;
+    <strong>HC</strong> Human Capital approach &nbsp;·&nbsp;
+    <strong>IHD/HF</strong> Ischemic Heart Disease / Heart Failure &nbsp;·&nbsp;
+    <strong>FPL</strong> Federal Poverty Level &nbsp;·&nbsp;
+    <strong>HPSA</strong> Health Professional Shortage Area &nbsp;·&nbsp;
+    <strong>NAS</strong> Neonatal Abstinence Syndrome
   </div>
 
   <!-- Charts Row -->
   <div class="grid-2">
     <div class="card">
       <h3>DALYs by Condition</h3>
-      <p class="sub">YLL + YLD · WHO DALY methodology · Isabella County 2024</p>
+      <p class="sub">YLL + YLD · planning-grade DALY method · Isabella County 2026</p>
       <canvas id="dalyChart" height="270"></canvas>
     </div>
     <div class="card">
@@ -269,11 +290,11 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
   <div class="grid-2">
     <div class="card">
       <h3>YLL vs YLD Breakdown</h3>
-      <p class="sub">Premature death vs. disability burden · WHO DALY methodology</p>
+      <p class="sub">Premature death vs. disability burden · planning-grade DALY method</p>
       <canvas id="stackChart" height="250"></canvas>
     </div>
     <div class="card">
-      <h3>Social Determinants — Isabella vs Michigan</h3>
+      <h3>Social Determinants - Isabella vs Michigan</h3>
       <p class="sub">% of population · Multiple sources 2020–2025</p>
       <canvas id="sdohChart" height="250"></canvas>
     </div>
@@ -288,7 +309,7 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
 
   <!-- DALY Table -->
   <div class="card" style="margin-bottom:20px">
-    <h3>Disease Burden — Detailed Estimates</h3>
+    <h3>Disease Burden - Detailed Estimates</h3>
     <p class="sub">DALY = YLL + YLD · No discounting or age-weighting · WHO standard · See footnotes a–l</p>
     <div class="tbl-wrap">
       <table>
@@ -310,52 +331,52 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
         </thead>
         <tbody>
           <tr>
-            <td><strong>Ischemic Heart Disease &amp; HF</strong> (I20–I51)</td>
-            <td>~7% adults</td><td>4,500</td><td>198.6</td><td>128</td><td>72 yrs</td>
-            <td>845</td><td>0.080</td><td>360</td><td><strong>1,205</strong></td><td>$75M</td>
-            <td><span class="badge obs">Rate: observed</span><br><span class="badge mdl">Prev: modeled</span></td>
+            <td><strong>#1 Cancer, all sites</strong> (C00–C97)</td>
+            <td>~6.2% total pop</td><td>4,027</td><td>175.1</td><td>~130</td><td>67 yrs</td>
+            <td>2,873</td><td>0.294 <sup style="color:var(--muted)">g</sup></td><td>1,184</td><td><strong>3,996</strong> <span style="font-weight:400;font-size:10px;color:var(--muted)">(3,475–4,651)</span></td><td>$251M</td>
+            <td><span class="badge imp">Rate: rural adj.</span><br><span class="badge mdl">DW: composite</span></td>
           </tr>
           <tr>
-            <td><strong>Cancer, all sites</strong> (C00–C97)</td>
-            <td>~2% total pop</td><td>1,290</td><td>175.1</td><td>113</td><td>68 yrs</td>
-            <td>1,198</td><td>0.30 <sup style="color:var(--muted)">g</sup></td><td>387</td><td><strong>1,585</strong></td><td>$98M</td>
-            <td><span class="badge obs">Rate: observed</span><br><span class="badge mdl">DW: estimated</span></td>
+            <td><strong>#2 Cardiovascular Disease</strong> (I20–I51)</td>
+            <td>~7.1% adults</td><td>3,692</td><td>198.6</td><td>~178</td><td>72 yrs</td>
+            <td>3,044</td><td>0.070</td><td>258</td><td><strong>3,289</strong> <span style="font-weight:400;font-size:10px;color:var(--muted)">(2,857–3,781)</span></td><td>$205M</td>
+            <td><span class="badge imp">Rate: rural adj.</span><br><span class="badge imp">Prev: derived</span></td>
           </tr>
           <tr>
-            <td><strong>Substance Use Disorders</strong> (F10–F19)</td>
-            <td>~8% adults</td><td>5,200</td><td>~29.3 <sup style="color:var(--muted)">h</sup></td><td>~19</td><td>45 yrs</td>
-            <td>638</td><td>0.164</td><td>853</td><td><strong>1,491</strong></td><td>$92M</td>
-            <td><span class="badge imp">Rate: state proxy</span><br><span class="badge mdl">Prev: modeled</span></td>
+            <td><strong>#3 Substance Use Disorders</strong> (F10–F19)</td>
+            <td>~7.2% adults</td><td>3,755</td><td>~57.3 <sup style="color:var(--muted)">h</sup></td><td>~37</td><td>44 yrs</td>
+            <td>1,669</td><td>0.329</td><td>1,235</td><td><strong>2,836</strong> <span style="font-weight:400;font-size:10px;color:var(--muted)">(2,511–3,349)</span></td><td>$180M</td>
+            <td><span class="badge imp">Rate: rural adj.</span><br><span class="badge imp">Prev: derived</span></td>
           </tr>
           <tr>
-            <td><strong>Mental Health Disorders</strong> (F30–F48)</td>
-            <td>~15% adults</td><td>7,800</td><td>n/a <sup style="color:var(--muted)">i</sup></td><td>—</td><td>—</td>
-            <td>0 <sup style="color:var(--muted)">i</sup></td><td>0.145</td><td>1,131</td><td><strong>1,131</strong></td><td>$70M</td><!-- YLD only -->
-            <td><span class="badge sup">YLL suppressed</span><br><span class="badge mdl">YLD only</span></td>
+            <td><strong>#4 Mental Health Disorders</strong> (F30–F48)</td>
+            <td>29.8% adults (7,792* active)</td><td>7,792*</td><td>~21.5 <sup style="color:var(--muted)">i</sup></td><td>~14</td><td>46 yrs</td>
+            <td>603</td><td>0.145</td><td>1,130</td><td><strong>1,672</strong> <span style="font-weight:400;font-size:10px;color:var(--muted)">(1,396–2,133)</span></td><td>$107M</td>
+            <td><span class="badge imp">Rate: rural adj.</span><br><span class="badge mdl">Prev: PLACES ×0.50</span></td>
           </tr>
           <tr>
-            <td><strong>COPD</strong> (J44)</td>
-            <td>~7% adults</td><td>3,800</td><td>60.6</td><td>39</td><td>73 yrs</td>
-            <td>218</td><td>0.225</td><td>855</td><td><strong>1,073</strong></td><td>$67M</td>
-            <td><span class="badge obs">Rate: observed</span><br><span class="badge mdl">Prev: modeled</span></td>
+            <td><strong>#5 COPD</strong> (J44)</td>
+            <td>8.2% adults</td><td>4,288</td><td>~67.5</td><td>~44</td><td>73 yrs</td>
+            <td>708</td><td>0.198</td><td>849</td><td><strong>1,553</strong> <span style="font-weight:400;font-size:10px;color:var(--muted)">(1,258–1,883)</span></td><td>$96M</td>
+            <td><span class="badge imp">Rate: rural adj.</span><br><span class="badge mdl">Prev: PLACES</span></td>
           </tr>
           <tr>
-            <td><strong>Stroke</strong> (I60–I69)</td>
-            <td>~3% adults</td><td>1,600</td><td>59.4</td><td>38</td><td>74 yrs</td>
-            <td>175</td><td>0.316</td><td>506</td><td><strong>681</strong></td><td>$42M</td>
-            <td><span class="badge obs">Rate: observed</span><br><span class="badge mdl">Prev: modeled</span></td>
+            <td><strong>#6 Stroke</strong> (I60–I69)</td>
+            <td>3.2% adults</td><td>1,674</td><td>59.4</td><td>~34</td><td>73 yrs</td>
+            <td>544</td><td>0.316</td><td>529</td><td><strong>1,073</strong> <span style="font-weight:400;font-size:10px;color:var(--muted)">(833–1,347)</span></td><td>$67M</td>
+            <td><span class="badge imp">Rate: rural adj.</span><br><span class="badge mdl">Prev: PLACES</span></td>
           </tr>
           <tr>
-            <td><strong>Type 2 Diabetes</strong> (E11)</td>
-            <td>8.5% total pop</td><td>5,490</td><td>31.1</td><td>20</td><td>68 yrs</td>
-            <td>212</td><td>0.058</td><td>318</td><td><strong>530</strong></td><td>$33M</td>
-            <td><span class="badge obs">Rate: observed</span><br><span class="badge obs">Prev: county</span></td>
+            <td><strong>#7 Type 2 Diabetes</strong> (E11)</td>
+            <td>11.6% adults</td><td>6,066</td><td>31.1</td><td>~25</td><td>70 yrs</td>
+            <td>480</td><td>0.054</td><td>328</td><td><strong>808</strong> <span style="font-weight:400;font-size:10px;color:var(--muted)">(718–903)</span></td><td>$50M</td>
+            <td><span class="badge imp">Rate: rural adj.</span><br><span class="badge mdl">Prev: PLACES</span></td>
           </tr>
           <tr style="font-weight:700;background:var(--faint)">
-            <td>TOTAL</td><td>—</td><td>—</td><td>—</td><td>~357</td><td>—</td>
-            <td>3,286</td><td>—</td><td>4,410</td>
-            <td><strong>7,696</strong> <span style="font-weight:400;font-size:11px;color:var(--muted)">(±20%)</span></td>
-            <td><strong>~$477M</strong></td><td>—</td>
+            <td>TOTAL</td><td>-</td><td>-</td><td>-</td><td>~461</td><td>-</td>
+            <td>9,917</td><td>-</td><td>5,223</td>
+            <td><strong>15,140</strong> <span style="font-weight:400;font-size:11px;color:var(--muted)">(95% UI 14,032–16,206) · MI LE sensitivity: 10,288</span></td>
+            <td><strong>~$939M</strong></td><td>-</td>
           </tr>
         </tbody>
       </table>
@@ -365,15 +386,15 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
     <div class="fn-body">
       <p><sup>a</sup> <strong>Population base:</strong> CDC PLACES reports adult-only prevalence for COPD, stroke, MH disorders → cases use adult pop ~52,000 (Census ACS 2024). Diabetes, cancer, SUD use total pop 64,565.</p>
       <p><sup>b</sup> Deaths/yr = mortality rate × 64,565 / 100,000. Rounded.</p>
-      <p><sup>c,k</sup> <strong>YLL simplification:</strong> YLL = deaths × (88.9 − assumed mean age at death). Mean ages are national proxies, not county-specific CDC WONDER distributions. A proper GBD-quality YLL would sum over age-specific deaths. Treat as planning approximation.</p>
+      <p><sup>c,k</sup> <strong>YLL simplification:</strong> YLL ≈ deaths × (L − mean age at death), where L = 89.1 yrs (WHO GHE frontier, primary standard) or 78.6 yrs (Michigan LE, planning-grade sensitivity). Standard WHO/GBD YLL uses remaining LE at the age of death from a reference life table, summed over age-specific death counts; it does not use LE at birth minus mean age. The WHO Global Health Estimates frontier reference life table is approximately 90 years at birth; this analysis uses WHO GHE frontier LE as primary and Michigan observed LE as sensitivity analysis. Mean ages are national proxies, not county-specific distributions. Treat as planning approximation only.</p>
       <p><sup>d</sup> Indirect burden = DALYs × $62,000 (MI GDP/capita 2024, human capital approach). Does not include direct medical costs.</p>
-      <p><sup>g</sup> <strong>Cancer DW:</strong> IHME WHO DALY methodology has no aggregate all-cancer DW. Value 0.30 is a weighted composite: lung (0.279), colorectal (0.167), prostate (0.126), breast (0.049). Approximate.</p>
-      <p><sup>h</sup> <strong>SUD mortality:</strong> County data suppressed (CDC WONDER &lt;10). Michigan state rate 29.3/100k used as proxy.</p>
-      <p><sup>i</sup> <strong>Mental health YLL = 0:</strong> Suicide data suppressed for Isabella County. True DALY burden is underestimated.</p>
-      <p><sup>j</sup> <strong>Data quality key:</strong> <span class="badge obs">Observed</span> = county-level rate from MDHHS 2020. <span class="badge mdl">Modeled</span> = derived from state/national estimates. <span class="badge imp">State proxy</span> = county data suppressed; state rate substituted. <span class="badge sup">Suppressed</span> = data withheld; component excluded.</p>
+      <p><sup>g</sup> <strong>Cancer DW:</strong> IHME GBD does not publish a single aggregate all-cancer disability weight. Value 0.294 is a weighted composite from site-specific disability weights and MDHHS site distribution. Approximate.</p>
+      <p><sup>h</sup> <strong>SUD mortality:</strong> County cells are suppressed in CDC WONDER. Michigan state rate is adjusted upward using published rural/urban overdose differentials; treat as a planning proxy.</p>
+      <p><sup>i</sup> <strong>Mental health mortality:</strong> Direct suicide and severe-mental-illness mortality cells are limited at county level. YLL uses rural-adjusted proxy mortality. * Prevalence adjusted for remission: CDC PLACES reports lifetime diagnosed prevalence (29.8%); active burden estimated at ×0.50 = 7,792 cases. See Methods Supplement §3.2.</p>
+      <p><sup>j</sup> <strong>Data quality key:</strong> <span class="badge obs">Observed</span> = county-level rate. <span class="badge mdl">Modeled</span> = CDC PLACES or model-based estimate. <span class="badge imp">Rural adj.</span> = suppressed or unstable county cells estimated from adjusted rates. <span class="badge sup">Suppressed</span> = data withheld; component excluded.</p>
       <p><sup>l</sup> If MDHHS mortality rates are age-adjusted (not crude), converting to death counts by multiplying by county population is not valid. Treat death count column as indicative only.</p>
       <p>† <strong>Poverty discrepancy:</strong> MDHHS 2020 PCNA: 26.5% below 100% FPL. Census ACS 5-yr 2024: 21.9%. Census QuickFacts 2020–24: 19.0%. Differences reflect different ACS products, reference years, and CMU student-population treatment. Not directly comparable.</p>
-      <p>‡ <strong>Psychiatrist ratio:</strong> 176,938:1 is a HRSA HPSA designation metric based on FTE-weighted provider counts for the Central Michigan Service Area — not a simple headcount against county population (64,565). The ratio exceeds county population because it reflects a service-region administrative calculation.</p>
+      <p>‡ <strong>Psychiatrist ratio:</strong> 176,938:1 is a HRSA HPSA designation metric based on FTE-weighted provider counts for the Central Michigan Service Area - not a simple headcount against county population (64,565). The ratio exceeds county population because it reflects a service-region administrative calculation.</p>
     </div>
   </div>
 
@@ -382,19 +403,19 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
   <div class="findings">
     <div class="finding f-red">
       <h4>🚨 Mental Health Access Crisis</h4>
-      <p>Federal Mental Health HPSA designation (Central MI Service Area). HRSA shortage ratio 176,938:1 — 18.9× worse than state average. MH/SUD hospitalizations 3,420/100k. YLL likely underestimated due to suppressed suicide data.</p>
+      <p>Federal Mental Health HPSA designation (Central MI Service Area). HRSA shortage ratio 176,938:1 - 18.9× worse than state average. MH/SUD hospitalizations 3,420/100k. YLL likely underestimated due to suppressed suicide data.</p>
     </div>
     <div class="finding f-red">
       <h4>🚨 Stroke Mortality 49% Above State</h4>
-      <p>59.4 vs Michigan 39.9/100k — largest relative gap among tracked conditions. Associated with hypertension, poverty-related access barriers, and limited neurology coverage. Each prevented death averts ~$11.6M societal cost (VSL-adjusted).</p>
+      <p>59.4 vs Michigan 39.9/100k - largest relative gap among tracked conditions. Associated with hypertension, poverty-related access barriers, and limited neurology coverage. Each prevented death corresponds to roughly $10.5M in income-adjusted VSL burden.</p>
     </div>
     <div class="finding f-red">
-      <h4>🚨 Maternal Health — NAS &amp; Tobacco</h4>
+      <h4>🚨 Maternal Health - NAS &amp; Tobacco</h4>
       <p>NAS rate 583.1/100k live births signals substantial prenatal opioid use disorder. Maternal tobacco use 22.0% is 3.4× national average. Both are strong predictors of intergenerational disease burden.</p>
     </div>
     <div class="finding f-amber">
       <h4>⚠ Poverty as Root Structural Driver</h4>
-      <p>26.5% below 100% FPL (MDHHS 2020) or 21.9% (Census ACS 2024) — well above state average regardless of source. 45.5% below 200% FPL. Food insecurity 16.4% vs MI 13.7%.</p>
+      <p>26.5% below 100% FPL (MDHHS 2020) or 21.9% (Census ACS 2024) - well above state average regardless of source. 45.5% below 200% FPL. Food insecurity 16.4% vs MI 13.7%.</p>
     </div>
     <div class="finding f-amber">
       <h4>⚠ COPD Mortality 37% Above State</h4>
@@ -413,10 +434,10 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
     <div class="rec-row">
       <div class="rec-num">1</div>
       <div class="rec-body">
-        <h5>Expand telepsychiatry + collaborative care model in primary care</h5>
-        <p>Target: Mental health disorders, SUD | Adults ≥18 with MH/SUD diagnosis; priority: uninsured and Medicaid</p>
+        <h5>Evaluate telepsychiatry + collaborative care support in primary care</h5>
+        <p>Target: mental health disorders and SUD access gaps | Evidence is mixed for severe mental illness; use local evaluation before scaling.</p>
       </div>
-      <span class="rec-ev">Strong (RCT)</span>
+      <span class="rec-ev">Moderate / evaluate</span>
     </div>
     <div class="rec-row">
       <div class="rec-num">2</div>
@@ -455,21 +476,21 @@ footer { border-top: 1px solid var(--border); padding: 20px 32px; font-size: 11.
 </div>
 
 <footer>
-  <span>Isabella County Disease Burden Dashboard v3.0 (Audit-Revised) · Soshnikov· June 2026</span>
-  <span>Sergey Soshnikov, MD, PhD · biososh@gmail.com · Central Michigan University</span>
+  <span>Isabella County Disease Burden Dashboard v5.0 Monte Carlo · June 2026</span>
+  <span>Sergey Soshnikov</span>
 </footer>
 
 <script>
 const NAVY='#0f1f3d',RED='#dc2626',BLUE='#1a56db',TEAL='#0d9488',AMBER='#d97706',PURPLE='#7c3aed';
 
-// 1 — DALYs horizontal stacked
+// 1 - DALYs horizontal stacked
 new Chart(document.getElementById('dalyChart').getContext('2d'),{
   type:'bar',
   data:{
-    labels:['Cancer','SUD','IHD/HF','Mental Health','COPD','Stroke','Diabetes'],
+    labels:['Cancer','CVD','SUD','Mental Health','COPD','Stroke','Diabetes'],
     datasets:[
-      {label:'YLL',data:[1198,638,845,0,218,175,212],backgroundColor:RED,borderRadius:3},
-      {label:'YLD',data:[387,853,360,1131,855,506,318],backgroundColor:BLUE,borderRadius:3}
+      {label:'YLL',data:[2873,3044,1669,603,708,544,480],backgroundColor:RED,borderRadius:3},
+      {label:'YLD',data:[1184,258,1235,1130,849,529,328],backgroundColor:BLUE,borderRadius:3}
     ]
   },
   options:{
@@ -480,7 +501,7 @@ new Chart(document.getElementById('dalyChart').getContext('2d'),{
   }
 });
 
-// 2 — Mortality comparison
+// 2 - Mortality comparison
 new Chart(document.getElementById('mortChart').getContext('2d'),{
   type:'bar',
   data:{
@@ -498,14 +519,14 @@ new Chart(document.getElementById('mortChart').getContext('2d'),{
   }
 });
 
-// 3 — Stacked YLL/YLD
+// 3 - Stacked YLL/YLD
 new Chart(document.getElementById('stackChart').getContext('2d'),{
   type:'bar',
   data:{
-    labels:['Cancer','SUD','IHD','MH','COPD','Stroke','DM'],
+    labels:['Cancer','CVD','SUD','MH','COPD','Stroke','DM'],
     datasets:[
-      {label:'YLL (premature death)',data:[1198,638,845,0,218,175,212],backgroundColor:RED,borderRadius:3},
-      {label:'YLD (disability)',data:[387,853,360,1131,855,506,318],backgroundColor:BLUE,borderRadius:3}
+      {label:'YLL (premature death)',data:[2873,3044,1669,603,708,544,480],backgroundColor:RED,borderRadius:3},
+      {label:'YLD (disability)',data:[1184,258,1235,1130,849,529,328],backgroundColor:BLUE,borderRadius:3}
     ]
   },
   options:{
@@ -515,7 +536,7 @@ new Chart(document.getElementById('stackChart').getContext('2d'),{
   }
 });
 
-// 4 — SDOH Radar
+// 4 - SDOH Radar
 new Chart(document.getElementById('sdohChart').getContext('2d'),{
   type:'radar',
   data:{
@@ -532,14 +553,14 @@ new Chart(document.getElementById('sdohChart').getContext('2d'),{
   }
 });
 
-// 5 — Econ comparison
+// 5 - Econ comparison
 new Chart(document.getElementById('econChart').getContext('2d'),{
   type:'bar',
   data:{
-    labels:['Human Capital\n(productivity losses)','VSL Low\n(HHS $6.2M adj.)','VSL Central\n(HHS $13.4M adj.)','VSL High\n(HHS $20.3M adj.)'],
+    labels:['Human Capital\n(productivity losses)','VSL Low\n(income-adjusted)','VSL Central\n(income-adjusted)','VSL High\n(income-adjusted)'],
     datasets:[{
       label:'$ Millions/year',
-      data:[477,1908,4125,6248],
+      data:[957,2300,4840,7500],
       backgroundColor:[BLUE,AMBER,PURPLE,'#9333ea'],
       borderRadius:5
     }]

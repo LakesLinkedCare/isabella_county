@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Michigan County Health Atlas — Coverage | Lakes Linked</title>
+<meta name="description" content="Coverage map of Lakes Linked county health burden analyses across Michigan's 83 counties.">
+<meta property="og:title" content="Michigan County Health Atlas — Coverage | Lakes Linked">
+<meta property="og:url" content="https://lakeslinked.com/michigan_map.html">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --navy:#0f1f3d; --blue:#1a56db; --teal:#0d9488; --slate:#64748b;
+  --bg:#f8fafc; --surface:#fff; --border:#e2e8f0; --muted:#94a3b8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#0f172a;}
+
+/* nav */
+.sitenav{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:48px;position:sticky;top:0;z-index:1000;}
+.sitenav .brand{color:#fff;font-size:13px;font-weight:700;text-decoration:none;opacity:.9;}
+.sitenav .links{display:flex;gap:4px;align-items:center;}
+.sitenav a.navlink{color:rgba(255,255,255,.7);font-size:12.5px;padding:6px 12px;border-radius:6px;text-decoration:none;transition:all .15s;}
+.sitenav a.navlink:hover,.sitenav a.navlink.active{background:rgba(255,255,255,.12);color:#fff;}
+.county-group{display:flex;gap:2px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:3px;}
+.county-group .navlink{border-radius:5px;}
+.nico{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px;margin-right:5px;flex-shrink:0;}
+
+.page{max-width:1100px;margin:0 auto;padding:28px 20px 60px;}
+.head{margin-bottom:14px;}
+.county-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:999px;background:rgba(26,86,219,.08);border:1px solid rgba(26,86,219,.22);color:#1a56db;font-size:11.5px;font-weight:700;margin-bottom:10px;}
+.county-chip svg{width:13px;height:13px;fill:none;stroke:#1a56db;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;}
+h1{font-size:20px;font-weight:800;color:var(--navy);letter-spacing:-.01em;margin-bottom:4px;}
+.sub{font-size:13px;color:var(--slate);line-height:1.6;}
+.counter{font-weight:700;color:var(--blue);}
+.wrap{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px;}
+#map{height:620px;border:1px solid var(--border);border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(15,31,61,.05);}
+@media(max-width:560px){#map{height:460px;}}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:#334155;align-items:center;margin-top:4px;}
+.legend .sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px;border:1px solid rgba(0,0,0,.08);}
+.note{font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.6;}
+.leaflet-tooltip.cty{font-size:12px;font-weight:600;}
+.leaflet-tooltip.cty .d{font-weight:400;color:#475569;font-size:11px;}
+footer{border-top:1px solid var(--border);padding:18px 24px;font-size:11.5px;color:var(--muted);text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+
+<nav class="sitenav">
+  <a class="brand" href="index.html">Lakes Linked</a>
+  <div class="links">
+    <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
+    <div class="county-group">
+      <a class="navlink" href="isabella.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Isabella</a>
+      <a class="navlink" href="clare.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Clare</a>
+      <a class="navlink" href="midland.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Midland</a>
+    </div>
+    <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
+    <a class="navlink active" href="michigan_map.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Map</a>
+    <a class="navlink" href="index.html"><svg class="nico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Portal</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="head">
+    <span class="county-chip"><svg viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>State of Michigan · 83 counties</span>
+    <h1>Michigan County Health Atlas — coverage</h1>
+    <p class="sub"><span class="counter" id="counter">3 of 83 counties analyzed</span> · Click a completed county to open its burden dashboard. Counties not yet analyzed are shown in grey and are available on request.</p>
+    <div class="legend">
+      <span><span class="sw" style="background:#1a56db"></span>Analyzed (click to open)</span>
+      <span><span class="sw" style="background:#bfdbfe"></span>In pipeline</span>
+      <span><span class="sw" style="background:#e2e8f0"></span>Not yet analyzed</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div id="map"></div>
+  </div>
+  <p class="note" id="status">Loading Michigan county boundaries…</p>
+  <p class="note">Boundaries: US Census cartographic counties (loaded at runtime). For production, a Michigan-only boundary file would be hosted in-repo. Burden figures link to each county's interactive dashboard.</p>
+</div>
+
+<footer>Lakes Linked · Michigan rural health burden analysis · Sergey Soshnikov, MD PhD · 2026</footer>
+
+<script>
+// ── County status registries (keyed by 5-digit FIPS) ──────────────────────────
+const DONE = {
+  '26073': { name:'Isabella', url:'isabella.html', dalys:'15,140', pop:'64,565' },
+  '26035': { name:'Clare',    url:'clare.html',    dalys:'8,198',  pop:'30,013' },
+  '26111': { name:'Midland',  url:'midland.html',  dalys:'14,335', pop:'82,884' },
+};
+const PIPELINE = {
+  '26057': 'Gratiot · Q3 2026',
+  '26107': 'Mecosta · Q4 2026',
+  '26161': 'Washtenaw · Q4 2026',
+};
+
+const map = L.map('map', { zoomControl:true, scrollWheelZoom:false, attributionControl:false });
+
+function styleFor(fips){
+  if (DONE[fips])     return { fillColor:'#1a56db', color:'#fff', weight:1,   fillOpacity:.92 };
+  if (PIPELINE[fips]) return { fillColor:'#bfdbfe', color:'#fff', weight:1,   fillOpacity:.95 };
+  return { fillColor:'#e2e8f0', color:'#fff', weight:1, fillOpacity:1 };
+}
+
+// US counties GeoJSON (feature.id = FIPS). Filtered to Michigan (26xxx) in-browser.
+const SRC = 'https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json';
+
+fetch(SRC).then(r=>r.json()).then(geo=>{
+  const mi = { type:'FeatureCollection',
+    features: geo.features.filter(f => typeof f.id === 'string' && f.id.startsWith('26')) };
+  const layer = L.geoJSON(mi, {
+    style: f => styleFor(f.id),
+    onEachFeature: (f, lyr) => {
+      const fips = f.id;
+      const nm = (f.properties && f.properties.NAME) ? f.properties.NAME : 'County';
+      const done = DONE[fips], pipe = PIPELINE[fips];
+      let tip;
+      if (done) tip = `<strong>${done.name} County</strong><br><span class="d">${done.dalys} DALYs/yr · pop ${done.pop}</span><br><span class="d">Click to open →</span>`;
+      else if (pipe) tip = `<strong>${nm} County</strong><br><span class="d">In pipeline (${pipe.split('·')[1].trim()})</span>`;
+      else tip = `<strong>${nm} County</strong><br><span class="d">Not yet analyzed · available on request</span>`;
+      lyr.bindTooltip(tip, { className:'cty', sticky:true });
+      lyr.on('mouseover', ()=> lyr.setStyle({ weight:2.5, color:'#0f1f3d' }));
+      lyr.on('mouseout',  ()=> lyr.setStyle(styleFor(fips)));
+      lyr.on('click', ()=> { if (done) window.location = done.url; });
+      if (done) lyr.getElement && lyr.on('add', ()=>{ const el=lyr.getElement&&lyr.getElement(); if(el) el.style.cursor='pointer'; });
+    }
+  }).addTo(map);
+  map.fitBounds(layer.getBounds(), { padding:[12,12] });
+  document.getElementById('status').textContent =
+    `Loaded ${mi.features.length} Michigan counties. Blue = analyzed (clickable); light blue = in pipeline; grey = available on request.`;
+}).catch(err=>{
+  document.getElementById('status').textContent =
+    'Could not load county boundaries from the data source. (A Michigan-only boundary file hosted in-repo will make this robust offline.)';
+  console.error(err);
+});
+</script>
+</body>
+</html>
