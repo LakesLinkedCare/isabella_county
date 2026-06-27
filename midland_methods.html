@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Midland County — Methods &amp; Data Supplement | Lakes Linked Care</title>
+<title>Midland County — Methods &amp; Data Supplement | Lakes Linked</title>
 <meta name="description" content="Methodology supplement for Midland County disease burden analysis. Data quality tables, CDC PLACES 2023 observed prevalence, and Midland-specific analytic notes.">
-<meta property="og:title" content="Midland County — Methods &amp; Data Supplement | Lakes Linked Care">
-<meta property="og:url" content="https://lakeslinkedcare.github.io/isabella_county/midland_methods.html">
+<meta property="og:title" content="Midland County — Methods &amp; Data Supplement | Lakes Linked">
+<meta property="og:url" content="https://lakeslinked.com/midland_methods.html">
 <meta property="og:type" content="website">
 <style>
 :root{
@@ -83,13 +83,14 @@ tbody td{padding:7px 10px;vertical-align:top;}
 <body>
 
 <nav class="sitenav">
-  <a class="brand" href="index.html">Lakes Linked Care</a>
+  <a class="brand" href="index.html">Lakes Linked</a>
   <div class="links">
     <span style="font-size:10px;color:rgba(255,255,255,.35);padding:0 4px;">Counties:</span>
     <div class="county-group">
       <a class="navlink" href="isabella.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Isabella</a>
       <a class="navlink" href="clare.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Clare</a>
       <a class="navlink" href="midland.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Midland</a>
+      <a class="navlink" href="gratiot.html"><svg class="nico" viewBox="0 0 24 24"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2"/></svg>Gratiot</a>
     </div>
     <span style="color:rgba(255,255,255,.2);padding:0 4px;">|</span>
     <a class="navlink" href="index.html"><svg class="nico" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Portal</a>
@@ -119,7 +120,7 @@ tbody td{padding:7px 10px;vertical-align:top;}
   <h1>Health Burden from NCDs, SUDs, and MHCs in Midland County, Michigan: Planning-Grade DALY Estimates</h1>
   <div class="sub">Cross-sectional analysis for community health planning, 2026</div>
   <div class="authors">Sergey Soshnikov, MD PhD</div>
-  <div class="affil">Central Michigan University · Public Health Researcher · biososh@gmail.com</div>
+  <div class="affil">Lakes Linked · Public Health Researcher · biososh@gmail.com</div>
   <div class="meta-chips">
     <span class="chip">Version 1.0</span>
     <span class="chip">June 2026</span>
@@ -135,7 +136,7 @@ tbody td{padding:7px 10px;vertical-align:top;}
 <!-- Abstract -->
 <div class="abstract">
   <div class="hd">Abstract</div>
-  <p><strong>Background.</strong> Midland County, Michigan (pop. 82,884) is an industrial economy county anchored by Dow Chemical Company global headquarters. Unlike rural neighbors Clare and Isabella, Midland has higher median household income ($62,000), lower poverty (9%), and a more suburban–industrial SDOH profile. This analysis applies the Lakes Linked Care DALY framework — which uses disability weights and WHO reference standards from the IHME Global Burden of Disease Study, a body of work we deeply respect — as an educational planning tool to estimate health burden as a baseline for grant applications and county health planning. This is not a formal GBD estimate and does not attempt to replicate IHME's rigorous global methodology.</p>
+  <p><strong>Background.</strong> Midland County, Michigan (pop. 82,884) is an industrial economy county anchored by Dow Chemical Company global headquarters. Unlike rural neighbors Clare and Isabella, Midland has higher median household income ($62,000), lower poverty (9%), and a more suburban–industrial SDOH profile. This analysis applies the Lakes Linked DALY framework — which uses disability weights and WHO reference standards from the IHME Global Burden of Disease Study, a body of work we deeply respect — as an educational planning tool to estimate health burden as a baseline for grant applications and county health planning. This is not a formal GBD estimate and does not attempt to replicate IHME's rigorous global methodology.</p>
   <p><strong>Methods.</strong> DALY estimates were constructed from CDC PLACES 2023 (BRFSS 2021–22, age-adjusted county-level prevalence for FIPS 26111), CDC WONDER 2020–22 (pooled 3-year mortality counts), IHME GBD 2021 disability weights, and U.S. Census ACS 2022 population denominators. YLL uses the WHO GHE frontier reference life table (89.1 years) as primary standard; Michigan observed LE (78.6 years) is the planning sensitivity. MH remission factor ×0.50 applied. Pipeline: <code>director.py --county midland --steps harvest,calculate,factcheck</code>.</p>
   <p><strong>Results.</strong> Primary burden (MI LE, remission-adjusted MH): <strong>14,335 DALYs/yr</strong> (YLL 6,505 + YLD 7,830). Cancer leads (3,457 DALYs), followed by SUD (3,267) and Mental Health (3,231). Total estimated deaths: 592/yr. Economic burden: $889M/yr (human capital) · $7.2B/yr (VSL, income-adjusted). Fact check: <strong>PASS</strong> — 0 HIGH, 0 MEDIUM, 10 LOW issues.</p>
   <p><strong>Limitations.</strong> SUD prevalence derived from binge-drinking + OUD proxy (direct SUD county prevalence not available in CDC PLACES). Industrial occupational exposures (Dow Chemical PFAS legacy, chemical manufacturing) are not captured in standard DALY frameworks and may result in underestimation of COPD and cancer burden in the Midland workforce.</p>
@@ -347,7 +348,7 @@ tbody td{padding:7px 10px;vertical-align:top;}
 
 <div class="doc-footer">
   Midland County, Michigan · FIPS 26111 · Methods Supplement v1.0 · June 2026<br>
-  Sergey Soshnikov, MD PhD · Public Health Researcher · Central Michigan University · <a href="mailto:biososh@gmail.com" style="color:#888;">biososh@gmail.com</a><br>
+  Sergey Soshnikov, MD PhD · Public Health Researcher · <a href="mailto:biososh@gmail.com" style="color:#888;">biososh@gmail.com</a><br>
   Prevalence: CDC PLACES 2023 (BRFSS 2021–22) · Mortality: CDC WONDER 2020–22 · Disability weights: IHME GBD 2021<br>
   <a href="methods_supplement.html" style="color:#888;">← Shared Methodology Framework</a> · <a href="midland.html" style="color:#888;">← Midland Dashboard</a>
 </div>
