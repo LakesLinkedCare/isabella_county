@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Price Before the Procedure: Why Public Hospital Prices Still Need Translation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;0,900;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f6f1; --ink:#1a1a17; --soft:#55534d; --faint:#8a877f;
+    --line:#e3e1d8; --black:#16150f; --card:#fffffe;
+    --green:#4f7a52; --green-d:#3c6340; --sage:#a7b491;
+    --red:#c0392b; --display:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:780px;margin:0 auto;background:var(--bg);}
+  .col{padding:0 64px;}
+  @media(max-width:640px){.col{padding:0 22px;}}
+
+  /* top banner */
+  .banner{background:var(--black);display:flex;align-items:center;justify-content:space-between;padding:20px 64px;}
+  .banner .b-left{font-size:12.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);}
+  .banner .b-right{font-size:12.5px;letter-spacing:.1em;color:rgba(255,255,255,.5);}
+  @media(max-width:640px){.banner{padding:16px 22px;flex-direction:column;gap:4px;align-items:flex-start;}.banner .b-left{font-size:11px;}}
+
+  /* masthead */
+  .masthead{padding-top:64px;}
+  .kicker{display:flex;align-items:center;gap:14px;font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:24px;}
+  .kicker::after{content:'';height:1px;width:54px;background:var(--green);opacity:.5;}
+  h1{font-family:var(--display);font-weight:800;font-size:52px;line-height:1.06;letter-spacing:-.01em;color:#111;margin-bottom:26px;}
+  .dek{font-family:var(--display);font-style:italic;font-weight:500;font-size:23px;line-height:1.5;color:#4a4843;margin-bottom:40px;}
+  .rule{height:1px;background:var(--line);margin:0 0 22px;}
+  .byline{border-left:3px solid var(--green);padding-left:18px;margin-bottom:8px;}
+  .byline .nm{font-weight:700;font-size:16px;color:#1c1b17;margin-bottom:5px;}
+  .byline .af{font-size:14px;color:var(--soft);line-height:1.55;}
+  .byline .af a{color:var(--green-d);text-decoration:none;font-weight:600;}
+
+  /* body */
+  .body{padding-top:40px;padding-bottom:80px;}
+  .body h2{font-family:var(--display);font-weight:700;font-size:29px;line-height:1.2;color:#161512;margin:46px 0 16px;letter-spacing:-.01em;}
+  .body p{margin-bottom:20px;}
+  .body a{color:var(--green-d);text-decoration:none;border-bottom:1px solid rgba(76,122,82,.35);}
+  .body a:hover{border-bottom-color:var(--green);}
+  strong{color:#161512;font-weight:700;}
+  .dropcap::first-letter{font-family:var(--display);font-weight:800;font-size:64px;float:left;line-height:.82;padding:6px 12px 0 0;color:#1c1b17;}
+  code{font-family:ui-monospace,Menlo,monospace;font-size:13.5px;background:#efeee7;padding:1px 6px;border-radius:4px;color:#3c6340;}
+
+  /* figure / infographic */
+  figure{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:26px 28px;margin:34px 0;}
+  .fig-label{display:flex;align-items:center;gap:12px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:20px;}
+  .fig-label::after{content:'';height:1px;flex:1;background:var(--line);}
+  figcaption{font-size:13px;color:var(--soft);margin-top:16px;line-height:1.55;font-style:italic;}
+  figcaption a{font-style:normal;}
+
+  .gap-row{display:flex;align-items:flex-end;gap:22px;}
+  .gap-col{flex:1;text-align:center;}
+  .gap-bar{border-radius:3px 3px 0 0;margin:0 auto;width:64%;color:#fff;font-family:var(--display);font-weight:800;font-size:20px;padding-top:12px;}
+  .gap-bar.low{background:#5f8a62;height:60px;}
+  .gap-bar.high{background:var(--red);height:200px;}
+  .gap-cap{font-size:13px;color:var(--soft);margin-top:9px;}
+  .gap-mult{text-align:center;font-size:13px;color:#9a6a16;font-weight:700;margin-top:10px;letter-spacing:.02em;}
+
+  .tl-item{display:flex;gap:16px;padding:9px 0;}
+  .tl-year{flex:0 0 52px;font-family:var(--display);font-weight:800;color:#1c1b17;font-size:17px;}
+  .tl-dot{flex:0 0 12px;display:flex;flex-direction:column;align-items:center;}
+  .tl-dot i{width:11px;height:11px;border-radius:50%;background:var(--green);margin-top:7px;}
+  .tl-dot span{width:2px;flex:1;background:var(--line);margin-top:3px;}
+  .tl-item:last-child .tl-dot span{display:none;}
+  .tl-now i{background:#9a6a16!important;box-shadow:0 0 0 4px rgba(154,106,22,.14);}
+  .tl-body b{display:block;color:#1c1b17;font-size:15px;margin-bottom:2px;}
+  .tl-body small{color:var(--soft);font-size:13.5px;line-height:1.5;}
+
+  /* workflow box */
+  .workflow{border-left:3px solid var(--green);}
+  .workflow ol{counter-reset:w;list-style:none;}
+  .workflow li{counter-increment:w;position:relative;padding-left:36px;margin-bottom:13px;font-size:15px;line-height:1.55;color:var(--ink);}
+  .workflow li:last-child{margin-bottom:0;}
+  .workflow li::before{content:counter(w);position:absolute;left:0;top:1px;width:23px;height:23px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .workflow li b{color:#161512;font-weight:700;}
+
+  /* pull-quote */
+  .pull{border-left:3px solid var(--green);padding:6px 0 6px 26px;margin:40px 0;}
+  .pull .pl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:12px;}
+  .pull p{font-family:var(--display);font-size:26px;line-height:1.38;color:#1a1a17;margin:0;}
+  .pull em{font-style:italic;color:var(--green-d);}
+
+  .sources{margin-top:48px;border-top:1px solid var(--line);padding-top:22px;}
+  .sources h3{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:14px;}
+  .sources ol{list-style:none;counter-reset:s;}
+  .sources li{counter-increment:s;font-size:13.5px;color:var(--soft);margin-bottom:9px;padding-left:26px;position:relative;line-height:1.55;}
+  .sources li::before{content:counter(s);position:absolute;left:0;top:0;font-family:var(--display);font-weight:700;color:var(--green);}
+  .about{margin-top:36px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--green);border-radius:4px;padding:22px 24px;}
+  .about .ab-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:12px;}
+  .about p{font-size:14.5px;color:var(--soft);line-height:1.62;margin-bottom:10px;}
+  .about p:last-child{margin-bottom:0;}
+  .about strong{color:#1c1b17;}
+  .about a{color:var(--green-d);text-decoration:none;border-bottom:1px solid rgba(76,122,82,.35);font-weight:600;}
+  .safety{margin-top:26px;background:#fbf3ef;border:1px solid #e8d5cb;border-radius:4px;padding:16px 20px;font-size:13.5px;color:#6b3b2e;line-height:1.6;}
+  .safety strong{color:#5a2f24;}
+  .endnote{margin-top:22px;font-size:13px;color:var(--faint);font-style:italic;line-height:1.6;}
+  .tags{margin-top:24px;font-size:13.5px;color:var(--green-d);line-height:1.95;word-spacing:1px;}
+  .tags .tg-label{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:7px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="banner">
+    <div class="b-left">Lakes Linked · Public-Health Analytics</div>
+    <div class="b-right">June 2026</div>
+  </div>
+
+  <div class="col masthead">
+    <div class="kicker">Field Notes · Open Health Data</div>
+    <h1>The Price Before the Procedure</h1>
+    <p class="dek">American hospital prices are finally public. Making them usable — accurate, comparable, and honest — is a separate discipline, and it's where careful public-health analytics begins.</p>
+    <div class="rule"></div>
+    <div class="byline">
+      <div class="nm">Sergey Soshnikov, MD, PhD</div>
+      <div class="af">Public-Health Physician-Scientist · Rural Health Researcher · Founder, <a href="https://lakeslinked.com">Lakes Linked</a></div>
+    </div>
+  </div>
+
+  <div class="col body">
+    <p class="dropcap">You have the right to know what something costs before you buy it. We take that for granted everywhere except the one place it matters most. Walk into a hospital for a planned procedure and, until very recently, the honest answer to "what will this cost me?" was <em>we'll tell you after.</em></p>
+
+    <figure>
+      <div class="fig-label">The problem, in one picture</div>
+      <div class="gap-row">
+        <div class="gap-col"><div class="gap-bar low">$400</div><div class="gap-cap">Hospital A</div></div>
+        <div class="gap-col"><div class="gap-bar high">$3,000</div><div class="gap-cap">Hospital B · 20 min away</div></div>
+      </div>
+      <div class="gap-mult">Illustrative example · same knee MRI · roughly 8× the price</div>
+      <figcaption>For example, in one metro area the same routine scan can vary this widely across nearby facilities — an illustrative range, not a real quote. Published prices are estimates: a patient's actual bill depends on their insurance and the billing codes used.</figcaption>
+    </figure>
+
+    <p>That has changed on paper. U.S. hospitals now have to publish their real prices — payer-negotiated rates and a cash price — in a machine-readable file, and insurers have to publish their negotiated rates too. The prices are public. The trouble is that <strong>"public" and "usable" are very different things</strong> — and closing that gap is its own discipline.</p>
+
+    <h2>What changed, and when</h2>
+
+    <figure>
+      <div class="fig-label">Three rules that pried the market open</div>
+      <div class="tl-item"><div class="tl-year">2021</div><div class="tl-dot"><i></i><span></span></div><div class="tl-body"><b>Hospitals publish standard charges</b><small>Every hospital must post a machine-readable file — negotiated rates, gross charges, and a cash price — plus a consumer display of "shoppable" services.</small></div></div>
+      <div class="tl-item"><div class="tl-year">2022</div><div class="tl-dot"><i></i><span></span></div><div class="tl-body"><b>Insurers publish negotiated rates</b><small>The Transparency in Coverage rule extends the same idea to health plans' in-network and out-of-network amounts.</small></div></div>
+      <div class="tl-item"><div class="tl-year tl-now" style="color:#9a6a16">2026</div><div class="tl-dot tl-now"><i></i><span></span></div><div class="tl-body"><b>The data becomes comparable</b><small>A standardized CMS template (version 3.0); for prices set by a percentage or formula, the <strong>median, 10th, and 90th percentile of the amounts actually paid</strong> (plus a count) instead of a single estimate; and an organizational (Type 2) <strong>NPI</strong> so files can be linked across hospitals. The requirements take effect Jan 1, 2026; CMS is delaying enforcement until April 1, 2026.</small></div></div>
+      <figcaption>Sources: <a href="https://www.cms.gov/priorities/key-initiatives/hospital-price-transparency" target="_blank" rel="noopener">CMS Hospital Price Transparency</a> · <a href="https://www.cms.gov/newsroom/fact-sheets/cy-2026-opps-ambulatory-surgical-center-final-rule-hospital-price-transparency-policy-changes" target="_blank" rel="noopener">CMS CY2026 final rule</a> · codified at <a href="https://www.ecfr.gov/current/title-45/part-180/section-180.50" target="_blank" rel="noopener">45 CFR 180.50</a>.</figcaption>
+    </figure>
+
+    <h2>What the raw data looks like</h2>
+    <p>Open one of these files expecting a price list and you'll find something else: gigabyte-scale JSON, keyed by each hospital's own identifier, with thousands of services and every payer and plan stacked in structures no human was meant to read. Multiply that by thousands of hospitals, plus insurer files that run into the <strong>terabytes</strong>. The information is public and effectively invisible at the same time. Making it usable used to be a data-engineering project with a budget.</p>
+
+    <h2>From files to an answer</h2>
+    <p>This is where AI-assisted analytics helps — and it's worth being precise about how. Good tooling can cut the manual grind: it can help locate the files, extract the right fields, check them against the schema, flag inconsistencies, and support comparisons. What it does not do is make the problem trivial. Reliable output still requires a reproducible data pipeline, validated code, careful service-code matching, payer-and-plan normalization, facility-identity checks, and human review at the end. The machine removes drudgery; it does not remove judgment.</p>
+
+    <p>The first step, in fact, is not asking an AI, "What does an MRI cost?" It is defining exactly which service is being compared — the code, the facility, the payer, the plan, the setting, and whether the patient is cash-pay or insured. Without that, price comparison becomes noise with a dollar sign.</p>
+
+    <figure class="workflow">
+      <div class="fig-label">A simple workflow</div>
+      <ol>
+        <li><b>Define the service first</b> — by CPT, HCPCS, or DRG code, or a clear plain-language description.</li>
+        <li><b>Locate the files</b> — the hospital's machine-readable file and the relevant payer transparency files.</li>
+        <li><b>Extract the prices</b> — cash price, gross charge, and payer-specific negotiated rates.</li>
+        <li><b>Confirm the facility</b> — match on hospital name, location, CMS CCN, and NPI where available.</li>
+        <li><b>Compare like with like</b> — only the same service, code, and care setting.</li>
+        <li><b>Add the caveats</b> — deductible, coinsurance, network status, prior authorization, plan year, and quality indicators.</li>
+        <li><b>Present it as an estimate</b> — never a binding quote.</li>
+      </ol>
+    </figure>
+
+    <div class="pull">
+      <div class="pl">The principle</div>
+      <p>People have the right to know what they will pay <em>before</em> they receive care. Not after. Not in a surprise bill weeks later. Before — when they can still decide.</p>
+    </div>
+
+    <p>That isn't a radical idea; it's the ordinary rule of every other market, finally reaching the one where the stakes are highest and the secrecy ran deepest. The law made the data exist; making it usable is what gives the right meaning.</p>
+
+    <h2>What it doesn't cover</h2>
+    <p>Two honest limits. <strong>Emergencies are a different system</strong> — you can't shop for a heart attack. There the relevant law is the No Surprises Act (2022), which bans most surprise bills for emergency care and for out-of-network providers at in-network hospitals, and gives uninsured patients a good-faith estimate; its stubborn gap is ground ambulances, still excluded. <strong>And for insured patients, the negotiated rate isn't the bill</strong> — out-of-pocket cost depends on the deductible, coinsurance, and plan year, which is why plans must now offer a personalized estimator tool. Shopping across a region therefore helps cash-pay patients and self-funded employers most; a member locked to a network can't simply drive elsewhere.</p>
+
+    <h2>Reading the numbers responsibly</h2>
+    <p>A few cautions keep this honest. The files are inconsistent and sometimes non-compliant, so the numbers need validating, not just parsing. <strong>Price is not quality:</strong> the cheapest provider is not automatically the best one, and a price should be read alongside quality, outcomes, access, and patient safety. And transparency can widen the gap it is meant to close — it rewards whoever has the time, tools, and literacy to use it, which is why the data has to reach community health workers, navigators, and safety-net clinics, not only the confident shopper.</p>
+
+    <h2>A cautious opportunity</h2>
+    <p>There may be an upside for the providers everyone assumes have the least to gain. For some routine, planned services, transparent pricing may help well-priced regional and rural hospitals become more visible to patients, employers, and navigators outside their immediate county. That is a hypothesis worth testing, not a promise — but a market where buyers can finally see prices behaves differently from one where they can't.</p>
+
+    <p>The near term is smaller and already real. A patient facing a planned procedure can <strong>ask</strong> what it will cost and <strong>compare</strong> a few nearby options before scheduling. A community health worker can <strong>steer</strong> a client toward an affordable provider with a real number instead of a guess. A rural or safety-net clinic can compare its own posted prices against the region and see where it stands. The data won't act on its own — but those are decisions someone can finally make.</p>
+
+    <div class="sources">
+      <h3>Sources</h3>
+      <ol>
+        <li><a href="https://www.cms.gov/priorities/key-initiatives/hospital-price-transparency" target="_blank" rel="noopener">CMS — Hospital Price Transparency</a> (rule overview and machine-readable file requirements).</li>
+        <li><a href="https://www.ecfr.gov/current/title-45/part-180/section-180.50" target="_blank" rel="noopener">45 CFR 180.50</a> — the codified requirements (template, NPI, median/10th/90th allowed amounts), as amended at 90 FR 54087 (Nov. 25, 2025).</li>
+        <li><a href="https://www.cms.gov/newsroom/fact-sheets/cy-2026-opps-ambulatory-surgical-center-final-rule-hospital-price-transparency-policy-changes" target="_blank" rel="noopener">CMS — CY 2026 OPPS final rule</a> (price-transparency policy changes; effective Jan 1, 2026, enforcement delayed to April 1, 2026).</li>
+        <li><a href="https://www.cms.gov/newsroom/fact-sheets/no-surprises-understand-your-rights-against-surprise-medical-bills" target="_blank" rel="noopener">CMS — No Surprises Act</a> (emergency and out-of-network protections; good-faith estimates; ground ambulance excluded).</li>
+        <li><a href="https://www.cms.gov/newsroom/fact-sheets/transparency-coverage-final-rule-fact-sheet-cms-9915-f" target="_blank" rel="noopener">CMS — Transparency in Coverage</a> (personalized member cost-estimator tool; all covered items since 2024).</li>
+      </ol>
+    </div>
+
+    <div class="about">
+      <div class="ab-label">About</div>
+      <p><strong>Sergey Soshnikov, MD, PhD</strong> is a public-health physician-scientist and rural-health researcher, with work on the Global Burden of Disease and Central Asia. He builds open analytics that turn public data into something local decision-makers can actually use.</p>
+      <p>Through <strong>Lakes Linked</strong>, he publishes free, county-level disease-burden and cost dashboards — built on open CDC, US Census, and IHME data, and validated against IHME's county estimates. Explore the dashboards (Isabella, Clare, Midland, with more in progress) at <a href="https://lakeslinked.com" target="_blank" rel="noopener">lakeslinked.com</a>.</p>
+    </div>
+
+    <p class="endnote"><strong>Why this exists.</strong> This began as a personal project — a way to understand, for my own care, where services are offered and what they actually cost, and to make better decisions about my own health and how it is delivered to me. It is shared as a worked example, not a service pitch: any early-career researcher in public health, epidemiology, or health administration can reproduce it with open data and ordinary tools.</p>
+
+    <p class="safety"><strong>This analysis is for public-health, personal, and consumer-education purposes only. It is not medical, billing, insurance, or legal advice. Patients should confirm any estimate directly with their hospital, insurer, and provider before scheduling care.</strong></p>
+
+    <p class="endnote"><strong>Disclosure:</strong> the author founded Lakes Linked, which provides health- and cost-analytics of the kind described here; this article is explanatory, not a solicitation. The analysis is AI-assisted (using tools such as Claude) and human-reviewed. Figures marked illustrative are examples, not quotes; published prices are estimates, and a patient's actual bill depends on their insurance and the billing codes used.</p>
+
+    <p class="tags"><span class="tg-label">Tags</span>#PriceTransparency #HealthPolicy #PublicHealth #HealthEconomics #NoSurprisesAct #HealthcareCosts #HospitalPrices #HealthData #AIinHealthcare #RuralHealth #MedicalBilling #HealthEquity</p>
+
+  </div>
+</div>
+</body>
+</html>

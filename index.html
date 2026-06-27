@@ -6,7 +6,7 @@
 <title>Michigan Rural Health Burden Analysis | Lakes Linked</title>
 <meta name="description" content="Educational disease burden analysis for rural Michigan counties — identifying top health conditions, quantifying economic impact, and supporting grant applications and health planning. Dr. Sergey Soshnikov, MD PhD.">
 <meta property="og:title" content="Michigan Rural Health Burden Analysis | Lakes Linked">
-<meta property="og:description" content="3 counties complete · ~37,960 DALYs/yr · 3 in pipeline. Planning-grade burden analysis for county health departments, grant applications, and rural health policy.">
+<meta property="og:description" content="4 counties complete · ~45,500 DALYs/yr · 2 in pipeline. Planning-grade burden analysis for county health departments, grant applications, and rural health policy.">
 <meta property="og:url" content="https://lakeslinked.com/index.html">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -637,6 +637,12 @@ footer{background:var(--navy);padding:22px 32px;}
     </div>
     <div class="nav-divider"></div>
     <span class="nav-pipeline">Pipeline: Mecosta &middot; Washtenaw</span>
+    <div class="nav-divider"></div>
+    <div class="nav-group">
+      <a href="price-transparency.html">
+        <span class="nav-dot" style="background:var(--teal);"></span>Articles
+      </a>
+    </div>
   </div>
 </div>
 
@@ -1035,6 +1041,47 @@ footer{background:var(--navy);padding:22px 32px;}
     </div>
 
   </div><!-- end pipeline-grid -->
+
+  <!-- ══ ARTICLES ══ -->
+  <div class="section-head">
+    <h2>Articles</h2>
+    <div class="sh-line"></div>
+    <span class="section-meta">Field notes &middot; health policy &amp; data</span>
+  </div>
+
+  <div class="county-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr));margin-bottom:52px;">
+
+    <!-- Price Transparency -->
+    <div class="county-card" onclick="window.location='price-transparency.html'" style="--accent:var(--teal);cursor:pointer">
+      <div class="county-card-top"></div>
+      <div class="cc-head">
+        <div>
+          <span class="cc-status-badge" style="background:color-mix(in srgb,var(--teal) 12%,transparent);color:var(--teal);border:1px solid color-mix(in srgb,var(--teal) 25%,transparent);">
+            <span class="status-dot"></span>Field Note
+          </span>
+          <div class="version-tag">June 2026</div>
+        </div>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;opacity:.2;">
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          <line x1="9" y1="7" x2="16" y2="7"/><line x1="9" y1="11" x2="16" y2="11"/><line x1="9" y1="15" x2="13" y2="15"/>
+        </svg>
+      </div>
+      <div class="cc-body">
+        <div class="cc-title">The Price Before the Procedure</div>
+        <div class="cc-desc">U.S. hospitals must now publish their real prices &mdash; but the machine-readable files are gigabyte-scale and unreadable on their own. How the price-transparency rules work, and how AI-assisted public-health analytics can turn that open data into usable answers for patients, community health workers, and rural clinics &mdash; with the limits, the disclaimers, and a simple workflow.</div>
+        <div class="cc-chips">
+          <span class="chip">Price transparency</span>
+          <span class="chip">CMS 2026 rule</span>
+          <span class="chip">No Surprises Act</span>
+          <span class="chip">AI-assisted analytics</span>
+        </div>
+      </div>
+      <div class="cc-links" onclick="event.stopPropagation()">
+        <a class="primary" href="price-transparency.html">Read the article &rarr;</a>
+      </div>
+    </div>
+
+  </div><!-- end Articles grid -->
 
   <!-- Michigan Coverage Map -->
   <div class="section-head">
